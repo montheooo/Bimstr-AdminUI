@@ -11,6 +11,7 @@ angular.module('app', [
     'ngTouch',
     'ngStorage',
     'ui.router',
+    'satellizer',
     'ui.bootstrap',
     'ui.utils',
     'ui.load',
