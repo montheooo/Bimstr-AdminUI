@@ -12,8 +12,8 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: 'Angulr',
-        version: '2.2.0',
+        name: 'BiMStr',
+        version: '1.0.0',
         // for chart colors
         color: {
           primary: '#7266ba',
@@ -37,6 +37,10 @@ angular.module('app')
           container: false
         }
       }
+
+      $scope.authError = null;
+      $scope.alerts = [];
+      $scope.user = {};
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {

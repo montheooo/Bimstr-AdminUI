@@ -11,8 +11,8 @@
     $rootScope.$stateParams = $stateParams;        
   }])
  .config(
-  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider',
-  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider) {
+  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider',
+  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider) {
     var layout = "tpl/app.html";
     if(window.location.href.indexOf("material") > 0){
       layout = "tpl/blocks/material.layout.html";
@@ -27,7 +27,14 @@
     .state('login', {
       url: '/login',
       templateUrl: 'tpl/page_signin.html',
-      resolve: load(['js/controllers/signin.js'])
+      resolve: {
+        loginRequired : skipIfLoggedIn,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load([
+              'js/services/services-admin.js',
+              'js/controllers/signin.js']);
+        }]
+      }
     })
     .state('signup', {
       url: '/signup',
@@ -40,7 +47,8 @@
     .state('logout', {
       url: '/logout',
       template: null,
-      controller: 'LogoutCtrl'
+      controller: 'SignoutCtrl',
+      resolve: load(['js/controllers/signout.js','js/controllers/bootstrap.js'])
     })
     .state('app', {
       abstract: true,
@@ -51,7 +59,16 @@
       url: '/dashboard-v1',
       templateUrl: 'tpl/app_dashboard_v1.html',
       resolve: {
-        loginRequired
+        loginRequired : loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+            // you can lazy load files for an existing module
+             return $ocLazyLoad.load(['js/controllers/alert.js', 
+              'js/controllers/chart.js',
+              'ui.grid',
+              'js/controllers/uigrid.js',
+              'js/services/services-admin.js',
+              'js/controllers/albumController.js']);
+        }]
       }
     })
     .state('app.dashboard-v2', {
@@ -456,12 +473,16 @@
                 templateUrl: 'tpl/material/ngmaterial.html'
               });
 
+              $authProvider.authHeader = 'Authorization';
+              $authProvider.authToken = 'Bearer';
+              $authProvider.storageType = 'localStorage';
+
               $authProvider.facebook({
                 clientId: '1635573136701632',
                 name: 'facebook',
                 url: 'http://localhost:3000/auth/facebook',
                 authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-                redirectUri: 'http://localhost:8080/src/#/app/dashboard-v1',
+                // redirectUri: 'http://localhost:8080/src/app/#/dashboard-v1',
                 requiredUrlParams: ['display', 'scope'],
                 scope: ['email'],
                 scopeDelimiter: ',',
@@ -504,6 +525,7 @@
               function skipIfLoggedIn($q, $auth) {
                 var deferred = $q.defer();
                 if ($auth.isAuthenticated()) {
+                  $state.go('app.dashboard-v1');
                   deferred.reject();
                 } else {
                   deferred.resolve();
