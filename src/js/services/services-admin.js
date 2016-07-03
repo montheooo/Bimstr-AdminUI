@@ -18,3 +18,11 @@ app.factory('User', function($resource) {
     }
   });
 });
+
+app.factory('Admin', function($resource) {
+  return $resource('http://demo9379818.mockable.io/albums/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});

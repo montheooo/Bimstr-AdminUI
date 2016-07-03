@@ -2,8 +2,8 @@
 
 /* Controllers */
   // signin controller
-app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', 'notify', 'User',
-  function($scope, $http, $state, $auth, $location, notify, User) {
+app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', '$localStorage', 'notify', 'User',
+  function($scope, $http, $state, $auth, $location, $localStorage, notify, User) {
 
     $scope.msg = 'Bienvenue sur BimStr';
     $scope.template = '';
@@ -48,7 +48,9 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function() {
-          $state.go('app.dashboard-v1');
+          $localStorage.loggedUser  = User.getFacebookInfo();
+          // console.log($localStorage.loggedUser);
+          $state.go('app.dashboard');
           notify({
             message: $scope.msg,
             classes: $scope.classes,

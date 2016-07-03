@@ -40,7 +40,7 @@ angular.module('app')
 
       $scope.authError = null;
       $scope.alerts = [];
-      $scope.user = {};
+      $scope.user = null;
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {

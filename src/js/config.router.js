@@ -55,7 +55,7 @@
       url: '/app',
       templateUrl: layout
     })
-    .state('app.dashboard-v1', {
+    .state('app.dashboard', {
       url: '/dashboard-v1',
       templateUrl: 'tpl/app_dashboard_v1.html',
       resolve: {
@@ -68,6 +68,26 @@
               'js/controllers/uigrid.js',
               'js/services/services-admin.js',
               'js/controllers/albumController.js']);
+        }]
+      }
+    })
+    .state('manage', {
+      abstract: true,
+      url: '/manage',
+      templateUrl: 'tpl/layout.html'
+    })
+    
+    .state('manage.users', {
+      url: '/users',
+      templateUrl: 'tpl/adminUsers.html',
+      resolve : {
+        loginRequired: loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          return $ocLazyLoad.load(['js/controllers/alert.js',
+            'js/controllers/adminUserController.js',
+            'js/controllers/uigrid.js',
+            'js/controllers/albumController.js'
+            ])
         }]
       }
     })

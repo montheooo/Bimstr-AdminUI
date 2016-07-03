@@ -12,22 +12,6 @@
           <small class="text-muted">Welcome to BimStr Admin</small>
         </div>
         <div class="col-sm-6 text-right hidden-xs">
-<!--           <div class="inline m-r text-left">
-            <div class="m-b-xs"> <i class="icon-users"></i> <span class="text-muted">1200 users</span></div>
-            <div ng-init="d3_1=[ 106,108,110,105,110,109,105,104,107,109,105,100,105,102,101,99,98 ]" 
-              ui-jq="sparkline" 
-              ui-options="{{d3_1}}, {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}" 
-              class="sparkline inline">loading...
-            </div>
-          </div>
-          <div class="inline text-left">
-            <div class="m-b-xs"><i class="icon-music-tone-alt"></i><span class="text-muted">2500 singles</span></div>
-            <div ng-init="d3_2=[ 105,102,106,107,105,104,101,99,98,109,105,100,108,110,105,110,109 ]" 
-              ui-jq="sparkline" 
-              ui-options="{{d3_2}}, {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}" 
-              class="sparkline inline">loading...
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -38,7 +22,7 @@
         <div class="col-md-5">
           <div class="row row-sm text-center">
             <div class="col-xs-6">
-              <a href class="block panel padder-v item">
+              <a ui-sref="manage.users" class="block panel padder-v item">
                 <div class="h1 text-info font-thin h1"><i class="icon-users"></i> </div>
                 <span class="text-muted text-xs">2399 users</span>
                 <div class="top text-right w-full">
