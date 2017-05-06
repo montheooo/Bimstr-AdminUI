@@ -1,18 +1,20 @@
-var angularSkycons = angular.module( 'angular-skycons', [] );
+var angularSkycons = angular.module( "angular-skycons", [] );
 
 
-angularSkycons.directive( 'skycon', function () {
+angularSkycons.directive( "skycon", function () {
     return {
-        restrict: 'E',
+        restrict: "E",
         replace: true,
         scope: {
             icon: "=",
-            size: "="
+            size: "=",
+            animated: "=",
+            color: "="
         },
         link: function ( scope, element, attrs ) {
 
             // make a canvas for our icon
-            var canvas = document.createElement( 'canvas' );
+            var canvas = document.createElement( "canvas" );
 
             // set the CSS class from attribute
             if ( !attrs.class ) {
@@ -22,12 +24,9 @@ angularSkycons.directive( 'skycon', function () {
             }
 
             // set default color if "color" attribute not present
-            var config = {};
-            if ( !attrs.color ) {
-                config.color = "black";
-            } else {
-                config.color = attrs.color;
-            }
+            var config = {
+                color: scope.color || "black"
+            };
 
             var skycons = new Skycons( config );
 
@@ -42,20 +41,33 @@ angularSkycons.directive( 'skycon', function () {
                 }
             }, true );
 
-            // watch the icon property from the controller
+            // add the animation
+            skycons.add( canvas, scope.icon );
+
+            // watch the icon property from the controller for changes
             scope.$watch( "icon", function () {
                 skycons.set( canvas, scope.icon );
             }, true );
 
-            skycons.play();
+            // watch the color property from the controller for changes
+            scope.$watch( "color", function () {
+                skycons.color = scope.color;
+            }, true );
+
+            if (scope.animated === "false" || scope.animated === false) {
+                skycons.pause();
+            }
+            else {
+                skycons.play();
+            }
 
             if ( element[0].nodeType === 8 ) {
                 element.replaceWith( canvas );
             } else {
                 element[0].appendChild( canvas );
             }
-            
-            scope.$on('$destroy', function () {
+
+            scope.$on("$destroy", function () {
                 skycons.remove(canvas);
                 if (skycons.list.length === 0) {
                     skycons.pause(canvas);
