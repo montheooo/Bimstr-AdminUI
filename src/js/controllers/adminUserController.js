@@ -1,84 +1,139 @@
-app.controller('ContactCtrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
-  $http.get('http://demo9379818.mockable.io/admins').then(function (resp) {
-    $scope.items = resp.data;
-    $scope.item = $filter('orderBy')($scope.items, 'username')[0];
-    $scope.item.selected = true;
-  });
+app.controller('UsersListCtrl', function($scope, $http, $filter, editableOptions, editableThemes, Users) {
+  $scope.admin = [];
+  $scope.editor = [];
+  $scope.user = {};
+  $scope.userLastPage = 1;
+  $scope.userMaxPage = 0;
+  //  pagination
+  $scope.itemsByPage=10;
 
-  $scope.filter = '';
-  $scope.groups = [
-    {name: 'Admins'}, 
-    {name: 'Editeurs'}, 
-    {name: 'All Users'}
+  editableThemes.bs3.inputClass = 'input-sm';
+  editableThemes.bs3.buttonsClass = 'btn-sm';
+  editableOptions.theme = 'bs3';
+
+  $scope.userStatuses = [
+      'admin', 'editor'
   ];
-
-  $scope.createGroup = function(){
-    var group = {name: 'New Group'};
-    group.name = $scope.checkItem(group, $scope.groups, 'name');
-    $scope.groups.push(group);
-  };
-
-  $scope.checkItem = function(obj, arr, key){
-    var i=0;
-    angular.forEach(arr, function(item) {
-      if(item[key].indexOf( obj[key] ) == 0){
-        var j = item[key].replace(obj[key], '').trim();
-        if(j){
-          i = Math.max(i, parseInt(j)+1);
-        }else{
-          i = 1;
-        }
-      }
-    });
-    return obj[key] + (i ? ' '+i : '');
-  };
-
-  $scope.deleteGroup = function(item){
-    $scope.groups.splice($scope.groups.indexOf(item), 1);
-  };
-
-  $scope.selectGroup = function(item){    
-    angular.forEach($scope.groups, function(item) {
-      item.selected = false;
-    });
-    $scope.group = item;
-    $scope.group.selected = true;
-    $scope.filter = item.name;
-  };
-
-  $scope.selectItem = function(item){    
-    angular.forEach($scope.items, function(item) {
-      item.selected = false;
-      item.editing = false;
-    });
-    $scope.item = item;
-    $scope.item.selected = true;
-  };
-
-  $scope.deleteItem = function(item){
-    $scope.items.splice($scope.items.indexOf(item), 1);
-    $scope.item = $filter('orderBy')($scope.items, 'first')[0];
-    if($scope.item) $scope.item.selected = true;
-  };
-
-  $scope.createItem = function(){
-    var item = {
-      group: 'Friends',
-      avatar:'img/a0.jpg'
+  
+  $scope.showStatus = function(user) {
+      var selected = $filter('filter')($scope.userStatuses, user.status);
+      return (user.status && selected.length) ? selected[0] : 'Not set';
     };
-    $scope.items.push(item);
-    $scope.selectItem(item);
-    $scope.item.editing = true;
-  };
 
-  $scope.editItem = function(item){
-    if(item && item.selected){
-      item.editing = true;
+  $scope.getAdminUsers = function() {
+
+    if ($scope.admin.length === 0) {
+      $scope.admin = $scope.refreshList("admin");
+    }  
+    $scope.displayed = $scope.admin;
+    return $scope.admin;
+  }
+
+  $scope.getEditorUsers = function() {
+    $scope.displayed = [];
+    if ($scope.editor.length === 0) {
+      return $scope.editor = $scope.refreshList("editor");
     }
+    $scope.displayed = $scope.editor;  
+    return $scope.editor;
+  }
+
+  $scope.getAllUsers = function(page) {
+
+    if (page === 0) {
+      page = $scope.userLastPage;
+    }
+
+    if (! $scope.user.hasOwnProperty(page)) {
+      $scope.user[page] = $scope.refreshUserList("user", page);
+    }
+    $scope.displayed = $scope.user[page];  
+    return $scope.user[page]; 
+  }
+
+  $scope.refreshUserList = function(a_role, a_start,  a_nbEntries) {
+    return Users.getUserPagination({'role': a_role, 'entries': a_nbEntries, 'start':a_start});
+  }
+
+  $scope.refreshList = function(a_role) {
+    return Users.query({role: a_role});
+  }
+
+  $scope.getAdminUsers();
+
+   $scope.getUsers = function(status) {
+
+    if (status=="admin") {
+      return $scope.getAdminUsers();
+    }
+
+    else if (status=="editor") {
+      return $scope.getEditorUsers();
+    }
+
+    else {
+      return $scope.getAllUsers($scope.userLastPage);
+    }
+  }
+
+  $scope.rowCollection = [];
+  $scope.displayedCollection = [].concat($scope.rowCollection);
+
+  $scope.displayed = [];
+
+  //  pagination
+  $scope.itemsByPage=10;
+
+  $scope.callServer = function callServer(tableState) {
+
+    $scope.isLoading = true;
+
+    var pagination = tableState.pagination;
+
+    var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+    var number = pagination.number || 10;  // Number of entries showed per page.
+
+    $scope.refreshUserList("user", start, number).$promise.then(function(result) {
+      $scope.rowCollection = result.data;
+      tableState.pagination.number = 10,
+      tableState.pagination.start = 1;
+      tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
+      $scope.isLoading = false;
+    })
+
+  }
+
+
+  // add user
+  $scope.addUser = function(status) {
+    $scope.inserted = {
+      name: '',
+      lastname: '',
+      username:'',
+      email:'',
+      status: null
+    };
+    if (status=="admin") {
+      $scope.admin.push($scope.inserted);
+    }
+
+    else if (status=="editor") {
+      $scope.editor.push($scope.inserted);
+    }
+
+    else {
+      $scope.user[$scope.userLastPage].push($scope.inserted);
+    }
+    
   };
 
-  $scope.doneEditing = function(item){
-    item.editing = false;
-  };
+  $scope.saveUser = function(data, id) {
+      //$scope.user not updated yet
+      console.log($scope.admin);
+      console.log(data);
+      console.log(id);
+      angular.extend(data, {id: id});
+      // return $http.post('api/saveUser', data);
+    };
 
-}]);
+});

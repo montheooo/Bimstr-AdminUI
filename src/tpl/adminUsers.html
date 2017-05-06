@@ -5,7 +5,7 @@
   app.settings.container = false;
   app.hideAside = false;
   app.hideFooter = true;
-  " ng-controller="ContactCtrl">
+  " ng-controller="UsersListCtrl">
 
   <!-- column -->
   <div class="col w b-r">
@@ -14,7 +14,7 @@
         <div class="cell scrollable hover">
           <div class="cell-inner">
             <div class="list-group no-radius no-border no-bg m-b-none">
-              <a class="list-group-item b-b" ng-class="{'focus': (filter == '')}" ng-click="selectGroup({name:''})">ALL Contacts</a>
+              <a class="list-group-item b-b" ng-class="{'focus': (filter == '')}" ng-click="selectGroup({name:''})">Admins </a>
               <a ng-repeat="item in groups" ng-dblclick="editItem(item)" class="list-group-item m-l hover-anchor b-a no-select" ng-class="{'focus m-l-none': item.selected}" ng-click="selectGroup(item)">
                 <span ng-click='deleteGroup(item)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
                 <span class="block m-l-n" ng-class="{'m-n': item.selected }">{{ item.name ? item.name : 'Untitled' }}</span>
@@ -45,15 +45,15 @@
           <div class="cell-inner">
             <div class="m-t-n-xxs">
               <div class="list-group list-group-lg no-radius no-border no-bg m-b-none">
-                <a ng-repeat="item in items | filter:{group:filter} | filter:query | orderBy:'first'" class="list-group-item m-l" ng-class="{'select m-l-none': item.selected }" ng-click="selectItem(item)">
+                <a ng-repeat="item in items | filter:{name:filter} | filter:query | orderBy:'name'" class="list-group-item m-l" ng-class="{'select m-l-none': item.selected }" ng-click="selectItem(item)">
                   <span class="block text-ellipsis m-l-n text-md" ng-class="{'m-l-none': item.selected }">
-                    {{ item.first }} <strong>{{ item.last }}</strong>
-                    <span ng-hide="item.first || item.last">No Name</span>
+                    {{ item.name }} <strong>{{ item.lastname }}</strong>
+                    <span ng-hide="item.name || item.lastname">No Name</span>
                   </span>
                 </a>
               </div>
             </div>
-            <div class="text-center pos-abt w-full" style="top:50%;" ng-hide="(items | filter:{group:filter} | filter:query).length">No Contacts</div>
+            <div class="text-center pos-abt w-full" style="top:50%;" ng-hide="(items | filter:{name:filter} | filter:query).length">No Contacts</div>
           </div>
         </div>
       </div>
@@ -81,53 +81,64 @@
               <div class="hbox h-auto m-b-lg">
                 <div class="col text-center w-sm">
                   <div class="thumb-lg avatar inline">
-                    <img ng-src="{{item.avatar}}" ng-show="item.avatar">
+                    <img ng-src="{{item.image}}" ng-show="item.image">
                   </div>
                 </div>
                 <div class="col v-middle h1 font-thin">
-                  <div ng-hide="item.editing">{{item.first}} {{item.last}}</div>
+                  <div ng-hide="item.editing">{{item.name}} {{item.lastname}}</div>
                   <div ng-show="item.editing">
-                    <input type="text" placeholder="First" class="form-control w-auto input-lg m-b-n-xxs font-bold" ng-model="item.first" >
-                    <input type="text" placeholder="Last" class="form-control w-auto input-lg font-bold" ng-model="item.last" >
+                    <input type="text" placeholder="First" class="form-control w-auto input-lg m-b-n-xxs font-bold" ng-model="item.name" >
+                    <input type="text" placeholder="Last" class="form-control w-auto input-lg font-bold" ng-model="item.lastname" >
                   </div>
                 </div>
               </div>
               <!-- fields -->
               <div class="form-horizontal">
-                <div class="form-group m-b-sm" ng-hide="!item.mobile && !item.editing">
-                  <label class="col-sm-3 control-label">Mobile</label>
+                <div class="form-group m-b-sm" ng-hide="!item.username && !item.editing">
+                  <label class="col-sm-3 control-label">Username</label>
                   <div class="col-sm-9">
-                    <p class="form-control-static" ng-hide="item.editing">{{item.mobile}}</p>
-                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.mobile" >
+                    <p class="form-control-static" ng-hide="item.editing">{{item.username}}</p>
+                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.username" >
                   </div>
                 </div>
-                <div class="form-group m-b-sm" ng-hide="!item.home && !item.editing">
-                <div class="form-group m-b-sm" ng-hide="!item.home && !item.editing">
-                  <label class="col-sm-3 control-label">Home</label>
+                <div class="form-group m-b-sm" ng-hide="!item.email && !item.editing">
+                <div class="form-group m-b-sm" ng-hide="!item.email && !item.editing">
+                  <label class="col-sm-3 control-label">email</label>
                   <div class="col-sm-9">
-                    <p class="form-control-static" ng-hide="item.editing">{{item.home}}</p>
-                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.home" >
+                    <p class="form-control-static" ng-hide="item.editing">{{item.email}}</p>
+                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.email" >
                   </div>
                 </div>
-                <div class="form-group m-b-sm" ng-hide="!item.work && !item.editing">
-                  <label class="col-sm-3 control-label">Work</label>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group m-b-sm" ng-hide="!item.permissions.user && !item.permissions.user">
+                  <label class="col-sm-3 control-label">Permission User</label>
                   <div class="col-sm-9">
-                    <p class="form-control-static" ng-hide="item.editing">{{item.work}}</p>
-                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.work" >
+                    <p class="form-control-static" ng-hide="item.editing">{{item.permissions.user}}</p>
+                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.permissions.user" >
                   </div>
                 </div>
-                <div class="form-group m-b-sm" ng-hide="!item.company && !item.editing">
-                  <label class="col-sm-3 control-label">Company</label>
+                <div class="form-group m-b-sm" ng-hide="!item.permissions.articles && !item.editing">
+                  <label class="col-sm-3 control-label">Permission Article</label>
                   <div class="col-sm-9">
-                    <p class="form-control-static" ng-hide="item.editing">{{item.company}}</p>
-                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.company" >
+                    <p class="form-control-static" ng-hide="item.editing">{{item.permissions.article}}</p>
+                    <input type="text" class="form-control" ng-show="item.editing" ng-model="item.permissions.article" >
                   </div>
                 </div>
-                <div class="form-group m-b-sm" ng-hide="!item.note && !item.editing">
-                  <label class="col-sm-3 control-label">Note</label>
+                <div class="form-group m-b-sm" ng-hide="!item.permissions.playlist && !item.permissions.playlist">
+                  <label class="col-sm-3 control-label">Permission Playlist</label>
                   <div class="col-sm-9">
-                    <p class="form-control-static" ng-hide="item.editing">{{item.note}}</p>
-                    <textarea class="form-control" ng-show="item.editing" ng-model="item.note" rows="5"></textarea>
+                    <p class="form-control-static" ng-hide="item.editing">{{item.permissions.playlist}}</p>
+                   <input class="form-control" ng-show="item.editing" ng-model="item.permissions.playlist" rows="5">
+                  </div>
+                </div>
+              </div>
+               <div class="form-group m-b-sm" ng-hide="!item.permissions.medias && !item.permissions.medias">
+                  <label class="col-sm-3 control-label">Permission medias</label>
+                  <div class="col-sm-9">
+                    <p class="form-control-static" ng-hide="item.editing">{{item.permissions.medias}}</p>
+                   <input class="form-control" ng-show="item.editing" ng-model="item.permissions.medias" rows="5">
                   </div>
                 </div>
               </div>

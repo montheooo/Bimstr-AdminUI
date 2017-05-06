@@ -11,9 +11,7 @@ app.controller('AlbumController', function($scope, $state, $window, $location, $
 
 });
 
-app.controller('UserController', function($scope, $state, $window, $location, $auth, uiGridConstants, User) {
-  $scope.user = User.getFacebookInfo();
-} )
+
 
 app.controller('MovieViewController', function($scope, $stateParams, Movie) {
   $scope.movie = Movie.get({ id: $stateParams.id }); //Get a single movie.Issues a GET to /api/movies/:id

@@ -28,7 +28,6 @@
       url: '/login',
       templateUrl: 'tpl/page_signin.html',
       resolve: {
-        loginRequired : skipIfLoggedIn,
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
              return $ocLazyLoad.load([
               'js/services/services-admin.js',
@@ -59,7 +58,6 @@
       url: '/dashboard-v1',
       templateUrl: 'tpl/app_dashboard_v1.html',
       resolve: {
-        loginRequired : loginRequired,
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load files for an existing module
              return $ocLazyLoad.load(['js/controllers/alert.js', 
@@ -76,21 +74,37 @@
       url: '/manage',
       templateUrl: 'tpl/layout.html'
     })
-    
+
     .state('manage.users', {
       url: '/users',
-      templateUrl: 'tpl/adminUsers.html',
+      templateUrl: 'tpl/users.html',
       resolve : {
-        loginRequired: loginRequired,
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-          return $ocLazyLoad.load(['js/controllers/alert.js',
+          return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
+            'smart-table','js/controllers/table.js',
             'js/controllers/adminUserController.js',
             'js/controllers/uigrid.js',
+            'js/services/services-admin.js',
             'js/controllers/albumController.js'
             ])
         }]
       }
     })
+    
+    // .state('manage.usersList', {
+    //   url: '/usersList',
+    //   templateUrl: 'tpl/adminUsers.html',
+    //   resolve : {
+    //     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+    //       return $ocLazyLoad.load(['js/controllers/alert.js',
+    //         'js/controllers/adminUserController.js',
+    //         'js/controllers/uigrid.js',
+    //         'js/services/services-admin.js',
+    //         'js/controllers/albumController.js'
+    //         ])
+    //     }]
+    //   }
+    // })
     .state('app.dashboard-v2', {
       url: '/dashboard-v2',
       templateUrl: 'tpl/app_dashboard_v2.html',
@@ -496,13 +510,16 @@
               $authProvider.authHeader = 'Authorization';
               $authProvider.authToken = 'Bearer';
               $authProvider.storageType = 'localStorage';
+              $authProvider.tokenName = 'token';
 
               $authProvider.facebook({
-                clientId: '1635573136701632',
+                clientId: '901473839934047',
+                //responseType: 'token',
                 name: 'facebook',
-                url: 'http://localhost:3000/auth/facebook',
-                authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-                // redirectUri: 'http://localhost:8080/src/app/#/dashboard-v1',
+                tokenName: 'token',
+                url: 'http://188.166.164.5:8080/bihh/rest/user/login/facebook',
+                authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
+                //redirectUri: 'http://localhost:8080/src/app/#/dashboard-v1',                
                 requiredUrlParams: ['display', 'scope'],
                 scope: ['email'],
                 scopeDelimiter: ',',

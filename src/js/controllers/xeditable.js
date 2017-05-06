@@ -87,6 +87,7 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
 
     $scope.saveUser = function(data, id) {
       //$scope.user not updated yet
+      console.log(data);
       angular.extend(data, {id: id});
       // return $http.post('api/saveUser', data);
     };

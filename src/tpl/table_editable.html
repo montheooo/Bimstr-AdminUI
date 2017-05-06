@@ -13,13 +13,13 @@
     <tr ng-repeat="user in users">
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+        <span editable-text="user.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
           {{ user.name || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
         <!-- editable status (select-local) -->
-        <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+        <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s as s for s in statuses">
           {{ showStatus(user) }}
         </span>
       </td>
