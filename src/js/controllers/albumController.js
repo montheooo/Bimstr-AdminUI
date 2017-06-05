@@ -2,7 +2,7 @@
 
 app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album) {
   console.log(Album);
-  $scope.albums = Album.query(); //fetch all movies. Issues a GET to /api/movies
+  $scope.albums = Album.show(); //fetch all movies. Issues a GET to /api/movies
   $scope.gridOptionsSimple = {};
    console.log($scope.albums);
   $scope.gridOptionsSimple["data"]=$scope.albums;

@@ -1,14 +1,18 @@
 
 app.factory('Album', function($resource) {
-  return $resource('http://demo9379818.mockable.io/albums/:id', { id: '@_id' }, {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/song/album/', { id: '@_id' }, {
     update: {
-      method: 'PUT'
-    }
+      method: 'PUT', params: {id: '@_id'}
+    }, 
+    delete: {
+      method:'DELETE', params: {id: '@_id'}
+    }, 
+    show: { method: 'GET'},
   });
 });
 
 app.factory('Users', function($resource) {
-  return $resource('http://demo9379818.mockable.io/admins/:id/:page', { id: '@_id'}, {
+  return $resource('', { id: '@_id'}, {
     getUserPagination:  {
       method:'GET', 
       isArray:false
