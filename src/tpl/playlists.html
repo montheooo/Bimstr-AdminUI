@@ -1,0 +1,53 @@
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Administrate Playlists </h1>
+  </div>
+
+  <div class="wrapper-md">
+    <div ng-controller="">
+
+      <tabset class="tab-container">
+        <tab disabled="true">
+          <tab-heading>
+            <i class="fa icon-user "></i> All Playlists
+          </tab-heading>
+
+          <table class="table"  st-pipe="callServer" st-table="rowCollection">
+            <thead>
+            <tr>
+              <th style="width:15%" st-sort="id">id</th>
+              <th style="width:15%" st-sort="name">name</th>
+              <th style="width:15%" st-sort="age">age</th>
+              <th style="width:15%" st-sort="saved">saved people</th>
+            </tr>
+            <tr>
+              <th><input st-search="id"/></th>
+              <th><input st-search="name"/></th>
+              <th><input st-search="age"/></th>
+              <th><input st-search="saved"/></th>
+            </tr>
+            </thead>
+            <tbody ng-show="!isLoading">
+            <tr ng-repeat="row in rowCollection">
+              <td>{{row.id}}</td>
+              <td>{{row.first_name}}</td>
+              <td>{{row.last_name}}</td>
+              <td>{{row.saved}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-show="isLoading">
+            <tr>
+              <td colspan="4" class="text-center">Loading ... </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+              </td>
+            </tr>
+            </tfoot>
+          </table>  
+
+        </tab>
+      </tabset>
+    </div>
+  </div>

@@ -90,6 +90,20 @@
         }]
       }
     })
+    .state('manage.playlists', {
+      url: '/playlists',
+      templateUrl: 'tpl/playlists.html',
+      resolve : {
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+          return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
+            'smart-table','js/controllers/table.js',
+            'js/controllers/uigrid.js',
+            'js/services/services-admin.js',
+            'js/controllers/albumController.js'
+            ])
+        }]
+      }
+    })
     
     // .state('manage.usersList', {
     //   url: '/usersList',
