@@ -3,8 +3,8 @@
   </div>
 
   <div class="wrapper-md">
-    <div ng-controller="">
-
+  <!--rajouter un controller plus tard-->
+    <div ng-controller='PlaylistsController'>
       <tabset class="tab-container">
         <tab disabled="true">
           <tab-heading>
@@ -14,18 +14,36 @@
           <table class="table"  st-pipe="callServer" st-table="rowCollection">
             <thead>
             <tr>
-              <th style="width:15%" st-sort="id">id</th>
-              <th style="width:15%" st-sort="name">name</th>
-              <th style="width:15%" st-sort="age">age</th>
-              <th style="width:15%" st-sort="saved">saved people</th>
+              <th style="width:15%" st-sort="name">Name</th>
+              <th style="width:35%">Description</th>
+              <th style="width:15%" st-sort="createdByFName">Auteur</th>
+              <th style="width:20%" st-sort="createdOn">Date de création</th>
+              <th style="width:15%">Manager</th>
+
             </tr>
-            <tr>
+            <!--<tr>
               <th><input st-search="id"/></th>
               <th><input st-search="name"/></th>
               <th><input st-search="age"/></th>
               <th><input st-search="saved"/></th>
-            </tr>
+            </tr>-->
+            <tbody>
+              <tr ng-repeat="playlist in playlists">
+                <td>{{playlist.name}}</td>
+                <td>{{playlist.description}}</td>
+                <td>{{playlist.createdByFName}}</td>
+                <td>{{playlist.createdOn}}</td>
+                <td>
+                  <form>
+                     <button type="submit" class="btn btn-sm btn-info">
+                      Manage Playlist
+                     </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
             </thead>
+           <!--
             <tbody ng-show="!isLoading">
             <tr ng-repeat="row in rowCollection">
               <td>{{row.id}}</td>
@@ -37,8 +55,8 @@
             <tbody ng-show="isLoading">
             <tr>
               <td colspan="4" class="text-center">Loading ... </td>
-            </tr>
-            </tbody>
+            </tr>s
+            </tbody>-->
             <tfoot>
             <tr>
               <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">

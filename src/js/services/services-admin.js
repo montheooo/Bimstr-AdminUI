@@ -1,15 +1,18 @@
 
 app.factory('Album', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/album/:id', { id: '@_id' }, {
-    update: {
-      method: 'PUT', params: {id: '@_id'}
-    }, 
-    delete: {
-      method:'DELETE', params: {id: '@_id'}
-    }, 
-    show: { method: 'GET'},
+  return $resource('http://demo9379818.mockable.io/admins/:id/:page', {}, { 
+    show: { method: 'GET', 
+      isArray:false}
   });
 });
+
+app.factory('Playlists', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/', {}, {
+    show_all: { method: 'GET', isArray:true}
+  });
+});
+
+
 
 app.factory('Users', function($resource) {
   return $resource('', { id: '@_id'}, {

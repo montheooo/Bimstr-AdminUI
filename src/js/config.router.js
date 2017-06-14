@@ -98,6 +98,7 @@
           return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
             'smart-table','js/controllers/table.js',
             'js/controllers/uigrid.js',
+            'js/controllers/adminPlaylistsController.js',
             'js/services/services-admin.js',
             'js/controllers/albumController.js'
             ])
