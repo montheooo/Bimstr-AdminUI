@@ -17,8 +17,10 @@
               <th style="width:15%" st-sort="name">Name</th>
               <th style="width:35%">Description</th>
               <th style="width:15%" st-sort="createdByFName">Auteur</th>
-              <th style="width:20%" st-sort="createdOn">Date de création</th>
+              <th style="width:20%" st-sort="createdOn" ">Date de création</th>
               <th style="width:15%">Manager</th>
+
+
 
             </tr>
             <!--<tr>
@@ -32,7 +34,7 @@
                 <td>{{playlist.name}}</td>
                 <td>{{playlist.description}}</td>
                 <td>{{playlist.createdByFName}}</td>
-                <td>{{playlist.createdOn}}</td>
+                <td ng-init="date = dateCreation(playlist.createdOn);" ng-model="date"></td>
                 <td>
                   <form>
                      <button type="submit" class="btn btn-sm btn-info">
