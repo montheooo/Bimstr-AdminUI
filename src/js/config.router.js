@@ -65,7 +65,8 @@
               'ui.grid',
               'js/controllers/uigrid.js',
               'js/services/services-admin.js',
-              'js/controllers/albumController.js']);
+              'js/controllers/albumController.js',
+              'js/controllers/adminPlaylistsController.js']);
         }]
       }
     })

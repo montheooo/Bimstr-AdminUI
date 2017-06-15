@@ -34,7 +34,7 @@
                 <td>{{playlist.name}}</td>
                 <td>{{playlist.description}}</td>
                 <td>{{playlist.createdByFName}}</td>
-                <td ng-init="date = dateCreation(playlist.createdOn);" ng-model="date"></td>
+                <td ><span ng-bind="dateCreation(playlist.createdOn)"></span></td>
                 <td>
                   <form>
                      <button type="submit" class="btn btn-sm btn-info">

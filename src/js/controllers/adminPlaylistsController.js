@@ -5,6 +5,6 @@ app.controller('PlaylistsController', function($scope, $http, $filter, editableO
   console.log($scope.playlists);
 
 	  $scope.dateCreation=function(date) {
-	 	return new Date(date).toString();
-	};
+	 	return new Date(date).toDateString();
+	}
 });
