@@ -60,7 +60,8 @@
       resolve: {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load files for an existing module
-             return $ocLazyLoad.load(['js/controllers/alert.js', 
+             return $ocLazyLoad.load(['xeditable','js/controllers/xeditable.js','js/controllers/alert.js', 
+              'smart-table','js/controllers/table.js','js/controllers/adminUserController.js',
               'js/controllers/chart.js',
               'ui.grid',
               'js/controllers/uigrid.js',
@@ -212,7 +213,8 @@
                 url: '/editable',
                 templateUrl: 'tpl/table_editable.html',
                 controller: 'XeditableCtrl',
-                resolve: load(['xeditable','js/controllers/xeditable.js'])
+                resolve: load(['xeditable','js/controllers/xeditable.js','js/services/services-admin.js',
+              'js/controllers/albumController.js'])
               })
               .state('app.table.smart', {
                 url: '/smart',

@@ -1,8 +1,11 @@
-app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 
-  function($scope, $filter, $http, editableOptions, editableThemes){
+app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Artist', 
+  function($scope, $filter, $http, editableOptions, editableThemes, Artist){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
+
+$scope.artists= Artist.query();
+console.log($scope.artists);
 
     $scope.html5 = {
       email: 'email@example.com',
@@ -54,6 +57,9 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
       {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
       {id: 3, name: 'awesome user3', status: 2, group: null}
     ];
+    // editable table
+   
+
 
     $scope.groups = [];
     $scope.loadGroups = function() {
@@ -85,16 +91,29 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
       }
     };
 
-    $scope.saveUser = function(data, id) {
+    $scope.saveArtist = function(data, id) {
+      //$scope.user not updated yet
+      console.log(data);
+      angular.extend(data, {id: id});
+     return Artist.update({id: id}, data);
+    };
+
+      $scope.saveUser = function(data, id) {
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
       // return $http.post('api/saveUser', data);
     };
 
+
     // remove user
     $scope.removeUser = function(index) {
       $scope.users.splice(index, 1);
+    };
+     // remove Artist
+    $scope.removeArtist = function(index) {
+      $scope.artists.splice(index, 1);
+      return Artist.delete({id: index});
     };
 
     // add user
@@ -106,6 +125,19 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
         group: null 
       };
       $scope.users.push($scope.inserted);
+    };
+
+     // add Artist
+    $scope.addArtist = function() {
+      $scope.inserted = {
+        id: $scope.artists.length+1,
+        name:'',
+        email: '',
+        picture: ''         
+      };
+        
+      
+      $scope.artists.push($scope.inserted);
     };
 
 }]);
