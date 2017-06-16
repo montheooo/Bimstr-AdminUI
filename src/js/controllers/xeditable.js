@@ -95,7 +95,8 @@ console.log($scope.artists);
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
-     return Artist.update({id: id}, data);
+     return Artist.save({id: id}, data);
+
     };
 
       $scope.saveUser = function(data, id) {

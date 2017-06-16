@@ -31,7 +31,7 @@
       </td>
       <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" onbeforesave="saveUser($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
+        <form editable-form name="rowform" onbeforesave="saveArtist($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
           <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
             save
           </button>
@@ -47,7 +47,7 @@
     </tr>
   </table>
 
-  <button class="btn btn-default m-b-lg" ng-click="addUser()">Add row</button>
+  <button class="btn btn-default m-b-lg" ng-click="addArtist()">Add row</button>
 
   <h4>Editable column</h4>
   <table class="table table-bordered table-hover table-condensed bg-white-only">
