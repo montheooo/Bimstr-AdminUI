@@ -20,23 +20,23 @@ app.factory('Users', function($resource) {
 });
 
 
-app.factory('LoginFactory', function($resource) {
-  return {
-    getUserInfos: function(access_token) {
-      return $resource('http://188.166.164.5:8080/bihh/rest/user/login/facebook', {}, {
-             query: { method: 'POST', params: {code:access_token}, isArray: false }
-      }).query();
+app.factory('artistFactory', function($resource) {
+
+      return $resource('http://188.166.151.38:8080/bimstr/rest/artist/:id',{ id: '@_id' }, {
+   update: {
+      method: 'PUT',
+      isArray: true
     }
-  }
+  });
 });
 
-app.factory('User', function($resource) {
+app.factory('userFactory', function($resource) {
   return $resource('http://localhost:3000/api/me/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     },
-    getFacebookInfo: {
-      method: 'GET',
+    deleteUser: {
+      method: 'DELETE',
       isArray: false
     }
   });

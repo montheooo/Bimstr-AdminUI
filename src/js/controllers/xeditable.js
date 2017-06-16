@@ -1,8 +1,10 @@
-app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 
-  function($scope, $filter, $http, editableOptions, editableThemes){
+app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes','artistFactory'
+  function($scope, $filter, $http, editableOptions, editableThemes, artistFactory){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
+
+$scope.artists = artistFactory.query();
 
     $scope.html5 = {
       email: 'email@example.com',
@@ -49,11 +51,8 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
     };
 
     // editable table
-    $scope.users = [
-      {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-      {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-      {id: 3, name: 'awesome user3', status: 2, group: null}
-    ];
+    $scope.users = userFactory.getuser.query();
+    console.log($scope.users);
 
     $scope.groups = [];
     $scope.loadGroups = function() {

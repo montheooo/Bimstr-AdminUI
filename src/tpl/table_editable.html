@@ -5,10 +5,18 @@
   <h4>Editable row</h4>
   <table class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
-      <td style="width:35%">Name</td>
-      <td style="width:20%">Status</td>
-      <td style="width:20%">Group</td>
-      <td style="width:25%">Edit</td>
+      <td style="width:35%">Id</td>
+      <td style="width:20%">Uuid</td>
+      <td style="width:20%">name</td>
+      <td style="width:25%">Email</td>
+      <td style="width:25%">Picture</td>
+      <td style="width:25%">Active</td>
+      <td style="width:25%">Bio</td>
+      <td style="width:25%">Singer</td>
+      <td style="width:25%">Action</td>
+
+
+
     </tr>
     <tr ng-repeat="user in users">
       <td class="v-middle">
@@ -21,6 +29,36 @@
         <!-- editable status (select-local) -->
         <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s as s for s in statuses">
           {{ showStatus(user) }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ showGroup(user) }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ showGroup(user) }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ showGroup(user) }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ showGroup(user) }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ showGroup(user) }}
         </span>
       </td>
       <td class="v-middle">
