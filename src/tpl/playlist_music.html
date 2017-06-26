@@ -1,45 +1,87 @@
-<div ng-controller="PlaylistsController">
-    <table class="table table-bordered table-hover table-condensed bg-white-only">
-        <tr style="font-weight: bold">
-            <td style="width:35%">Name</td>
-            <td style="width:20%">Status</td>
-            <td style="width:20%">Group</td>
-            <td style="width:25%">Edit</td>
-        </tr>
-        <tr ng-repeat="user in users">
-            <td class="v-middle">
-                <!-- editable username (text with validation) -->
-                <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
-                    {{ user.name || 'empty' }}
-                </span>
-            </td>
-            <td class="v-middle">
-                <!-- editable status (select-local) -->
-                <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s as s for s in statuses">
-                    {{ showStatus(user) }}
-                </span>
-            </td>
-            <td class="v-middle">
-                <!-- editable group (select-remote) -->
-                <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-                    {{ showGroup(user) }}
-                </span>
-            </td>
-            <td style="white-space: nowrap">
-                <!-- form -->
-                <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
-                        save
-                    </button>
-                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
-                        cancel
-                    </button>
-                </form>
-                <div class="buttons" ng-show="!rowform.$visible">
-                    <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-                    <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">del</button>
-                </div>
-            </td>
-        </tr>
-    </table>
+<div ng-controller='PlaylistsController'>
+
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">Administrate Musics </h1>
+    </div>
+
+    <div class="wrapper-md">
+        <!--rajouter un controller plus tard-->
+        <tabset class="tab-container">
+            <tab disabled="true">
+                <tab-heading>
+                    <i class="fa icon-user "></i>{{playlist.name}}
+                </tab-heading>
+
+                <table class="table" st-pipe="callServer" st-table="rowCollection">
+                    <thead>
+                        <tr>
+                            <th style="width:15%" st-sort="name">Name</th>
+                            <th style="width:20%">Link</th>
+                            <th style="width:15%" st-sort="createdOn" ">Date de creation</th>
+                            <th style="width:10%" st-sort="createdByFName">likes</th>
+                            <th style="width:10%" st-sort="createdByFName">donwloads</th>
+                            <th style="width:10%" st-sort="createdByFName">Views</th>
+                            <th style="width:20%">Edit</th>
+                        </tr>
+                    </thead>
+             
+                    <tbody> 
+                        <tr ng-repeat="music in musics">
+                          <td>
+                            <span editable-text="music.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                               {{music.name}}
+                            </span>
+                        </td>
+                        <td>
+                            <span editable-text="music.songLink" e-name="songLink" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                                {{music.songLink}}
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-bind="dateCreation(music.createdOn)" editable-text="music.createdOn" e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                            </span>
+                        </td>
+                        <td>
+                            <span editable-text="music.nbLikes" e-name="nbLikes" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                                {{music.nbLikes}}
+                            </span>
+                        </td>
+                        <td>
+                            <span editable-text="music.nbDownloads" e-name="nbDownloads" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                                {{music.nbDownloads}}
+                            </span>
+                        </td>
+                        <td>
+                            <span editable-text="music.nbViews" e-name="nbViews" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+                                {{music.nbViews}}
+                            </span>
+                        </td>
+                     
+                        <td style="white-space: nowrap">
+                            <!-- form -->
+                            <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == music">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+                                    save
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                    cancel
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible">
+                                <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+                                <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">del</button>
+                            </div>
+                        </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </tab>
+        </tabset>
+    </div>
 </div>

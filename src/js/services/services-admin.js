@@ -1,16 +1,60 @@
 
-app.factory('Album', function($resource) {
-    return $resource('http://188.166.151.38:8080/bimstr/rest/music/album/', {}, { 
-    show_all: { method: 'GET', 
-      isArray:false}
-  });
-});
+app.factory('Album', ['$resource', function($resource) {
+    return {
+        Show_all: $resource('http://188.166.151.38:8080/bimstr/rest/music/album/', {},
+            {
+                method: 'GET',
+                isArray: true
+            }),
+        Update: $resource('http://188.166.151.38:8080/bimstr/rest/music/album/:id', { id: '@id' },
+            {
+                method: 'GET',
+                isArray: true
+            }),
+        Post: $resource('http://188.166.151.38:8080/bimstr/rest/music/album/:id', { id: '@id' },
+            {
+                method: 'GET',
+                isArray: true
+            }),
+        Delete: $resource('http://188.166.151.38:8080/bimstr/rest/music/album/:id', { id: '@id' },
+            {
+                method: 'GET',
+                isArray: true
+            })
+    };
+}]);
 
-app.factory('Playlists', function($resource) {
+app.factory('Playlists', function ($resource) {
+
   return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/', {}, {
     show_all: { method: 'GET', isArray:true}
   });
 });
+
+app.factory('Playlists', ['$resource', function ($resource) {
+    return {
+        Show_all: $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/', {},
+            {
+                method: 'GET',
+                isArray: true
+            }),
+        Update: $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@id' },
+            {
+                method: 'PUT',
+                isArray: false
+            }),
+        Post: $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@id' },
+            {
+                method: 'POST',
+                isArray: false
+            }),
+        Delete: $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@id' },
+            {
+                method: 'DELETE',
+                isArray: false
+            })
+    };
+}]);
 
 
 app.factory('Users', function($resource) {

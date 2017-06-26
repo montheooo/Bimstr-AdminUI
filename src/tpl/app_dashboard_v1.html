@@ -111,7 +111,7 @@
           </div>
           <div class="wrapper-md" ng-controller="AlbumController">
               <div class="table-responsive m-b-lg">
-                <div ui-grid="gridOptionsSimple"></div>
+                <div ng-repeat="album in albums"></div>
               </div>
           </div>
       </div>

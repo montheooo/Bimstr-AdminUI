@@ -107,7 +107,7 @@
       }
     })
         .state('manage.musics', {
-            url: '/musics',
+            url: '/{playlist.name}/musics',
             templateUrl: 'tpl/playlist_music.html',
             resolve: {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {

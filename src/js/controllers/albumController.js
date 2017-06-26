@@ -1,7 +1,6 @@
 'use strict';
 
-app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, Playlists) {
-  console.log(Album);
+app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album) {
   $scope.albums = Album.show_all(); //fetch all movies. Issues a GET to /api/movies
   $scope.gridOptionsSimple = {};
    console.log($scope.albums);

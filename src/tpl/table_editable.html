@@ -47,13 +47,15 @@
     </tr>
   </table>
 
+    <!-- Mytable -->
+
+
   <button class="btn btn-default m-b-lg" ng-click="addUser()">Add row</button>
 
   <h4>Editable column</h4>
   <table class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold; white-space: nowrap">
 
-      <!-- username header -->
       <td style="width:40%"  class="v-middle">
         Name
         <form editable-form name="nameform" onaftersave="saveColumn('name')" ng-show="nameform.$visible">
