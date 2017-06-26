@@ -1,15 +1,8 @@
 'use strict';
 
-<<<<<<< HEAD
-app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, artistFactory) {
+app.controller('', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, userFactory) {
  // console.log(Album);
-  $scope.artists = artistFactory.query();
-=======
-app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, Artist) {
-  console.log(Album);
-  $scope.artists = Artist.query();
->>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
-  console.log($scope.artists);
+  $scope.users = userFactory.query();
   $scope.albums = Album.query(); //fetch all movies. Issues a GET to /api/movies
   $scope.gridOptionsSimple = {};
    // console.log($scope.albums);

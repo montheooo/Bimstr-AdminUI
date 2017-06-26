@@ -5,6 +5,7 @@
   <h4>Editable row</h4>
   <table class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
+<<<<<<< HEAD
       <td style="width:35%">Id</td>
       <td style="width:20%">Uuid</td>
       <td style="width:20%">name</td>
@@ -17,24 +18,30 @@
 
 
 
+=======
+      <td style="width:35%">Name</td>
+      <td style="width:20%">Email</td>
+      <td style="width:20%">Picture</td>
+      <td style="width:25%">Edit</td>
+>>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
     </tr>
-    <tr ng-repeat="user in users">
+    <tr ng-repeat="artist in artists">
       <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="user.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
-          {{ user.name || 'empty' }}
+        <!-- editable Artist name (text with validation) -->
+        <span editable-text="artist.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.name || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
-        <!-- editable status (select-local) -->
-        <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s as s for s in statuses">
-          {{ showStatus(user) }}
+          <!-- editable Artist Email (text with validation) -->
+        <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.email)" e-required>
+          {{ artist.email || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ showGroup(user) }}
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.picture || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
@@ -69,7 +76,7 @@
       </td>
       <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+        <form editable-form name="rowform" onbeforesave="saveArtist($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
           <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
             save
           </button>
@@ -79,13 +86,13 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="removeArtist($index)">del</button>
         </div>  
       </td>
     </tr>
   </table>
 
-  <button class="btn btn-default m-b-lg" ng-click="addUser()">Add row</button>
+  <button class="btn btn-default m-b-lg" ng-click="addArtist()">Add row</button>
 
   <h4>Editable column</h4>
   <table class="table table-bordered table-hover table-condensed bg-white-only">
