@@ -2,8 +2,8 @@
   <h1 class="m-n font-thin h3">Editable</h1>
 </div>
 <div class="wrapper-md">
-  <h4>Editable row</h4>
-  <table class="table table-bordered table-hover table-condensed bg-white-only">
+  <h4>Table Artiste</h4>
+  <table ng-init="initArtist()" class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
 <<<<<<< HEAD
       <td style="width:35%">Id</td>
@@ -21,7 +21,17 @@
 =======
       <td style="width:35%">Name</td>
       <td style="width:20%">Email</td>
+      <td style="width:20%">Age</td>
+      <td style="width:20%">Bio</td>
       <td style="width:20%">Picture</td>
+      <td style="width:20%">active</td>
+      <td style="width:20%">beatMaker</td>
+      <td style="width:20%">producer</td>
+      <td style="width:20%">stylist</td>
+      <td style="width:20%">designer</td>
+      <td style="width:20%">singer</td>
+
+
       <td style="width:25%">Edit</td>
 >>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
     </tr>
@@ -39,12 +49,25 @@
         </span>
       </td>
       <td class="v-middle">
+          <!-- editable Artist Email (text with validation) -->
+        <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.email)" e-required>
+          {{ artist.age || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+          <!-- editable Artist Email (text with validation) -->
+        <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.email)" e-required>
+          {{ artist.bio || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
         <!-- editable artist picture (text with validation) -->
         <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
           {{ artist.picture || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
+<<<<<<< HEAD
         <!-- editable group (select-remote) -->
         <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
           {{ showGroup(user) }}
@@ -74,6 +97,44 @@
           {{ showGroup(user) }}
         </span>
       </td>
+=======
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.active || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.beatMaker || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.producer || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.stylist || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.designer || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable artist picture (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.singer || 'empty' }}
+        </span>
+      </td>
+      
+>>>>>>> 0f6d3e5ddeaec04734b6f239251079a460e202c4
       <td style="white-space: nowrap">
         <!-- form -->
         <form editable-form name="rowform" onbeforesave="saveArtist($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
@@ -86,7 +147,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeArtist($index)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="removeArtist(artist.id)">del</button>
         </div>  
       </td>
     </tr>
@@ -94,82 +155,7 @@
 
   <button class="btn btn-default m-b-lg" ng-click="addArtist()">Add row</button>
 
-  <h4>Editable column</h4>
-  <table class="table table-bordered table-hover table-condensed bg-white-only">
-    <tr style="font-weight: bold; white-space: nowrap">
-
-      <!-- username header -->
-      <td style="width:40%"  class="v-middle">
-        Name
-        <form editable-form name="nameform" onaftersave="saveColumn('name')" ng-show="nameform.$visible">
-          <button type="submit" ng-disabled="nameform.$waiting" class="btn btn-sm btn-info">
-            save
-          </button>
-          <button type="button" ng-disabled="nameform.$waiting" ng-click="nameform.$cancel()" class="btn btn-sm btn-default">
-            cancel
-          </button>
-        </form>  
-        <button class="btn btn-sm btn-default" ng-show="!nameform.$visible" ng-click="nameform.$show()">
-          edit
-        </button>
-      </td>
-
-      <!-- status header -->
-      <td style="width:30%" class="v-middle">
-        Status
-        <form editable-form name="statusform" onaftersave="saveColumn('status')" ng-show="statusform.$visible">
-          <button type="submit" ng-disabled="statusform.$waiting" class="btn btn-sm btn-info">
-            save
-          </button>
-          <button type="button" ng-disabled="statusform.$waiting" ng-click="statusform.$cancel()" class="btn btn-sm btn-default">
-            cancel
-          </button>
-        </form>  
-        <button class="btn btn-sm btn-default" ng-show="!statusform.$visible" ng-click="statusform.$show()">
-          edit
-        </button>
-      </td>
-
-      <!-- group header -->
-      <td style="width:30%" class="v-middle">
-        Group
-        <form editable-form name="groupform" onaftersave="saveColumn('group')" ng-show="groupform.$visible">
-          <button type="submit" ng-disabled="groupform.$waiting" class="btn btn-sm btn-info">
-            save
-          </button>
-          <button type="button" ng-disabled="groupform.$waiting" ng-click="groupform.$cancel()" class="btn btn-sm btn-default">
-            cancel
-          </button>
-        </form>  
-        <button class="btn btn-sm btn-default" ng-show="!groupform.$visible" ng-click="groupform.$show()">
-          edit
-        </button>
-      </td>
-    </tr>
-
-    <tr ng-repeat="user in users">
-      <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="user.name" e-name="name" e-form="nameform" onbeforesave="checkName($data)">
-          {{ user.name || 'empty' }}
-        </span>
-      </td>
-
-      <td class="v-middle">
-        <!-- editable status (select-local) -->
-        <span editable-select="user.status" e-name="status" e-form="statusform" e-ng-options="s.value as s.text for s in statuses">
-          {{ showStatus(user) }}
-        </span>
-      </td>
-
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="groupform" e-ng-options="g.id as g.text for g in groups">
-          {{ showGroup(user) }}
-        </span>
-      </td>
-    </tr>
-  </table>
+  
 
   <h4>Editable table</h4>
   <form editable-form name="tableform" onaftersave="saveTable()" oncancel="cancel()">

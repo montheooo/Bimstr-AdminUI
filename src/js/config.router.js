@@ -91,7 +91,19 @@
         }]
       }
     })
+
+    .state('app.artists', {
+      url: '/artists',
+      templateUrl: 'tpl/artists.html',
+      controller: 'artistCtrl',
+      resolve :load(['xeditable', 'js/controllers/alert.js',         
+            'js/services/services-admin.js',
+            'js/controllers/artistCtrl.js'
+            ])
+        
+    })
     
+
     // .state('manage.usersList', {
     //   url: '/usersList',
     //   templateUrl: 'tpl/adminUsers.html',

@@ -10,11 +10,19 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
     editableOptions.theme = 'bs3';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 $scope.artists = artistFactory.query();
 =======
 $scope.artists= Artist.query();
 console.log($scope.artists);
 >>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
+=======
+$scope.initArtist = function(){
+
+  $scope.artists= Artist.query();
+
+}
+>>>>>>> 0f6d3e5ddeaec04734b6f239251079a460e202c4
 
     $scope.html5 = {
       email: 'email@example.com',
@@ -39,10 +47,10 @@ console.log($scope.artists);
       remember: false
     }; 
 
-    $scope.statuses = [
-      {value: 1, text: 'status1'},
-      {value: 2, text: 'status2'},
-      {value: 3, text: 'status3'}
+    $scope.actives = [
+      {value: 1, text: 'true'},
+      {value: 2, text: 'false'}
+
     ];
 
     $scope.agenda = [
@@ -51,8 +59,8 @@ console.log($scope.artists);
     ];
 
     $scope.showStatus = function() {
-      var selected = $filter('filter')($scope.statuses, {value: $scope.user.status});
-      return ($scope.user.status && selected.length) ? selected[0].text : 'Not set';
+      var selected = $filter('filter')($scope.actives, {value: $scope.artist.active});
+      return ($scope.artist.active && selected.length) ? selected[0].text : 'Not set';
     };
 
     $scope.showAgenda = function() {
@@ -91,28 +99,29 @@ console.log($scope.artists);
       }
     };
 
-    $scope.showStatus = function(user) {
+    $scope.showStatus = function(artist) {
       var selected = [];
-      if(user && user.status) {
-        selected = $filter('filter')($scope.statuses, {value: user.status});
+      if(artist && artist.active) {
+        selected = $filter('filter')($scope.actives, {value: artist.active});
       }
       return selected.length ? selected[0].text : 'Not set';
     };
 
     $scope.checkName = function(data, id) {
-      if (id === 2 && data !== 'awesome') {
+      if (id === 101 && data !== 'awesome') {
         return "Username 2 should be `awesome`";
       }
     };
-
+      //
     $scope.saveArtist = function(data, id) {
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
-     return Artist.save({id: id}, data);
+     return Artist.update({id: id}, data);
 
     };
 
+      // save user
       $scope.saveUser = function(data, id) {
       //$scope.user not updated yet
       console.log(data);
@@ -127,8 +136,13 @@ console.log($scope.artists);
     };
      // remove Artist
     $scope.removeArtist = function(index) {
-      $scope.artists.splice(index, 1);
-      return Artist.delete({id: index});
+//      $scope.artists.splice(index, 1);
+    return Artist.delete({id: index}, null, function(){
+
+      $scope.artists= Artist.query();
+
+    });
+       
     };
 
     // add user
@@ -144,15 +158,27 @@ console.log($scope.artists);
 
      // add Artist
     $scope.addArtist = function() {
-      $scope.inserted = {
-        id: $scope.artists.length+1,
-        name:'',
-        email: '',
-        picture: ''         
-      };
-        
-      
-      $scope.artists.push($scope.inserted);
+
+    return  Artist.save({
+
+  //      id: 99,
+        name:'monthe',
+        email: 'monthe@denis.com',
+        age:'10',
+        bio:'denis',
+        picture:'http://denis.denis.com',        
+        active: 'true',       
+        beatMaker: 'true',         
+        producer: 'true',         
+        stylist: 'true',         
+        designer:'true',
+        singer:'true'
+
+    });
+       
+
     };
+
+   
 
 }]);
