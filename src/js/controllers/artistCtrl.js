@@ -10,6 +10,8 @@ $scope.initArtist = function(){
 
 }
 
+$scope.vue = true ;
+
     $scope.html5 = {
       email: 'email@example.com',
       tel: '123-45-67',
@@ -124,10 +126,12 @@ $scope.initArtist = function(){
     };
      // remove Artist
     $scope.removeArtist = function(index) {
-     $scope.artists.splice(index, 1);
+    
+    $scope.artists.splice(index, 1);
+    
     return Artist.delete({id: index}, null, function(){
 
-      $scope.artists= Artist.query();
+     
 
     });
        
@@ -147,23 +151,13 @@ $scope.initArtist = function(){
      // add Artist
     $scope.addArtist = function() {
 
-    return  Artist.save({
+    return  Artist.save($scope.art, function(){
 
-  //      id: 99,
-        name:'monthe',
-        email: 'monthe@denis.com',
-        age:'10',
-        bio:'denis',
-        picture:'http://denis.denis.com',        
-        active: 'true',       
-        beatMaker: 'true',         
-        producer: 'true',         
-        stylist: 'true',         
-        designer:'true',
-        singer:'true'
+      $scope.art=null;
 
     });
        
+
 
     };
 
