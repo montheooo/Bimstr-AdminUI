@@ -1,6 +1,5 @@
 [
-  {"id": 1, "text": "user"},
-  {"id": 2, "text": "member"},
-  {"id": 3, "text": "vip"},
-  {"id": 4, "text": "admin"}
+  {"id": "true", "text": "True"},
+  {"id": "false", "text": "False"}
+
 ]
