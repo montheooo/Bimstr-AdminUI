@@ -1,24 +1,37 @@
-<div class="bg-light lter b-b wrapper-md">
+ <alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
+<div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des artistes </h1>
 </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Rechercher un Artiste
+    </div>
+    <div class="panel-body">
+      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addArtist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="ar.name">
+        </div>      
+      </form>
+    </div>
 <div class="wrapper-md">
-  <h4>Editer les Artistes</h4>
-  <table ng-init="initArtist()" class="table table-bordered table-hover table-condensed bg-white-only">
+  <h4>Editer un Artiste</h4>
+  <table ng-show="vue" ng-init="initArtist()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Email</td>
       <td style="width:35%">Age</td>
       <td style="width:35%">Bio</td>
       <td style="width:35%">Picture</td>
-      <td style="width:20%">Active</td>
-      <td style="width:20%">BeatMaker</td>
-      <td style="width:20%">Producer</td>
-      <td style="width:20%">Stylist</td>
-      <td style="width:20%">Designer</td>
-      <td style="width:20%">Singer</td>
+      <td style="width:20%">IsActive</td>
+      <td style="width:20%">IsBeatMaker</td>
+      <td style="width:20%">IsProducer</td>
+      <td style="width:20%">IsStylist</td>
+      <td style="width:20%">IsDesigner</td>
+      <td style="width:20%">IsSinger</td>
       <td style="width:25%">Edit</td>
     </tr>
-    <tr ng-repeat="artist in artists">
+    <tr  ng-repeat="artist in artists | filter: ar.name | orderBy: artist.name  track by artist.id">
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="artist.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
@@ -97,7 +110,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeArtist(artist.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="removeArtist($index, artist.id)">del</button>
         </div>  
       </td>
     </tr>
@@ -133,32 +146,32 @@
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.active"><i></i>Active
+            <input type="checkbox" ng-model="art.active"><i></i>IsActive
           </label>
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.beatMaker"><i></i>BeatMaker
+            <input type="checkbox" ng-model="art.beatMaker"><i></i>IsBeatMaker
           </label>
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.producer"><i></i>Producer
+            <input type="checkbox" ng-model="art.producer"><i></i>IsProducer
           </label>
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.stylist"><i></i>Stylist
+            <input type="checkbox" ng-model="art.stylist"><i></i>IsStylist
           </label>
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.designer"><i></i>Designer
+            <input type="checkbox" ng-model="art.designer"><i></i>IsDesigner
           </label>
         </div>
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
-            <input type="checkbox" ng-model="art.singer"><i></i>singer
+            <input type="checkbox" ng-model="art.singer"><i></i>IsSinger
           </label>
         </div>
         <button type="submit" class="btn btn-primary ">Enregistrer</button>

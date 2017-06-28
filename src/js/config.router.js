@@ -70,15 +70,11 @@
         }]
       }
     })
-    .state('manage', {
-      abstract: true,
-      url: '/manage',
-      templateUrl: 'tpl/layout.html'
-    })
-
-    .state('manage.users', {
+    
+    .state('app.users', {
       url: '/users',
       templateUrl: 'tpl/users.html',
+      controller: 'artistCtrl',
       resolve : {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
           return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
@@ -96,13 +92,24 @@
       url: '/artists',
       templateUrl: 'tpl/artists.html',
       controller: 'artistCtrl',
-      resolve :load(['xeditable', 'js/controllers/alert.js',         
+      resolve :load(['xeditable', 'js/controllers/alert.js',
+            'js/controllers/bootstrap.js',         
             'js/services/services-admin.js',
             'js/controllers/artistCtrl.js'
             ])
         
     })
     
+    .state('app.banners', {
+      url: '/banners',
+      templateUrl: 'tpl/banners.html',
+      controller: 'bannerCtrl',
+      resolve :load(['xeditable', 'js/controllers/alert.js',         
+            'js/services/services-admin.js',
+            'js/controllers/bannerCtrl.js'
+            ])
+        
+    })
 
     // .state('manage.usersList', {
     //   url: '/usersList',

@@ -24,11 +24,8 @@ app.factory('banner', function($resource) {
 });
 
 app.factory('Users', function($resource) {
-  return $resource('http://demo9379818.mockable.io/admins/:id/:page', { id: '@_id'}, {
-    getUserPagination:  {
-      method:'GET', 
-      isArray:false
-    },
+  return $resource('http://188.166.151.38:8080/bimstr/rest/user/:id', { id: '@_id'}, {
+  
     update: {
       method: 'PUT'
     }

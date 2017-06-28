@@ -4,66 +4,24 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', 'editableOptions', '
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-$scope.initArtist = function(){
+    $scope.alerts = [];
+    $scope.artists =[];
+    $scope.vue = true;
 
-  $scope.artists= Artist.query();
-
-}
-
-$scope.vue = true ;
-
-    $scope.html5 = {
-      email: 'email@example.com',
-      tel: '123-45-67',
-      number: 29,
-      range: 10,
-      url: 'http://example.com',
-      search: 'blabla',
-      color: '#6a4415',
-      date: null,
-      time: '12:30',
-      datetime: null,
-      month: null,
-      week: null
+    $scope.addAlert = function() {
+      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
     };
 
-    $scope.user = {
-    	name: 'awesome',
-    	desc: 'Awesome user \ndescription!',
-      status: 2,
-      agenda: 1,
-      remember: false
-    }; 
-
-    $scope.actives = [
-      {value: 1, text: 'true'},
-      {value: 2, text: 'false'}
-
-    ];
-
-    $scope.agenda = [
-      {value: 1, text: 'male'},
-      {value: 2, text: 'female'}
-    ];
-
-    $scope.showStatus = function() {
-      var selected = $filter('filter')($scope.actives, {value: $scope.artist.active});
-      return ($scope.artist.active && selected.length) ? selected[0].text : 'Not set';
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+      $scope.vue= true;
     };
 
-    $scope.showAgenda = function() {
-      var selected = $filter('filter')($scope.agenda, {value: $scope.user.agenda});
-      return ($scope.user.agenda && selected.length) ? selected[0].text : 'Not set';
-    };
+    $scope.initArtist = function(){
 
-    // editable table
-    $scope.users = [
-      {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-      {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-      {id: 3, name: 'awesome user3', status: 2, group: null}
-    ];
-    // editable table
-   
+    $scope.artists= Artist.query();
+
+    };
 
 
     $scope.groups = [];
@@ -73,30 +31,7 @@ $scope.vue = true ;
       });
     };
 
-     $scope.beatMakers = [];
-    $scope.loadbeatMaker = function() {
-      return $scope.groups.length ? null : $http.get('api/beatMakers').success(function(data) {
-        $scope.groups = data;
-      });
-    };
-
-    $scope.showGroup = function(artist) {
-      if(artist.active && $scope.groups.length) {
-        var selected = $filter('filter')($scope.groups, {id: artist.active});
-        return selected.length ? selected[0].text : 'Not set';
-      } else {
-  //      return user.groupName || 'Not set';
-      }
-    };
-
-    $scope.showStatus = function(artist) {
-      var selected = [];
-      if(artist && artist.active) {
-        selected = $filter('filter')($scope.actives, {value: artist.active});
-      }
-      return selected.length ? selected[0].text : 'Not set';
-    };
-
+   
     $scope.checkName = function(data, id) {
       if (id === 101 && data !== 'awesome') {
         return "Username 2 should be `awesome`";
@@ -107,53 +42,43 @@ $scope.vue = true ;
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
-     return Artist.update({id: id}, data);
+     return Artist.update({id: id}, data, function(){
+       $scope.vue =false;
+       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
+     });
 
     };
 
-      // save user
-      $scope.saveUser = function(data, id) {
-      //$scope.user not updated yet
-      console.log(data);
-      angular.extend(data, {id: id});
-      // return $http.post('api/saveUser', data);
-    };
-
-
-    // remove user
-    $scope.removeUser = function(index) {
-      $scope.users.splice(index, 1);
-    };
      // remove Artist
-    $scope.removeArtist = function(index) {
+    $scope.removeArtist = function(index, data) {
     
     $scope.artists.splice(index, 1);
     
-    return Artist.delete({id: index}, null, function(){
+    return Artist.delete({id: data}, null, function(){
 
-     
+       $scope.vue=false;
+      $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
+      
 
-    });
-       
+      });
+           
     };
-
-    // add user
-    $scope.addUser = function() {
-      $scope.inserted = {
-        id: $scope.users.length+1,
-        name: '',
-        status: null,
-        group: null 
-      };
-      $scope.users.push($scope.inserted);
-    };
-
+  
      // add Artist
+
     $scope.addArtist = function() {
+
+      $scope.artists.push($scope.art);
+      console.log($scope.artists);
 
     return  Artist.save($scope.art, function(){
 
+      $scope.vue=false;
       $scope.art=null;
+      $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
+      $scope.artists= Artist.query();
+      
+
 
     });
        
