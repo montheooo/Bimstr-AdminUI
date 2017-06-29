@@ -111,6 +111,17 @@
         
     })
 
+     .state('app.albums', {
+      url: '/albums',
+      templateUrl: 'tpl/albums.html',
+      controller: 'albumCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+            'js/services/services-admin.js',
+            'js/controllers/albumCtrl.js'
+            ])
+        
+    })
+
     // .state('manage.usersList', {
     //   url: '/usersList',
     //   templateUrl: 'tpl/adminUsers.html',
