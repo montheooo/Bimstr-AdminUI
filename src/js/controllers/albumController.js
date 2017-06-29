@@ -1,13 +1,15 @@
 'use strict';
 
-app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album) {
-  $scope.albums = Album.show_all(); //fetch all movies. Issues a GET to /api/movies
-  $scope.gridOptionsSimple = {};
-   console.log($scope.albums);
-  $scope.gridOptionsSimple["data"]=$scope.albums;
-  $scope.gridOptionsSimple["showFooter"]=false;
-  $scope.gridOptionsSimple["enableFiltering"]=false;
-
+app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, Playlists) {
+    $scope.albums = [];
+    $scope.albums = Album.query(); //fetch all movies. Issues a GET to /api/movies
+    $scope.addAlert = function () {
+        $scope.alerts.push({ type: 'success', msg: "Your playlist have been saved" });
+    };
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+        $scope.vue = true;
+    };
 });
 
 

@@ -1,4 +1,6 @@
-  <div class="bg-light lter b-b wrapper-md">
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>  
+
+<div class="bg-light lter b-b wrapper-md">
     <h1 class="m-n font-thin h3">Administrate Playlists </h1>
   </div>
 
@@ -11,14 +13,14 @@
             <i class="fa icon-user "></i> All Playlists
           </tab-heading>
 
-          <table class="table"  st-pipe="callServer" st-table="rowCollection">
+          <table class="table" ng-init="initPlaylists()" st-pipe="callServer" st-table="rowCollection">
               <thead>
                   <tr>
                       <th style="width:15%" st-sort="name">Name</th>
-                      <th style="width:35%">Description</th>
+                      <th style="width:30%">Description</th>
                       <th style="width:15%" st-sort="createdByFName">Auteur</th>
                       <th style="width:20%" st-sort="createdOn" ">Date de création</th>
-                      <th style="width:15%">Manager</th>
+                      <th style="width:35%">Manager</th>
                   </tr>
               </thead>
             <!--<tr>
@@ -36,36 +38,18 @@
                 <td>
                   <form>
                       <a ui-sref="manage.musics">
-                          <button type="submit" class="btn btn-sm btn-info" ng-init="musics(playlist)">
-                              Manage Playlist
+                          <button class="btn btn-sm btn-info" ng-init="musics(playlist)">
+                              Manage
                           </button>
-                      </a>
+                      </a> 
+                      <button class="btn btn-sm btn-danger" ng-click="removePlayist(playlist.id)">
+                      del
+                      </button>
                   </form>
                 </td>
               </tr>
 
-              <div class="panel-body">
-                <button type="button" class="btn btn-sm btn-success">
-                  <i class="glyphicon glyphicon-plus">
-                  </i> Add a new playlist
-                </button>
-              </div>
-
             </tbody>
-                   <!--
-                    <tbody ng-show="!isLoading">
-                    <tr ng-repeat="row in rowCollection">
-                      <td>{{row.id}}</td>
-                      <td>{{row.first_name}}</td>
-                      <td>{{row.last_name}}</td>
-                      <td>{{row.saved}}</td>
-                    </tr>
-                    </tbody>
-                    <tbody ng-show="isLoading">
-                    <tr>
-                      <td colspan="4" class="text-center">Loading ... </td>
-                    </tr>s
-                    </tbody>-->
             <tfoot>
             <tr>
               <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
@@ -76,5 +60,11 @@
 
         </tab>
       </tabset>
+    </div>
+    <div class="panel-body">
+        <button type="button" class="btn btn-sm btn-success">
+            <i class="glyphicon glyphicon-plus">
+            </i> Add a new playlist
+        </button>
     </div>
   </div>
