@@ -15,8 +15,8 @@ app.controller('PlaylistsController', ['$scope', '$filter', '$http', 'editableOp
           $scope.playlists = Playlists.query(); //fetch all Playlists. Issues a GET to /api/Playlists
       };
         
-      $scope.musics = function (playlist) {
-          return playlist.songs;
+      $scope.initMusics = function (playlist) {
+          return $scope.musics = playlist.songs;
       }
 
       $scope.removePlaylist = function (index, data) {

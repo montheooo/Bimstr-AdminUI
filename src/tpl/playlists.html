@@ -3,6 +3,18 @@
 <div class="bg-light lter b-b wrapper-md">
     <h1 class="m-n font-thin h3">Administrate Playlists </h1>
   </div>
+    <div class="panel-heading font-bold">
+        Explore
+    </div>
+    <div class="panel-body">
+        <form ng-show="vue" class="form-inline" role="form" ng-submit="addArtist()">
+            <div class="form-group">
+                <label class="sr-only">Name</label>
+                <input type="text" class="form-control" id="playlistName" placeholder="Name" ng-model="playlist.name">
+            </div>
+        </form>
+    </div>
+
 
   <div class="wrapper-md">
   <!--rajouter un controller plus tard-->
@@ -38,7 +50,7 @@
                 <td>
                   <form>
                       <a ui-sref="manage.musics">
-                          <button class="btn btn-sm btn-info" ng-init="musics(playlist)">
+                          <button class="btn btn-sm btn-info" ng-init="initMusics(playlist)">
                               Manage
                           </button>
                       </a> 
@@ -61,10 +73,24 @@
         </tab>
       </tabset>
     </div>
-    <div class="panel-body">
-        <button type="button" class="btn btn-sm btn-success">
-            <i class="glyphicon glyphicon-plus">
-            </i> Add a new playlist
-        </button>
-    </div>
+    
+     <div>
+        <table>
+            <tr>
+                <th style="width:15%">Name</th>
+                <th style="width:30%">Description</th>
+                <th style="width:15%">Auteur</th>
+                <th style="width:20%">Date de création</th>
+                <th style="width:35%">Manager</th>
+            </tr>
+            <tr
+        </table>
+         <div class="panel-body">
+             <button type="button" class="btn btn-sm btn-success">
+                 <i class="glyphicon glyphicon-plus">
+                 </i> Add a new playlist
+             </button>
+         </div>
+        
+     </div>
   </div>
