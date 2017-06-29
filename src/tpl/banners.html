@@ -1,93 +1,55 @@
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Gestion des artistes </h1>
+  <h1 class="m-n font-thin h3">Gestion des Bannieres </h1>
 </div>
 <div class="wrapper-md">
-  <h4>Editer les Artistes</h4>
-  <table ng-init="initArtist()" class="table table-bordered table-hover table-condensed bg-white-only">
+  <h4>Editer une Banniere</h4>
+  <table ng-show="vue" ng-init="initBanner()" class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
-      <td style="width:35%">Name</td>
-      <td style="width:35%">Email</td>
-      <td style="width:35%">Age</td>
-      <td style="width:35%">Bio</td>
-      <td style="width:35%">Picture</td>
-      <td style="width:20%">Active</td>
-      <td style="width:20%">BeatMaker</td>
-      <td style="width:20%">Producer</td>
-      <td style="width:20%">Stylist</td>
-      <td style="width:20%">Designer</td>
-      <td style="width:20%">Singer</td>
+      <td style="width:35%">BannerElementId</td>
+      <td style="width:35%">BannerType</td>
+      <td style="width:35%">BannerComment</td>
+      <td style="width:35%">BannerMediaSrc</td>
+      <td style="width:35%">RedirectUrl</td>
+      
       <td style="width:25%">Edit</td>
     </tr>
-    <tr ng-repeat="artist in artists">
+    <tr ng-repeat="Banner in Banners">
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="artist.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
-          {{ artist.name || 'empty' }}
+        <span editable-text="Banner.bannerElementId"  e-name="bannerElementId" e-form="rowform"  e-required>
+          {{ Banner.bannerElementId || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
-          {{ artist.email || 'empty' }}
+        <!-- editable group (select-remote) -->
+        <span editable-select="Banner.bannerElementType" e-name="bannerElementType" onshow="loadGroups()" e-form="rowform" e-ng-options="b.id as b.text for b in groupsBanner">
+          {{ Banner.bannerElementType }}
         </span>
       </td>
       <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="artist.age"  e-name="age" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
-          {{ artist.age || 'empty' }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="artist.bio"  e-name="bio" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
-          {{ artist.bio || 'empty' }}
+        <!-- editable group (select-remote) -->
+        <span editable-text="Banner.bannerComment" e-name="bannerComment" onshow="loadGroups()" e-form="rowform" >
+          {{ Banner.bannerComment }}
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
-          {{ artist.picture || 'empty' }}
+        <span editable-text="Banner.bannerMediaSrc"  e-name="bannerMediaSrc" e-form="rowform"  e-required>
+          {{ Banner.bannerMediaSrc || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.active }}
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.redirectUrl"  e-name="bannerRedirectUrl" e-form="rowform"  e-required>
+          {{ Banner.bannerRedirectUrl || 'empty' }}
         </span>
       </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.beatMaker" e-name="beatMaker" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.beatMaker }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.producer" e-name="producer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.producer }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.stylist" e-name="stylist" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.stylist }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.designer" e-name="designer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.designer }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="artist.singer" e-name="singer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ artist.singer }}
-        </span>
-      </td>
+      
+     
       <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" onbeforesave="saveArtist($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
+        <form editable-form name="rowform" onbeforesave="saveBanner($data, Banner.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == Banner">
           <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
             save
           </button>
@@ -97,7 +59,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeArtist(artist.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="removeBanner($index, Banner.id)">del</button>
         </div>  
       </td>
     </tr>
@@ -107,59 +69,33 @@
 
    <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
-      Ajouter un Artiste
+      Ajouter une banniere
     </div>
     <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addArtist()" >
+      <form class="form-inline" role="form"  ng-submit="addBanner()" >
         <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="art.name">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" ng-model="art.email">
+          <label class="sr-only">Banner Id</label>
+          <input type="number" class="form-control"  placeholder="Banner Element" ng-model="bann.bannerElementId">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Age</label>
-          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Age" ng-model="art.age">
+          <label class="sr-only" >Banner Type</label>
+          <select ng-model="bann.bannerElementType" >
+            <option value="Audio">Audio</option>
+            <option value="Video">Video</option>
+            <option value="Article">Article</option>
+          </select>
         </div>
         <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Bio</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Biographie" ng-model="art.bio">
+          <label class="sr-only" >Banner Comment</label>
+          <textarea ng-model="bann.bannerComment" class="form-control"  placeholder="Commentaire de la banniere" ></textarea>
         </div>
         <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Picture</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Picture" ng-model="art.picture">
+          <label class="sr-only">Banner Media</label>
+          <input type="text" class="form-control"  placeholder="bannerMediaSrc" ng-model="bann.bannerMediaSrc">
         </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.active"><i></i>Active
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.beatMaker"><i></i>BeatMaker
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.producer"><i></i>Producer
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.stylist"><i></i>Stylist
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.designer"><i></i>Designer
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.singer"><i></i>singer
-          </label>
+        <div class="form-group">
+          <label class="sr-only">Redirect Url</label>
+          <input type="text" class="form-control"  placeholder="RedirectUrl" ng-model="bann.bannerRedirectUrl">
         </div>
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
         
