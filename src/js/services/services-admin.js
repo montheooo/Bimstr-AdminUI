@@ -15,6 +15,13 @@ app.factory('Song', function($resource) {
   });
 });
 
+app.factory('Playlist', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
 app.factory('Artist', function($resource) {
   return $resource('http://188.166.151.38:8080/bimstr/rest/artist/:id', { id: '@_id' }, {
     update: {

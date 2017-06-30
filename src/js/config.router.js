@@ -132,6 +132,28 @@
             ])
         
     })
+
+       .state('app.playlists', {
+      url: '/playlists',
+      templateUrl: 'tpl/playlists.html',
+      controller: 'playlistCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+            'js/services/services-admin.js',
+            'js/controllers/playlistCtrl.js'
+            ])
+        
+    })
+
+     .state('app.playlists.songs', {
+      url: '/playlists',
+      templateUrl: 'tpl/playlists.html',
+      controller: 'playlistCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+            'js/services/services-admin.js',
+            'js/controllers/playlistCtrl.js'
+            ])
+        
+    })
     // .state('manage.usersList', {
     //   url: '/usersList',
     //   templateUrl: 'tpl/adminUsers.html',
