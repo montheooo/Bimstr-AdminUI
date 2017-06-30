@@ -147,8 +147,8 @@
           <label class="sr-only" for="exampleInputPassword2">description</label>
           <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="alb.description">
         </div>
-         <ui-select  ng-model="album.artistId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.name}}</ui-select-match>
+         <ui-select  ng-model="alb.id" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item in artist | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.email | highlight: $select.search"></small>

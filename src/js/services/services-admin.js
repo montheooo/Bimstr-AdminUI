@@ -7,6 +7,14 @@ app.factory('Album', function($resource) {
   });
 });
 
+app.factory('Song', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/song/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
+
 app.factory('Artist', function($resource) {
   return $resource('http://188.166.151.38:8080/bimstr/rest/artist/:id', { id: '@_id' }, {
     update: {
