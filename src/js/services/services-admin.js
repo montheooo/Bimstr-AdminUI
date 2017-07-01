@@ -15,6 +15,22 @@ app.factory('Song', function($resource) {
   });
 });
 
+app.factory('Song2playlist', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/song2playlist/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
+
+app.factory('saveSong2playlist', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:playlistId/add/:songId', { playlistId: '@_id', songId: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
+
 app.factory('Playlist', function($resource) {
   return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@_id' }, {
     update: {

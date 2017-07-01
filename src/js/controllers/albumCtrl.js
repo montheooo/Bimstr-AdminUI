@@ -8,10 +8,32 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'e
     $scope.albums =[];
     $scope.artist = Artist.query();
     $scope.vue = true;
+    $scope.alb = {};
+    $scope.albums_songs=[];
 
     $scope.disabled = undefined;
     $scope.searchEnabled = undefined;
 
+
+    $scope.moreAlbum_song = function(index, album){
+
+      $scope.albums_songs= $scope.albums[index].song;
+       $scope.vue = false;
+       $scope.vue2 = true;
+       $scope.albumId = album;
+     //  $scope.songs = Song.query();
+       console.log($scope.albums_songs);
+     //  console.log($scope.playlistId);
+
+
+    }
+
+     $scope.showAlbum = function(){
+
+      $scope.vue2 = false;
+      $scope.vue = true;
+       
+    }
         $scope.enable = function() {
         $scope.disabled = false;
         };
@@ -40,7 +62,12 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'e
 
     $scope.initAlbum = function(){
 
-    $scope.albums= Album.query();
+    $scope.albums= Album.query(null,null,function(){
+
+      console.log($scope.albums);
+
+    });
+    
 
     };
 
@@ -96,12 +123,13 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'e
     $scope.addAlbum = function() {
 
       $scope.albums.push($scope.alb);
-      console.log($scope.albums);
+      angular.extend($scope.alb, {id:$scope.albums.length+1});
+      console.log($scope.alb);
 
-    return  Album.save($scope.abl, function(){
+    return  Album.save({}, $scope.alb, function(){
 
       $scope.vue=false;
-      $scope.art=null;
+      $scope.alb=null;
       $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
       $scope.albums= Album.query();
       

@@ -109,14 +109,103 @@
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
           <button class="btn btn-sm btn-danger" ng-click="removeAlbum($index, album.id)">del</button>
+          <a  class="btn btn-sm btn-default" ng-click="moreAlbum_song($index, album.id)">more</a>
         </div>  
       </td>
     </tr>
   </table>
 
-  
+<!--***************************************************************************************-->
+  <div ng-show="vue2">
+    <h4>Editer un song de l'Album</h4>
 
-   <div class="panel panel-default">
+  <table ng-show="vue2" ng-init="albums_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Name</td>
+      <td style="width:35%">Link</td>
+      <td style="width:35%">Create On</td>
+            
+      <td style="width:20%">IsDownload</td>
+        
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="play in albums_songs | filter: p.name  ">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ play.name || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.songLink"  e-name="songLink" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.songLink || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.createdOn"  e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.createdOn || 'empty' }}
+        </span>
+      </td>  
+      
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="play.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ play.downloadable }}
+        </span>
+      </td>
+      
+      
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="savePlaylist_song($data, play.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == play">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="removePlaylist_song($index, play.id)">del</button>
+          
+        </div>  
+      </td>
+    </tr>
+  </table>
+
+  <a class="btn btn-sm btn-default" ng-click="showAlbum()">revenir aux Albums</a>
+<!--************************************************************************************-->
+
+  <div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un song à l'Album
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+         <ui-select  ng-model="so.songId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.createdOn | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+       
+        
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+
+</div>
+  
+<!--******************************************************************-->  
+
+   <div ng-show="vue" class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Ajouter un Album
     </div>
@@ -124,7 +213,7 @@
       <form class="form-inline" role="form"  ng-submit="addAlbum()" >
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="alb.name">
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="alb.albumName">
         </div>
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Link</label>
@@ -147,9 +236,9 @@
           <label class="sr-only" for="exampleInputPassword2">description</label>
           <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="alb.description">
         </div>
-         <ui-select  ng-model="alb.id" theme="bootstrap">
+         <ui-select  ng-model="alb.artistId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item in artist | filter: $select.search">
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.email | highlight: $select.search"></small>
             </ui-select-choices>
