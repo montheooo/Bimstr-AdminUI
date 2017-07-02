@@ -19,16 +19,16 @@
   <h4>Editer un song</h4>
   <table ng-show="vue" ng-init="initSong()"  class="table table-bordered table-hover  bg-white-only">
     <tr style="font-weight: bold">
-      <td style="width:5%">title</td>
-      <td style="width:5%">Link</td>
-      <td style="width:5%">SingleRating</td>     
-      <td style="width:5%">authorId</td>
-      <td style="width:5%">Album</td>
-      <td style="width:5%">Style</td>
-      <td style="width:5%">IsActive</td>
-      <td style="width:5%">IsDownload</td>
-      <td style="width:5%">IsBeat</td>   
-      <td style="width:5%">Edit</td>
+      <td style="width:35%">title</td>
+      <td style="width:35%">Link</td>
+      <td style="width:35%">SingleRating</td>     
+      <td style="width:35%">authorId</td>
+      
+      
+      <td style="width:30%">IsActive</td>
+      <td style="width:30%">IsDownload</td>
+      <td style="width:30%">IsBeat</td>   
+      <td style="width:25%">Edit</td>
     </tr>
     <tr  ng-repeat="song in songs | filter: ti.name | orderBy: song.name  track by song.id">
       <td class="v-middle">
@@ -56,19 +56,9 @@
           {{ song.id || 'empty' }}
         </span>
       </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="song.albumName" e-name="albumName" onshow="loadGroupsAlbum()" e-form="rowform" e-ng-options="g.id as g.albumName for g in groupsAlbum">
-          {{ song.albumName }}
-        </span>
-      </td>
+      
 
-       <td class="v-middle">
-        <!-- editable username (text with validation) -->
-        <span editable-text="song.style"  e-name="style" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
-          {{ song.style || 'empty' }}
-        </span>
-      </td>
+       
      
       <td class="v-middle">
         <!-- editable group (select-remote) -->
@@ -136,7 +126,7 @@
           
          <ui-select  ng-model="tit.albumId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un album...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item in album | filter: $select.search">
+            <ui-select-choices repeat="item.id as item in album | filter: $select.search">
               <div ng-bind-html="item.albumName | highlight: $select.search"></div>
               <small ng-bind-html="item.label | highlight: $select.search"></small>
             </ui-select-choices>

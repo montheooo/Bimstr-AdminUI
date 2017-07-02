@@ -64,29 +64,28 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
         return "Username 2 should be `awesome`";
       }
     };
-      //
+      // save song
     $scope.saveSong = function(data, id) {
-      //$scope.user not updated yet
+     
       console.log(data);
       angular.extend(data, {id: id});
      return Song.update({id: id}, data, function(){
        $scope.vue =false;
        $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
+     }, function(){
+      alert("les informations n'ont pas été modifiées dans la base de données");
      });
 
     };
 
      // remove Song
-    $scope.removeSong = function(index, data) {
-    
-    $scope.songs.splice(index, 1);
-    
+    $scope.removeSong = function(index, data) {    
+    $scope.songs.splice(index, 1);    
     return Song.delete({id: data}, null, function(){
-
        $scope.vue=false;
-      $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
-      
-
+       $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
+      }, function(){
+        alert("les informations n'ont pas été supprimées dans la base");
       });
            
     };
@@ -94,25 +93,17 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
      // add Song
 
     $scope.addSong = function() {
-
       $scope.songs.push($scope.tit);
-      console.log($scope.songs);
-
+      angular.extend($scope.tit, {id:$scope.songs.length+1});
+      console.log($scope.tit);
     return  Song.save($scope.tit, function(){
-
       $scope.vue=false;
       $scope.tit=null;
       $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
       $scope.songs= Song.query();
-      
-
-
+    }, function(){
+      alert("les informations n'ont pas été ajoutées à la base de données");
     });
-       
-
-
     };
-
-   
 
 }]);

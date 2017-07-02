@@ -128,7 +128,8 @@
       controller: 'songCtrl',
       resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
             'js/services/services-admin.js',
-            'js/controllers/songCtrl.js'
+            'js/controllers/songCtrl.js',
+            'js/controllers/bootstrap.js'
             ])
         
     })
