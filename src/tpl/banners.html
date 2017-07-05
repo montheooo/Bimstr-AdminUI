@@ -11,6 +11,7 @@
       <td style="width:35%">BannerComment</td>
       <td style="width:35%">BannerMediaSrc</td>
       <td style="width:35%">RedirectUrl</td>
+      <td style="width:35%">BannerElementPage</td>
       
       <td style="width:25%">Edit</td>
     </tr>
@@ -45,7 +46,12 @@
           {{ Banner.bannerRedirectUrl || 'empty' }}
         </span>
       </td>
-      
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.bannerElementPage "  e-name="bannerElementPage " e-form="rowform"  e-required>
+          {{ Banner.bannerElementPage || 'empty' }}
+        </span>
+      </td>
      
       <td style="white-space: nowrap">
         <!-- form -->
@@ -96,6 +102,10 @@
         <div class="form-group">
           <label class="sr-only">Redirect Url</label>
           <input type="text" class="form-control"  placeholder="RedirectUrl" ng-model="bann.bannerRedirectUrl">
+        </div>
+        <div class="form-group">
+          <label class="sr-only">BannerElementPage</label>
+          <input type="text" class="form-control"  placeholder="Banner Element Page" ng-model="bann.BannerElementPage">
         </div>
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
         
