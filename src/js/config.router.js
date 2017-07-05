@@ -8,7 +8,7 @@
   [          '$rootScope', '$state', '$stateParams',
   function ($rootScope,   $state,   $stateParams) {
     $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;        
+    $rootScope.$stateParams = $stateParams;
   }])
  .config(
   [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider',
@@ -60,7 +60,7 @@
       resolve: {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load files for an existing module
-             return $ocLazyLoad.load(['xeditable','js/controllers/xeditable.js','js/controllers/alert.js', 
+             return $ocLazyLoad.load(['xeditable','js/controllers/xeditable.js','js/controllers/alert.js',
               'smart-table','js/controllers/table.js','js/controllers/adminUserController.js',
               'js/controllers/chart.js',
               'ui.grid',
@@ -70,7 +70,7 @@
         }]
       }
     })
-    
+
     .state('app.users', {
       url: '/users',
       templateUrl: 'tpl/users.html',
@@ -93,67 +93,67 @@
       templateUrl: 'tpl/artists.html',
       controller: 'artistCtrl',
       resolve :load(['xeditable', 'js/controllers/alert.js',
-            'js/controllers/bootstrap.js',         
+            'js/controllers/bootstrap.js',
             'js/services/services-admin.js',
             'js/controllers/artistCtrl.js'
             ])
-        
+
     })
-    
+
     .state('app.banners', {
       url: '/banners',
       templateUrl: 'tpl/banners.html',
       controller: 'bannerCtrl',
-      resolve :load(['xeditable', 'js/controllers/alert.js',         
+      resolve :load(['xeditable', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/bannerCtrl.js'
             ])
-        
+
     })
 
      .state('app.albums', {
       url: '/albums',
       templateUrl: 'tpl/albums.html',
       controller: 'albumCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/albumCtrl.js'
             ])
-        
+
     })
 
       .state('app.songs', {
       url: '/songs',
       templateUrl: 'tpl/songs.html',
       controller: 'songCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/songCtrl.js',
             'js/controllers/bootstrap.js'
             ])
-        
+
     })
 
        .state('app.playlists', {
       url: '/playlists',
       templateUrl: 'tpl/playlists.html',
       controller: 'playlistCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/playlistCtrl.js'
             ])
-        
+
     })
 
      .state('app.playlists.songs', {
       url: '/playlists',
       templateUrl: 'tpl/playlists.html',
       controller: 'playlistCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/playlistCtrl.js'
             ])
-        
+
     })
     // .state('manage.usersList', {
     //   url: '/usersList',
@@ -198,7 +198,7 @@
     .state('app.ui.widgets', {
       url: '/widgets',
       templateUrl: 'tpl/ui_widgets.html'
-    })          
+    })
     .state('app.ui.bootstrap', {
       url: '/bootstrap',
       templateUrl: 'tpl/ui_bootstrap.html'
@@ -505,12 +505,12 @@
                 templateUrl: 'tpl/music.html',
                 controller: 'MusicCtrl',
                 resolve: load([
-                  'com.2fdevs.videogular', 
-                  'com.2fdevs.videogular.plugins.controls', 
+                  'com.2fdevs.videogular',
+                  'com.2fdevs.videogular.plugins.controls',
                   'com.2fdevs.videogular.plugins.overlayplay',
                   'com.2fdevs.videogular.plugins.poster',
                   'com.2fdevs.videogular.plugins.buffering',
-                  'js/app/music/ctrl.js', 
+                  'js/app/music/ctrl.js',
                   'js/app/music/theme.css'
                   ])
               })
@@ -581,12 +581,12 @@
                 clientId: '901473839934047',
                 //responseType: 'token',
                 name: 'facebook',
-                tokenName: 'token',
-                url: 'http://188.166.164.5:8080/bihh/rest/user/login/facebook',
+                // tokenName: 'token',
+                url: 'http://188.166.151.38:8080/bimstr/rest/user/fblogin',
                 authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
-                //redirectUri: 'http://localhost:8080/src/app/#/dashboard-v1',                
+                redirectUri: 'http://127.0.0.1:8080/',
                 requiredUrlParams: ['display', 'scope'],
-                scope: ['email'],
+                scope: ['email', 'public_profile'],
                 scopeDelimiter: ',',
                 display: 'popup',
                 type: '2.0',
