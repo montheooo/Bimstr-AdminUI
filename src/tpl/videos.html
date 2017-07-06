@@ -1,10 +1,10 @@
  <alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
 <div class="bg-light lter b-b wrapper-md" >
-  <h1 class="m-n font-thin h3">Gestion des Songs </h1>
+  <h1 class="m-n font-thin h3">Gestion des Videos </h1>
 </div>
 <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
-      Rechercher un song
+      Rechercher une video
     </div>
     <div class="panel-body">
       <form ng-show="vue" class="form-inline" role="form"  ng-submit="addSong()" >
@@ -16,72 +16,69 @@
     </div>  
 </div>
 <div class="wrapper-md">
-  <h4>Editer un song</h4>
-  <table ng-show="vue" ng-init="initSong()"  class="table table-bordered table-hover  bg-white-only">
+  <h4>Editer une video</h4>
+  <table ng-show="vue" ng-init="initVideo()"  class="table table-bordered table-hover  bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">title</td>
       <td style="width:35%">Link</td>
       <td style="width:35%">SingleRating</td>     
       <td style="width:35%">ArtistName</td>
-      
-      
+      <td style="width:35%">AlbumName</td>      
       <td style="width:30%">IsActive</td>
       <td style="width:30%">IsDownload</td>
-      <td style="width:30%">IsBeat</td>   
+         
       <td style="width:25%">Edit</td>
     </tr>
-    <tr  ng-repeat="song in songs | filter: ti.name | orderBy: song.name  track by song.id">
+    <tr  ng-repeat="video in videos | filter: ti.name | orderBy: video.name  track by video.id">
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="song.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
-          {{ song.name || 'empty' }}
+        <span editable-text="video.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.name || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="song.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
-          {{ song.link || 'empty' }}
+        <span editable-text="video.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.link || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="song.singleRating"  e-name="singleRating" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
-          {{ song.singleRating || 'empty' }}
+        <span editable-text="video.singleRating"  e-name="singleRating" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.singleRating || 'empty' }}
         </span>
       </td>
      
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="song.artistName"  e-name="artistName" e-form="rowform" onbeforesave="checkName($data, song.artistName)" e-required>
-          {{ song.artistName || 'empty' }}
+        <span editable-select="video.artistId"  e-name="artistId" e-form="rowform" onshow="loadGroupsArtist()" e-ng-options="g.id as g.name for g in groupsArtist">
+          {{ video.artistName || 'empty' }}
         </span>
       </td>
-      
-
-       
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-select="video.albumId"  e-name="albumId" e-form="rowform" onshow="loadGroupsAlbum()" e-ng-options="g.id as g.albumName for g in groupsAlbum">
+          {{ video.albumName || 'empty' }}
+        </span>
+      </td>
+                  
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="video.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ video.active }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="video.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ video.downloadable }}
+        </span>
+      </td>
      
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="song.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ song.active }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="song.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ song.downloadable }}
-        </span>
-      </td>
-      <td class="v-middle">
-        <!-- editable group (select-remote) -->
-        <span editable-select="song.aBeat" e-name="aBeat" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{song.aBeat }}
-        </span>
-      </td>
       
       <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" onbeforesave="saveSong($data, song.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == song">
+        <form editable-form name="rowform" onbeforesave="saveVideo($data, video.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == video">
           <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
             save
           </button>
@@ -91,7 +88,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeSong($index, song.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="removeVideo($index, video.id)">del</button>
         </div>  
       </td>
     </tr>
@@ -101,10 +98,10 @@
 
    <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
-      Ajouter un Song
+      Ajouter une Video
     </div>
     <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addSong()" >
+      <form class="form-inline" role="form"  ng-submit="addVideo()" >
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Title</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Title" ng-model="tit.name">
@@ -120,7 +117,7 @@
         
         
           <ui-select class="form-group" ng-model="tit.artistId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner un artiste">{{$select.selected.id}}</ui-select-match>
+            <ui-select-match placeholder="artiste">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.email | highlight: $select.search"></small>
@@ -129,22 +126,20 @@
        
         
            <ui-select class="form-group" ng-model="tit.albumId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner un album">{{$select.selected.id}}</ui-select-match>
+            <ui-select-match placeholder="album">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in album | filter: $select.search">
               <div ng-bind-html="item.albumName | highlight: $select.search"></div>
               <small ng-bind-html="item.label | highlight: $select.search"></small>
             </ui-select-choices>
           </ui-select>
        
-         
-          
-        
-        <div class="checkbox m-l m-r-xs">
-
+    
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Style</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Style" ng-model="tit.style">
         </div>
+
+        <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
             <input type="checkbox" ng-model="tit.active"><i></i>IsActive
           </label>
@@ -155,11 +150,7 @@
             <input type="checkbox" ng-model="tit.downloadable"><i></i>IsDownload
           </label>
         </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="tit.top"><i></i>IsTop
-          </label>
-        </div>
+        
         
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
         

@@ -18,5 +18,6 @@ angular.module('app', [
     'ui.jq',
     'oc.lazyLoad',
     'cgNotify',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngFacebook'
 ]);

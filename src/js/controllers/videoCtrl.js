@@ -1,11 +1,11 @@
-app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist',
-  function($scope, $filter, $http, editableOptions, editableThemes, Album, Song, Artist){
+app.controller('videoCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist','Video',
+  function($scope, $filter, $http, editableOptions, editableThemes, Album, Song, Artist, Video){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
     $scope.alerts = [];
-    $scope.songs =[];
+    $scope.videos =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
     $scope.vue = true;
@@ -39,38 +39,44 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
       $scope.vue= true;
     };
 
-    $scope.initSong = function(){
+    $scope.initVideo = function(){
 
-    $scope.songs= Song.query();
+    $scope.videos= Video.query();
 
     };
 
 
     $scope.groups = [];
     $scope.groupsAlbum = [];
+    $scope.groupsArtist = [];
 
     $scope.loadGroups = function() {
       return $scope.groups.length ? null : $http.get('api/groups').success(function(data) {
         $scope.groups = data;
       });
     };
+
     $scope.loadGroupsAlbum = function() {
-      return $scope.groupsAlbum.length ? null : Album.query(null,null,function(data) {
-        $scope.groupsAlbum = data;
-      });
+      return $scope.groupsAlbum.length ? null :  $scope.groupsAlbum = $scope.album;
+       
+     
     };
-   
+   $scope.loadGroupsArtist = function() {
+      return $scope.groupsArtist.length ? null : $scope.groupsArtist = $scope.artist;
+        
+      
+    };
     $scope.checkName = function(data, id) {
       if (id === 100001 && data !== 'awesome') {
         return "Username 2 should be `awesome`";
       }
     };
       // save song
-    $scope.saveSong = function(data, id) {
+    $scope.saveVideo = function(data, id) {
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Song.update({id: id}, data, function(){
+     return Video.update({id: id}, data, function(){
        $scope.vue =false;
        $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
      }, function(){
@@ -79,10 +85,10 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
 
     };
 
-     // remove Song
-    $scope.removeSong = function(index, data) {    
-    $scope.songs.splice(index, 1);    
-    return Song.delete({id: data}, null, function(){
+     // remove Video
+    $scope.removeVideo = function(index, data) {    
+    $scope.videos.splice(index, 1);    
+    return Video.delete({id: data}, null, function(){
        $scope.vue=false;
        $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
       }, function(){
@@ -91,17 +97,17 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
            
     };
   
-     // add Song
+     // add Video
 
-    $scope.addSong = function() {
-      $scope.songs.push($scope.tit);
-      angular.extend($scope.tit, {id:$scope.songs.length+1});
+    $scope.addVideo = function() {
+      $scope.videos.push($scope.tit);
+      angular.extend($scope.tit, {id:$scope.videos.length+1});
       console.log($scope.tit);
-    return  Song.save($scope.tit, function(){
+    return  Video.save($scope.tit, function(){
       $scope.vue=false;
       $scope.tit=null;
       $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
-      $scope.songs= Song.query();
+      $scope.videos= Video.query();
     }, function(){
       alert("les informations n'ont pas été ajoutées à la base de données");
     });
