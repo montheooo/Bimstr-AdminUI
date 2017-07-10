@@ -2,8 +2,8 @@
 
 /* Controllers */
   // signin controller
-app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', '$localStorage', 'notify', 'User', 'LoginFactory',
-  function($scope, $http, $state, $auth, $location, $localStorage, notify, User, LoginFactory) {
+app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', '$localStorage', 'notify', 'User',
+  function($scope, $http, $state, $auth, $location, $localStorage, notify, User) {
 
     $scope.msg = 'Bienvenue sur BimStr';
     $scope.template = '';
