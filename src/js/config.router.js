@@ -8,62 +8,8 @@
   [          '$rootScope', '$state', '$stateParams',
   function ($rootScope,   $state,   $stateParams) {
     $rootScope.$state = $state;
-<<<<<<< HEAD
     $rootScope.$stateParams = $stateParams; 
 
-    // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-     // testAPI();
-    } else {
-      // The person is not logged into your app or we are unable to tell.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    }
-  }
-
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-     // Load the facebook SDK asynchronously
-  (function(){
-     // If we've already installed the SDK, we're done
-     if (document.getElementById('facebook-jssdk')) {return;}
-
-     // Get the first script element, which we'll use to find the parent node
-     var firstScriptElement = document.getElementsByTagName('script')[0];
-
-     // Create a new script element and set its id
-     var facebookJS = document.createElement('script'); 
-     facebookJS.id = 'facebook-jssdk';
-
-     // Set the new script's source to the source of the Facebook JS SDK
-     facebookJS.src = '//connect.facebook.net/en_US/all.js';
-
-     // Insert the Facebook JS SDK into the DOM
-     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
-   }());       
-=======
-    $rootScope.$stateParams = $stateParams;
->>>>>>> refs/remotes/origin/master
   }])
  
  .config(
@@ -126,29 +72,7 @@
         }]
       }
     })
-<<<<<<< HEAD
-    
-  
-=======
 
-    .state('app.users', {
-      url: '/users',
-      templateUrl: 'tpl/users.html',
-      controller: 'artistCtrl',
-      resolve : {
-        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-          return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
-            'smart-table','js/controllers/table.js',
-            'js/controllers/adminUserController.js',
-            'js/controllers/uigrid.js',
-            'js/services/services-admin.js',
-            'js/controllers/albumController.js'
-            ])
-        }]
-      }
-    })
-
->>>>>>> refs/remotes/origin/master
     .state('app.artists', {
       url: '/artists',
       templateUrl: 'tpl/artists.html',
@@ -206,24 +130,31 @@
 
     })
 
-<<<<<<< HEAD
+     .state('app.articles', {
+      url: '/articles',
+      templateUrl: 'tpl/articles.html',
+      controller: 'articleCtrl',
+      resolve :load(['xeditable','js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/articleCtrl.js',
+            'js/controllers/bootstrap.js'
+            ])
+
+    })
+
+
      .state('app.videos', {
       url: '/videos',
       templateUrl: 'tpl/videos.html',
       controller: 'videoCtrl',
       resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
-=======
-     .state('app.playlists.songs', {
-      url: '/playlists',
-      templateUrl: 'tpl/playlists.html',
-      controller: 'playlistCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
->>>>>>> refs/remotes/origin/master
             'js/services/services-admin.js',
             'js/controllers/videoCtrl.js'
-            ])
 
+            ])
+        
     })
+    
 
      .state('app.users', {
       url: '/users',

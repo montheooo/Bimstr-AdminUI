@@ -62,6 +62,13 @@ app.factory('Artist', function($resource) {
   });
 });
 
+app.factory('Article', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/article/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
 app.factory('Banner', function($resource) {
   return $resource('http://188.166.151.38:8080/bimstr/rest/banner/:id', { id: '@_id' }, {
     update: {
