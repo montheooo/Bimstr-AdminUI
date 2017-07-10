@@ -1,30 +1,25 @@
-app.controller('artistCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Artist', 
-  function($scope, $filter, $http, editableOptions, editableThemes, Artist){
-    editableThemes.bs3.inputClass = 'input-sm';
-    editableThemes.bs3.buttonsClass = 'btn-sm';
-    editableOptions.theme = 'bs3';
+app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Artist', 
+  function($scope, $filter, $http, $modal, $log, Artist){
+    
+    $scope.open = function (size) {
 
-    $scope.alerts = [];  // initialize alerts table
-    $scope.artists =[];  // initialize artists table
-    $scope.vue = true;   // show artists table
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-      $scope.vue= true;
-    };
-
+      var modalInstance = $modal.open({
+        templateUrl: 'myModalContent.html',
+        size: size   
+      });
+    }
+   
+    $scope.artists = [];  // initialize artists table
+   
     // init Artist Table
+
     $scope.initArtist = function(){
 
-    $scope.artists= Artist.query();
+    return   $scope.artists = Artist.query();
 
-    };
+    }
 
-    // select "True" or "False"
+    // select "True" or "False"    
     $scope.groups = [];
     $scope.loadGroups = function() {
       return $scope.groups.length ? null : $http.get('api/groups').success(function(data) {
@@ -38,17 +33,19 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', 'editableOptions', '
         return "Username 2 should be `awesome`";
       }
     };
-      // update Artist
+
+    // update Artist
     $scope.saveArtist = function(data, id) {
-      //$scope.user not updated yet
-      console.log(data);
+     
       angular.extend(data, {id: id});
-     return Artist.update({id: id}, data, function(){
-       $scope.vue =false;
-       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
-     }, function(){
-      alert("les donnees n'ont pas été modifiées dans la base");
-     });
+     return Artist.update({id: id}, data, function(){  
+
+         alert("Les informations ont été modifiées dans la base de données");
+
+       }, function(){
+
+         alert("les informations n'ont pas été modifiées dans la base de données");
+       });
 
     };
 
@@ -58,11 +55,13 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', 'editableOptions', '
     $scope.artists.splice(index, 1);
     
     return Artist.delete({id: data}, null, function(){
+     
+      alert("Les informations ont été suprimées de la base de données");
 
-       $scope.vue=false;
-      $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
       }, function(){
+
         alert("Les informations n'ont pas été suprimées de la base de données");
+
       });
            
     };
@@ -71,19 +70,20 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', 'editableOptions', '
 
     $scope.addArtist = function() {
 
-      $scope.artists.push($scope.art);
-      console.log($scope.artists);
+          $scope.artists.push($scope.art);
 
-    return  Artist.save(null, $scope.art, function(){
+           return  Artist.save(null, $scope.art, function(){
+     
+          $scope.art=null;
+          alert ("Les informations ont été ajoutées dans la base de données");
+          
 
-      $scope.vue=false;
-      $scope.art=null;
-      $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
-      $scope.artists= Artist.query();
-    }, function(){
-      alert("Les informations n'ont pas été ajoutées à la base de données");
-    });
-       
+        }, function(){
+
+          alert("Les informations n'ont pas été ajoutées à la base de données");
+
+        });
+           
 
 
     };

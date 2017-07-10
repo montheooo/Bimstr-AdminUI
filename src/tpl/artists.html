@@ -1,4 +1,6 @@
- <alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
+<script type="text/ng-template" id="myModalContent.html">
+    <div ng-include="'tpl/modal/artists.html'"></div>
+</script>
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des artistes </h1>
 </div>
@@ -7,7 +9,7 @@
       Rechercher un Artiste
     </div>
     <div class="panel-body">
-      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addArtist()" >
+      <form class="form-inline" role="form"  ng-submit="addArtist()" >
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Name</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="ar.name">   
@@ -15,9 +17,11 @@
       </form>
     </div>  
 </div>
-<div class="wrapper-md">
-  <h4>Editer un Artiste</h4>
-  <table ng-show="vue" ng-init="initArtist()"  class="table table-bordered table-hover table-condensed bg-white-only">
+<div class="panel panel-default">
+  <div class="panel-heading font-bold">                  
+      Editer un artiste
+    </div>
+  <table  ng-init="initArtist()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Email</td>
@@ -111,7 +115,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeArtist($index, artist.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="open('sm')">del</button>
         </div>  
       </td>
     </tr>

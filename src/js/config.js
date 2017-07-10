@@ -29,11 +29,4 @@ angular.module('app')
     // Tell the module to store the language in the local storage
     $translateProvider.useLocalStorage();
   }])
-  .config(['$facebookProvider', function ($facebookProvider) {
-        
-       $facebookProvider.setAppId('236266220124547');
-        $facebookProvider.setPermissions("public_profile,email");
-        
-      $facebookProvider.setVersion("v2.8");
-
-    }]);
+  
