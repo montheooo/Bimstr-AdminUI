@@ -1,15 +1,80 @@
+app.controller('ModalInstanceArtistCtrl', ['$scope', '$modalInstance', 'items','Artist', function($scope, $modalInstance, items, Artist) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+      // remove Artist
+    $scope.removeArtist = function() {
+    
+    // $scope.artists.splice(index, 1);
+        
+        return Artist.delete({id: $scope.items.id}, null, function(){
+         
+          alert("Les informations ont été suprimées de la base de données");
+
+          }, function(){
+          
+          alert("Les informations n'ont pas été suprimées de la base de données");
+
+        });
+               
+    };
+
+  }]);
+  
+
 app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Artist', 
   function($scope, $filter, $http, $modal, $log, Artist){
     
-    $scope.open = function (size) {
+     $scope.artists = [];
+     $scope.selected ;
+
+    $scope.open = function (artist) {
 
       var modalInstance = $modal.open({
         templateUrl: 'myModalContent.html',
-        size: size   
+         controller: 'ModalInstanceArtistCtrl',
+         size: 'sm',
+         resolve: {
+          items: function () {
+            $scope.selected = artist ;
+            return $scope.selected ;
+            
+          }
+        }
+
       });
+
+      console.log($scope.selected);
+
+     modalInstance.result.then(function (selectedItem) {
+        $scope.select = selectedItem;
+        console.log($scope.select);
+        return Artist.delete({id: $scope.select.id}, null, function(){
+         
+          alert("Les informations ont été suprimées de la base de données");
+
+          }, function(){
+          
+          alert("Les informations n'ont pas été suprimées de la base de données");
+
+        });
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });        
+
     }
    
-    $scope.artists = [];  // initialize artists table
+     
+/*******************************************************************************************/
+     // initialize artists table
    
     // init Artist Table
 
@@ -49,22 +114,7 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Art
 
     };
 
-     // remove Artist
-    $scope.removeArtist = function(index, data) {
-    
-    $scope.artists.splice(index, 1);
-    
-    return Artist.delete({id: data}, null, function(){
-     
-      alert("Les informations ont été suprimées de la base de données");
-
-      }, function(){
-
-        alert("Les informations n'ont pas été suprimées de la base de données");
-
-      });
-           
-    };
+   
   
      // add Artist
 
