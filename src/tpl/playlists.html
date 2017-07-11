@@ -1,13 +1,13 @@
- <alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
+
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des playlists </h1>
 </div>
-<div class="panel panel-default">
+<div ng-show="vue" class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Rechercher une Playlist
     </div>
     <div class="panel-body">
-      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addPlaylist()" >
+      <form  class="form-inline" role="form"  ng-submit="addPlaylist()" >
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Name</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="pl.name">   
@@ -15,9 +15,11 @@
       </form>
     </div>  
 </div>
-<div class="wrapper-md">
-  <h4>Editer une Playlist</h4>
-  <table ng-show="vue" ng-init="initPlaylist()"  class="table table-bordered table-hover table-condensed bg-white-only">
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Editer une Playlist
+    </div>
+  <table  ng-init="initPlaylist()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Picture</td>
@@ -92,14 +94,14 @@
     </tr>
   </table>
 <!--***************************************************************************************-->
-  <div ng-show="vue2">
+<div ng-show="vue2">
     <h4>Editer un song de la Playlist</h4>
 
-  <table ng-show="vue2" ng-init="playlists_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
+  <table ng-init="playlists_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Link</td>
-      <td style="width:35%">Create On</td>
+      <td style="width:35%">Cover Image</td>
             
       <td style="width:20%">IsDownload</td>
         
@@ -115,14 +117,14 @@
       
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="play.songLink"  e-name="songLink" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
-          {{ play.songLink || 'empty' }}
+        <span editable-text="play.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.link || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="play.createdOn"  e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
-          {{ play.createdOn || 'empty' }}
+        <span editable-text="play.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.coverImage || 'empty' }}
         </span>
       </td>  
       
@@ -155,18 +157,35 @@
 
   <a class="btn btn-sm btn-default" ng-click="showPlaylist()">revenir aux Playlists</a>
 <!--************************************************************************************-->
-
+</div>
   <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Ajouter un song à la playlist
     </div>
+    <select ng-model="vue_audio">
+      <option value="true">Audio</option>
+      <option value="false">Video</option>
+    </select>
     <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+      <form ng-show="vue_audio" class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
          <ui-select  ng-model="so.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
-              <small ng-bind-html="item.createdOn | highlight: $select.search"></small>
+              <small ng-bind-html="item.artistName | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+       
+        
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+      <form ng-hide="vue_audio" class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
+         <ui-select  ng-model="so.songId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher une video...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in videos | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.artistName | highlight: $select.search"></small>
             </ui-select-choices>
           </ui-select>
        
@@ -180,7 +199,7 @@
 </div>
   
 <!--******************************************************************-->
-   <div ng-show="vue" class="panel panel-default">
+<div ng-show="vue" class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Ajouter une playlist
     </div>
@@ -224,4 +243,3 @@
       </form>
     </div>
   </div>
-</div>

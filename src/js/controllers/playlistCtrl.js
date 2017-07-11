@@ -1,5 +1,5 @@
-app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist', 
-  function($scope, $filter, $http, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist ){
+app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video',
+  function($scope, $filter, $http, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video ){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
@@ -20,6 +20,8 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
        $scope.vue2 = true;
        $scope.playlistId = playid;
        $scope.songs = Song.query();
+       $scope.videos = Video.query();
+
        console.log($scope.playlists_songs);
        console.log($scope.playlistId);
 
@@ -95,6 +97,23 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
       })
 
     }
+
+     $scope.addPlaylist2video = function(){
+
+      angular.extend($scope.so, {playlistid: $scope.playlistId});
+      console.log($scope.so);
+      return Song2playlist.save(null, $scope.so, function(){
+      $scope.vue2 = true;
+      $scope.vue = false;
+      $scope.so = null;
+      $scope.alerts.push({type: 'info', msg: "la video a été ajoutée à la playlist"});
+      $scope.playlists= Playlist.query();
+      }, function(){
+        alert("la video n'a pas été ajoutée à la playlist")
+      })
+
+    }
+
 
     $scope.addAlert = function() {
 
