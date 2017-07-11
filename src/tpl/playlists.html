@@ -2,7 +2,8 @@
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des playlists </h1>
 </div>
-<div ng-show="vue" class="panel panel-default">
+<div  class="panel panel-default">
+<div ng-show="vue">
     <div class="panel-heading font-bold">                  
       Rechercher une Playlist
     </div>
@@ -15,7 +16,7 @@
       </form>
     </div>  
 </div>
-<div ng-show="vue" class="panel panel-default">
+<div ng-show="vue" class="panel panel-default"> 
     <div class="panel-heading font-bold">                  
       Editer une Playlist
     </div>
@@ -93,6 +94,7 @@
       </td>
     </tr>
   </table>
+</div>
 <!--***************************************************************************************-->
 <div ng-show="vue2">
     <h4>Editer un song de la Playlist</h4>
@@ -157,8 +159,8 @@
 
   <a class="btn btn-sm btn-default" ng-click="showPlaylist()">revenir aux Playlists</a>
 <!--************************************************************************************-->
-</div>
-  <div class="panel panel-default">
+
+<div ng-show="vue2" class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Ajouter un song à la playlist
     </div>
@@ -167,29 +169,31 @@
       <option value="false">Video</option>
     </select>
     <div class="panel-body">
-      <form ng-show="vue_audio" class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
-         <ui-select  ng-model="so.songId" theme="bootstrap">
+      <form ng-show="vue_audio" ng-init="songs" class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+         
+            <ui-select  ng-model="so.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.artistName | highlight: $select.search"></small>
             </ui-select-choices>
           </ui-select>
-       
-        
+         
+           
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
         
       </form>
-      <form ng-hide="vue_audio" class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
-         <ui-select  ng-model="so.songId" theme="bootstrap">
+      <form ng-hide="vue_audio" ng-init="videos"  class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
+        
+            <ui-select  ng-model="so.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher une video...">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in videos | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.artistName | highlight: $select.search"></small>
             </ui-select-choices>
           </ui-select>
-       
-        
+         
+              
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
         
       </form>
@@ -243,3 +247,4 @@
       </form>
     </div>
   </div>
+</div>
