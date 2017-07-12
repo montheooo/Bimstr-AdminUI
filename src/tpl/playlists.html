@@ -174,7 +174,7 @@
     </div>
     
     <div class="panel-body">
-      <form  class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+      
          
             <ui-select  ng-model="so.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
@@ -185,10 +185,10 @@
           </ui-select>
          
            
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        <button ng-click="addPlaylist2song()" class="btn btn-primary ">Enregistrer</button>
         
-      </form>
-      <form    class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
+      
+      
         
             <ui-select  ng-model="so2.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher une video...">{{$select.selected.id}}</ui-select-match>
@@ -199,9 +199,9 @@
           </ui-select>
          
               
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        <button ng-click="addPlaylist2video()" class="btn btn-primary ">Enregistrer</button>
         
-      </form>
+      
     </div>
   </div>
 

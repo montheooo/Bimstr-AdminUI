@@ -235,11 +235,13 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
         angular.extend($scope.so, {playlistid: $scope.playlistId});
        
-        return Song2playlist.save(null, $scope.so, function(){
+        return Song2playlist.save($scope.so, function(){
        
-        $scope.so = null;
 
-          $scope.playlists= Playlist.query();
+        $scope.playlists= Playlist.query(function(){
+        $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
+        });
+        
         var modalInstance = $modal.open({
         templateUrl: 'successContent.html',
          controller: 'ModalInstancePlaylistCtrl',
@@ -254,6 +256,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
         });
         }, function(){
+
                 $scope.playlists= Playlist.query();
                 var modalInstance = $modal.open({
                 templateUrl: 'rejectContent.html',
@@ -277,13 +280,12 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
       angular.extend($scope.so2, {playlistid: $scope.playlistId});
   
-        return Song2playlist.save(null, $scope.so2, function(){
+        return Song2playlist.save($scope.so2, function(){
+        
         $scope.playlists= Playlist.query(function(){
         $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
         });
         
-        $scope.so2 = null;
-        $scope.playlists= Playlist.query();
         var modalInstance = $modal.open({
         templateUrl: 'successContent.html',
          controller: 'ModalInstancePlaylistCtrl',
