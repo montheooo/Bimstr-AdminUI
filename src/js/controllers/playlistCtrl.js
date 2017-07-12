@@ -21,11 +21,40 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
     editableOptions.theme = 'bs3';
 
       $scope.selected ;
+      function success ($modal){
+
+        $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+
+      }
+
+      function reject ($modal){
+        $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'rejectContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm'
+      
+        });
+
+      }
 
     $scope.open = function (playlist) {
 
           var modalInstance = $modal.open({
-            templateUrl: 'playlistContent.html',
+            templateUrl: 'deleteContent.html',
              controller: 'ModalInstancePlaylistCtrl',
              size: 'sm',
              resolve: {
@@ -40,18 +69,44 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
               console.log($scope.selected);
 
-          modalInstance.result.then(function (selectedItem) {
-            $scope.select = selectedItem;
-            console.log($scope.select);
-            return Playlist.delete({id: $scope.select.id}, null, function(){
-             
-              alert("Les informations ont été suprimées de la base de données");
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+            
+                  return Playlist.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.playlists= Playlist.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstancePlaylistCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
 
-              }, function(){
-              
-              alert("Les informations n'ont pas été suprimées de la base de données");
+                      });
 
-            });
+                      }, function(){
+                      
+                        $scope.playlists= Playlist.query();
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstancePlaylistCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
           }, function () {
             $log.info('Modal dismissed at: ' + new Date());
           });        
@@ -90,15 +145,39 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
       angular.extend(data, {songId: songid});
       angular.extend(data, {playlistId: $scope.playlistId});
       
-     return saveSong2playlist.update({playlistId: $scope.playlistId, songId:songid }, data, function(){
-       
-        alert("le song de la playlist a été mis à jour");
-        $scope.playlists= Playlist.query();
-     }, function(){
-        alert("le song de la playlist  n'a pas été mis à jour ");
-        $scope.playlists= Playlist.query();
-     });
+         return saveSong2playlist.update({playlistId: $scope.playlistId, songId:songid }, data, function(){
+           
+           $scope.playlists= Playlist.query();
+            var modalInstance = $modal.open({
+            templateUrl: 'successContent.html',
+             controller: 'ModalInstancePlaylistCtrl',
+             size: 'sm',
+             resolve: {
+                  items: function () {
+                    
+                    return $scope.selected ;
+                    
+                  }
+                }
 
+            });
+         }, function(){
+                  $scope.playlists= Playlist.query();
+                  var modalInstance = $modal.open({
+                  templateUrl: 'rejectContent.html',
+                   controller: 'ModalInstancePlaylistCtrl',
+                   size: 'sm',
+                   resolve: {
+                        items: function () {
+                          
+                          return $scope.selected ;
+                          
+                        }
+                      }
+                
+                  });
+            
+        });
     }
 
     // remove song to playlist
@@ -107,16 +186,38 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
      
     
-    return Song2playlist.delete({id: data}, null, 
-
-      function(){
+    return Song2playlist.delete({id: data}, null, function(){
       
-         alert("le song a pas été suprimé de la playlit");
          $scope.playlists= Playlist.query();
-      }, 
-      function(){  
-        alert("le song n'a pas été suprimé de la playlit");
-        $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+      }, function(){  
+            $scope.playlists= Playlist.query();
+            var modalInstance = $modal.open({
+            templateUrl: 'rejectContent.html',
+             controller: 'ModalInstancePlaylistCtrl',
+             size: 'sm',
+             resolve: {
+                  items: function () {
+                    
+                    return $scope.selected ;
+                    
+                  }
+                }
+          
+            });
+        
       });
            
     }
@@ -132,16 +233,43 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
     $scope.addPlaylist2song = function(){
 
-      angular.extend($scope.so, {playlistid: $scope.playlistId});
-     
-      return Song2playlist.save(null, $scope.so, function(){
-     
-      $scope.so = null;
+        angular.extend($scope.so, {playlistid: $scope.playlistId});
+       
+        return Song2playlist.save(null, $scope.so, function(){
+       
+        $scope.so = null;
 
-        alert("le song a été ajouté à la playlist");
-      }, function(){
-        alert("le song n'a pas été ajouté à la playlist");
-      })
+          $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+        }, function(){
+                $scope.playlists= Playlist.query();
+                var modalInstance = $modal.open({
+                templateUrl: 'rejectContent.html',
+                 controller: 'ModalInstancePlaylistCtrl',
+                 size: 'sm',
+                 resolve: {
+                      items: function () {
+                        
+                        return $scope.selected ;
+                        
+                      }
+                    }
+              
+                });
+           
+        })
 
     }
 
@@ -149,23 +277,51 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
       angular.extend($scope.so2, {playlistid: $scope.playlistId});
   
-      return Song2playlist.save(null, $scope.so2, function(){
-      $scope.playlists= Playlist.query(function(){
-      $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
-      });
-      
-      $scope.so2 = null;
-      alert("la video a été ajoutée à la playlist");
-      }, function(){
-        alert("la video n'a pas été ajoutée à la playlist");
-      })
+        return Song2playlist.save(null, $scope.so2, function(){
+        $scope.playlists= Playlist.query(function(){
+        $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
+        });
+        
+        $scope.so2 = null;
+        $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+        
+        }, function(){
+                $scope.playlists= Playlist.query();
+                var modalInstance = $modal.open({
+                templateUrl: 'rejectContent.html',
+                 controller: 'ModalInstancePlaylistCtrl',
+                 size: 'sm',
+                 resolve: {
+                      items: function () {
+                        
+                        return $scope.selected ;
+                        
+                      }
+                    }
+              
+                });
+           
+        })
 
     }
 
     // init playlist table
     $scope.initPlaylist = function(){
     $scope.playlists= Playlist.query();
-    };
+    }
 
 
     $scope.groups = [];
@@ -175,47 +331,86 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
       return $scope.groups.length ? null : $http.get('api/groups').success(function(data) {
         $scope.groups = data;
       });
-    };
+    }
     
       // update playlist
     $scope.savePlaylist = function(data, id) {
-      console.log(data);
-      angular.extend(data, {id: id});
-     return Playlist.update({id: id}, data, function(){
-       
-       alert("les informations ont  été mis à jour en base de données");
-       $scope.playlists= Playlist.query();
-     }, function(){
-      alert("les informations n'ont pas été mis à jour en base de données");
-      $scope.playlists= Playlist.query();
-     });
+        console.log(data);
+        angular.extend(data, {id: id});
+       return Playlist.update({id: id}, data, function(){
+         
+         $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
 
-    };
+        });
+       }, function(){
+              $scope.playlists= Playlist.query();
+              var modalInstance = $modal.open({
+              templateUrl: 'rejectContent.html',
+               controller: 'ModalInstancePlaylistCtrl',
+               size: 'sm',
+               resolve: {
+                    items: function () {
+                      
+                      return $scope.selected ;
+                      
+                    }
+                  }
+            
+              });
+        
+       });
 
-     // remove Playlist
-    $scope.removePlaylist = function(index, data) {   
-     
-    return Playlist.delete({id: data}, null, function(){
-      
-       alert("les informations ont été suprimées de la base de données");
-       $scope.playlists= Playlist.query();
-      }, function(){
-        alert("les informations n'ont pas été suprimées de la base de données");
-        $scope.playlists= Playlist.query();
-      });
-           
-    };  
+    }
+
+    
      // add Playlist
     $scope.addPlaylist = function() {
      
-    return  Playlist.save($scope.pla, function(){
-      
-      $scope.pla=null;
-      alert("les informations ont été ajoutées à la base de données");
-      $scope.playlists= Playlist.query();
-    }, function(){
-      alert("les informations n'ont pas été ajoutées à la base de données");
-      $scope.playlists= Playlist.query();
-    });
-    };
+        return  Playlist.save($scope.pla, function(){
+        $scope.pla = null;
+        $scope.playlists= Playlist.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstancePlaylistCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+        }, function(){
+              $scope.playlists= Playlist.query();
+              var modalInstance = $modal.open({
+              templateUrl: 'rejectContent.html',
+               controller: 'ModalInstancePlaylistCtrl',
+               size: 'sm',
+               resolve: {
+                    items: function () {
+                      
+                      return $scope.selected ;
+                      
+                    }
+                  }
+            
+              });
+          
+        });
+
+  }
+
 }]);
