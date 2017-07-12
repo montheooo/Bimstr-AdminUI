@@ -9,11 +9,11 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
     $scope.vue_audio = false;  // show playlist form
     $scope.vue2 = false; // show song of playlist
     $scope.so = {};      //  submit song to playlist
+    $scope.so2 = {};      //  submit song to playlist
     $scope.playlist={};  // add playlist to table
     $scope.playlist.songs=[];  // add songs of one playlist
     $scope.playlists_songs = []; // add songs of playlist index
-    $scope.songs = Song.query();  // get all song
-    $scope.videos = Video.query(); // get all videos
+   
 
   // show songs of playlist
 
@@ -23,7 +23,8 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
        $scope.vue = false;
        $scope.vue2 = true;
        $scope.playlistId = playid;  //get playlist id
-       
+       $scope.songs = Song.query();  // get all song
+       $scope.videos = Video.query(); // get all videos
 
     }
 
@@ -49,7 +50,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
 
     $scope.removePlaylist_song = function(index, data){
 
-      $scope.playlists_songs.splice(index, 1);
+     
     
     return Song2playlist.delete({id: data}, null, 
 
@@ -91,14 +92,14 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions',
 
      $scope.addPlaylist2video = function(){
 
-      angular.extend($scope.so, {playlistid: $scope.playlistId});
+      angular.extend($scope.so2, {playlistid: $scope.playlistId});
   
-      return Song2playlist.save(null, $scope.so, function(){
+      return Song2playlist.save(null, $scope.so2, function(){
       $scope.playlists= Playlist.query(function(){
       $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
       });
       
-      $scope.so = null;
+      $scope.so2 = null;
       alert("la video a été ajoutée à la playlist");
       }, function(){
         alert("la video n'a pas été ajoutée à la playlist");
