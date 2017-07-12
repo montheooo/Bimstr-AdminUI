@@ -1,4 +1,6 @@
-
+<script type="text/ng-template" id="playlistContent.html">
+    <div ng-include="'tpl/modal/playlists_delete.html'"></div>
+</script>
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des playlists </h1>
 </div>
@@ -87,7 +89,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removePlaylist($index, playlist.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(playlist)">del</button>
          <a class="btn btn-sm btn-default" ng-click="morePlaylist($index, playlist.id)">song</a>
         </div>  
         

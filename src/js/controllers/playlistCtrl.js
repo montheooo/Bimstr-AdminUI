@@ -1,10 +1,65 @@
-app.controller('playlistCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video',
-  function($scope, $filter, $http, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video ){
+app.controller('ModalInstancePlaylistCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+
+  }]);
+
+
+app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video',
+  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video ){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-      
+      $scope.selected ;
+
+    $scope.open = function (playlist) {
+
+          var modalInstance = $modal.open({
+            templateUrl: 'playlistContent.html',
+             controller: 'ModalInstancePlaylistCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = playlist ;
+                return $scope.selected ;
+                
+              }
+            }
+
+          });
+
+              console.log($scope.selected);
+
+          modalInstance.result.then(function (selectedItem) {
+            $scope.select = selectedItem;
+            console.log($scope.select);
+            return Playlist.delete({id: $scope.select.id}, null, function(){
+             
+              alert("Les informations ont été suprimées de la base de données");
+
+              }, function(){
+              
+              alert("Les informations n'ont pas été suprimées de la base de données");
+
+            });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
+   
+
+/***************************************************************************************************************/      
     $scope.vue = true;  // show playlist form
     $scope.vue_audio = false;  // show playlist form
     $scope.vue2 = false; // show song of playlist
