@@ -1,29 +1,25 @@
-<<<<<<< HEAD
+
 app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes','artistFactory'
   function($scope, $filter, $http, editableOptions, editableThemes, artistFactory){
-=======
-app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Artist', 
-  function($scope, $filter, $http, editableOptions, editableThemes, Artist){
->>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
+
+
+
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 $scope.artists = artistFactory.query();
-=======
+
 $scope.artists= Artist.query();
 console.log($scope.artists);
->>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
-=======
+
 $scope.initArtist = function(){
 
   $scope.artists= Artist.query();
 
 }
->>>>>>> 0f6d3e5ddeaec04734b6f239251079a460e202c4
-
+ 
     $scope.html5 = {
       email: 'email@example.com',
       tel: '123-45-67',
@@ -69,10 +65,8 @@ $scope.initArtist = function(){
     };
 
     // editable table
-<<<<<<< HEAD
     $scope.users = userFactory.getuser.query();
     console.log($scope.users);
-=======
     $scope.users = [
       {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
       {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
@@ -81,7 +75,6 @@ $scope.initArtist = function(){
     // editable table
    
 
->>>>>>> 1e7504d7f0dfad35bb6cec8a275f35902846365c
 
     $scope.groups = [];
     $scope.loadGroups = function() {

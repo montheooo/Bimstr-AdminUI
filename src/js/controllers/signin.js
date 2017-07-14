@@ -5,6 +5,16 @@
 app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', '$localStorage', 'notify', 'User',
   function($scope, $http, $state, $auth, $location, $localStorage, notify, User) {
 
+var mon_token = {
+  "response" : {
+    "access_token" : "edf07638-78ca-4!"
+    
+  }
+}
+
+
+$auth.setToken(response.);
+
     $scope.msg = 'Bienvenue sur BimStr';
     $scope.template = '';
     $scope.positions = ['center', 'left', 'right'];
@@ -20,7 +30,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
         if ( !response.data.user ) {
           $scope.authError = 'Email or Password not right';
         }else{
-          $state.go('app.dashboard-v1');
+          $state.go('app.dashboard');
         }
       }, function(x) {
         $scope.authError = 'Server Error';
@@ -42,7 +52,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
       $auth.logout()
         .then(function(response) {
           console.log(response.data);
-          $state.go('login');
+          $state.go('login.dashboard');
         });
     };
 
@@ -53,7 +63,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
           console.log(response);
           console.log($auth.getToken());
           console.log($auth.getPayload());
-          // console.log($localStorage.loggedUser);
+          console.log($localStorage.loggedUser);
           $state.go('app.dashboard');
           notify({
             message: $scope.msg,
@@ -62,6 +72,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
             position: $scope.position,
             duration: $scope.duration
         });
+
           // $location.path('/');
 /*          toastr.success('You have successfully signed in with ' + provider + '!');
           $location.path('/');*/

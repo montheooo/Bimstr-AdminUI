@@ -275,8 +275,7 @@
                 url: '/editable',
                 templateUrl: 'tpl/table_editable.html',
                 controller: 'XeditableCtrl',
-                resolve: load(['xeditable','js/controllers/xeditable.js','js/services/services-admin.js',
-              'js/controllers/albumController.js'])
+                resolve: load(['xeditable','js/controllers/xeditable.js'])
               })
               .state('app.table.smart', {
                 url: '/smart',
@@ -578,12 +577,12 @@
 
               $authProvider.facebook({
                 clientId: '901473839934047',
-                //responseType: 'token',
+                responseType: 'token',
                 name: 'facebook',
-                // tokenName: 'token',
+                tokenName: 'token',
                 url: 'http://188.166.151.38:8080/bimstr/rest/user/fblogin',
                 authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
-                redirectUri: 'http://127.0.0.1:8080/',
+                redirectUri: 'http://127.0.0.1:8080/src/#/login',
                 requiredUrlParams: ['display', 'scope'],
                 scope: ['email', 'public_profile'],
                 scopeDelimiter: ',',
@@ -626,7 +625,7 @@
               function skipIfLoggedIn($q, $auth) {
                 var deferred = $q.defer();
                 if ($auth.isAuthenticated()) {
-                  $state.go('app.dashboard-v1');
+                  $state.go('app.dashboard');
                   deferred.reject();
                 } else {
                   deferred.resolve();
