@@ -1,4 +1,12 @@
- <alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="200000" close="closeAlert($index)">{{alert.msg}}</alert>
+ <script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des articles </h1>
 </div>
@@ -97,7 +105,7 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removeArticle($index, article.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(article)">del</button>
         </div>  
       </td>
     </tr>

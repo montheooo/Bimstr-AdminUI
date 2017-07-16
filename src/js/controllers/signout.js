@@ -8,7 +8,9 @@
 	    $auth.logout()
 	      .then(function() {
 	      	$scope.alerts = [];
+	      	console.log($auth.getToken());
 	      	$scope.alerts.push({type: 'success', msg: 'Aurevoir! Et a bientôt sur BimStr'});
 	      	$state.go('login');
 	      });
   });
+

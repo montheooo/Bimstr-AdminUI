@@ -1,43 +1,91 @@
-app.controller('videoCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist','Video',
-  function($scope, $filter, $http, editableOptions, editableThemes, Album, Song, Artist, Video){
+app.controller('ModalInstanceVideoCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+
+  }]);
+
+
+app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist','Video',
+  function($scope, $filter, $http,$modal, editableOptions, editableThemes, Album, Song, Artist, Video){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
+    $scope.selected ;
+   
+    $scope.open = function (video) {
 
-    $scope.alerts = [];
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstanceVideoCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = video ;
+                return $scope.selected ;
+                
+              }
+            }
+
+          });
+
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+            
+                  return Video.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.videos= Video.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceVideoCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
+
+                      }, function(){
+                      
+                       
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceVideoCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
+/**************************************************************************************/
+    
     $scope.videos =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
     $scope.vue = true;
-
-    $scope.disabled = undefined;
-    $scope.searchEnabled = undefined;
-
-        $scope.enable = function() {
-        $scope.disabled = false;
-        };
-
-        $scope.disable = function() {
-        $scope.disabled = true;
-        };
-
-        $scope.enableSearch = function() {
-        $scope.searchEnabled = true;
-        }
-
-        $scope.disableSearch = function() {
-        $scope.searchEnabled = false;
-        }
-
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-      $scope.vue= true;
-    };
 
     $scope.initVideo = function(){
 
@@ -77,24 +125,36 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'e
       console.log(data);
       angular.extend(data, {id: id});
      return Video.update({id: id}, data, function(){
-       $scope.vue =false;
-       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
+       $scope.videos= Video.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceVideoCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
      }, function(){
-      alert("les informations n'ont pas été modifiées dans la base de données");
+        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceVideoCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
      });
 
-    };
-
-     // remove Video
-    $scope.removeVideo = function(index, data) {    
-    $scope.videos.splice(index, 1);    
-    return Video.delete({id: data}, null, function(){
-       $scope.vue=false;
-       $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
-      }, function(){
-        alert("les informations n'ont pas été supprimées dans la base");
-      });
-           
     };
   
      // add Video
@@ -104,13 +164,37 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'e
       angular.extend($scope.tit, {id:$scope.videos.length+1});
       console.log($scope.tit);
     return  Video.save($scope.tit, function(){
-      $scope.vue=false;
+      
       $scope.tit=null;
-      $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
       $scope.videos= Video.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceVideoCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
     }, function(){
-      alert("les informations n'ont pas été ajoutées à la base de données");
-    });
+      var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceVideoCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+       });
     };
 
 }]);

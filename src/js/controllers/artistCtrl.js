@@ -10,22 +10,6 @@ app.controller('ModalInstanceArtistCtrl', ['$scope', '$modalInstance', 'items','
       $modalInstance.dismiss('cancel');
     };
 
-      // remove Artist
-    $scope.removeArtist = function() {
-    
-    // $scope.artists.splice(index, 1);
-        
-        return Artist.delete({id: $scope.items.id}, null, function(){
-         
-          alert("Les informations ont été suprimées de la base de données");
-
-          }, function(){
-          
-          alert("Les informations n'ont pas été suprimées de la base de données");
-
-        });
-               
-    };
 
   }]);
   
@@ -33,49 +17,70 @@ app.controller('ModalInstanceArtistCtrl', ['$scope', '$modalInstance', 'items','
 app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Artist', 
   function($scope, $filter, $http, $modal, $log, Artist){
     
-     $scope.artists = [];
-     $scope.selected ;
+$scope.selected ;
+    $scope.open = function (album) {
 
-    $scope.open = function (artist) {
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstanceArtistCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = album ;
+                return $scope.selected ;
+                
+              }
+            }
 
-      var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
-         controller: 'ModalInstanceArtistCtrl',
-         size: 'sm',
-         resolve: {
-          items: function () {
-            $scope.selected = artist ;
-            return $scope.selected ;
+          });
+
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
             
-          }
-        }
+                  return Artist.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.artists= Artist.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArtistCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
 
-      });
+                      });
 
-      console.log($scope.selected);
-
-     modalInstance.result.then(function (selectedItem) {
-        $scope.select = selectedItem;
-        console.log($scope.select);
-        return Artist.delete({id: $scope.select.id}, null, function(){
-         
-          alert("Les informations ont été suprimées de la base de données");
-
-          }, function(){
-          
-          alert("Les informations n'ont pas été suprimées de la base de données");
-
-        });
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });        
+                      }, function(){
+                      
+                       
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArtistCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
 
     }
-   
-     
-/*******************************************************************************************/
-     // initialize artists table
-   
+/**************************************************************************************/  
+
+
+     $scope.artists = [];   
     // init Artist Table
 
     $scope.initArtist = function(){
@@ -105,11 +110,36 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Art
       angular.extend(data, {id: id});
      return Artist.update({id: id}, data, function(){  
 
-         alert("Les informations ont été modifiées dans la base de données");
+          $scope.artists= Artist.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArtistCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
 
        }, function(){
 
-         alert("les informations n'ont pas été modifiées dans la base de données");
+        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArtistCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
        });
 
     };
@@ -120,17 +150,40 @@ app.controller('artistCtrl', ['$scope', '$filter', '$http', '$modal','$log','Art
 
     $scope.addArtist = function() {
 
-          $scope.artists.push($scope.art);
-
            return  Artist.save(null, $scope.art, function(){
      
           $scope.art=null;
-          alert ("Les informations ont été ajoutées dans la base de données");
+           $scope.artists= Artist.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArtistCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
           
 
         }, function(){
 
-          alert("Les informations n'ont pas été ajoutées à la base de données");
+          var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArtistCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
 
         });
            

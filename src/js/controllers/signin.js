@@ -5,15 +5,7 @@
 app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$location', '$localStorage', 'notify', 'User',
   function($scope, $http, $state, $auth, $location, $localStorage, notify, User) {
 
-var mon_token = {
-  "response" : {
-    "access_token" : "edf07638-78ca-4!"
-    
-  }
-}
 
-
-$auth.setToken(response.);
 
     $scope.msg = 'Bienvenue sur BimStr';
     $scope.template = '';

@@ -1,43 +1,94 @@
-app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist',
-  function($scope, $filter, $http, editableOptions, editableThemes, Album, Song, Artist){
+app.controller('ModalInstanceSongCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+
+  }]);
+
+app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOptions', 'editableThemes', 'Album', 'Song','Artist',
+  function($scope, $filter, $http, $modal, editableOptions, editableThemes, Album, Song, Artist){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-    $scope.alerts = [];
+ $scope.selected ;
+    $scope.open = function (song) {
+
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstanceSongCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = song ;
+                return $scope.selected ;
+                
+              }
+            }
+
+          });
+
+              console.log($scope.selected);
+
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+            
+                  return Song.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.songs= Song.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceSongCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
+
+                      }, function(){
+                      
+                        $scope.songs= Song.query();
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceSongCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
+   
+
+/***************************************************************************************************************/      
+    
     $scope.songs =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
     $scope.vue = true;
-
-    $scope.disabled = undefined;
-    $scope.searchEnabled = undefined;
-
-        $scope.enable = function() {
-        $scope.disabled = false;
-        };
-
-        $scope.disable = function() {
-        $scope.disabled = true;
-        };
-
-        $scope.enableSearch = function() {
-        $scope.searchEnabled = true;
-        }
-
-        $scope.disableSearch = function() {
-        $scope.searchEnabled = false;
-        }
-
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-      $scope.vue= true;
-    };
 
     $scope.initSong = function(){
 
@@ -47,6 +98,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
 
 
     $scope.groups = [];
+    $scope.groupsArtist = [];
     $scope.groupsAlbum = [];
 
     $scope.loadGroups = function() {
@@ -55,9 +107,15 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
       });
     };
     $scope.loadGroupsAlbum = function() {
-      return $scope.groupsAlbum.length ? null : Album.query(null,null,function(data) {
-        $scope.groupsAlbum = data;
-      });
+      return $scope.groupsAlbum.length ? null : $scope.groupsAlbum=$scope.album;
+        
+     
+    };
+
+     $scope.loadGroupsArtist = function() {
+      return $scope.groupsArtist.length ? null : $scope.groupsArtist=$scope.artist ;
+        
+     
     };
    
     $scope.checkName = function(data, id) {
@@ -71,24 +129,37 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
       console.log(data);
       angular.extend(data, {id: id});
      return Song.update({id: id}, data, function(){
-       $scope.vue =false;
-       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
+       
+        $scope.songs= Song.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceSongCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
      }, function(){
-      alert("les informations n'ont pas été modifiées dans la base de données");
+        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceSongCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
      });
 
-    };
-
-     // remove Song
-    $scope.removeSong = function(index, data) {    
-    $scope.songs.splice(index, 1);    
-    return Song.delete({id: data}, null, function(){
-       $scope.vue=false;
-       $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
-      }, function(){
-        alert("les informations n'ont pas été supprimées dans la base");
-      });
-           
     };
   
      // add Song
@@ -98,13 +169,37 @@ app.controller('songCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'ed
       angular.extend($scope.tit, {id:$scope.songs.length+1});
       console.log($scope.tit);
     return  Song.save($scope.tit, function(){
-      $scope.vue=false;
+      
       $scope.tit=null;
-      $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
-      $scope.songs= Song.query();
+       $scope.songs= Song.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceSongCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
     }, function(){
-      alert("les informations n'ont pas été ajoutées à la base de données");
-    });
+      var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceSongCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+      });
     };
 
 }]);
