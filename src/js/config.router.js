@@ -8,11 +8,11 @@
   [          '$rootScope', '$state', '$stateParams', '$http',
   function ($rootScope,   $state,   $stateParams , $http) {
     $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams; 
+    $rootScope.$stateParams = $stateParams;
     $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
 
   }])
- 
+
  .config(
   [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider',
   function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider) {
@@ -148,27 +148,27 @@
       url: '/videos',
       templateUrl: 'tpl/videos.html',
       controller: 'videoCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/videoCtrl.js'
 
             ])
-        
+
     })
-    
+
 
      .state('app.users', {
       url: '/users',
       templateUrl: 'tpl/users.html',
       controller: 'userCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',         
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/userCtrl.js'
             ])
-        
+
     })
 
-   
+
     .state('app.dashboard-v2', {
       url: '/dashboard-v2',
       templateUrl: 'tpl/app_dashboard_v2.html',
@@ -583,7 +583,7 @@
                 tokenName: 'token',
                 url: 'http://188.166.151.38:8080/bimstr/rest/user/fblogin',
                 authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
-                redirectUri: 'http://127.0.0.1:8080/src/#/login',
+                redirectUri: 'http://127.0.0.1:8000/src',
                 requiredUrlParams: ['display', 'scope'],
                 scope: ['email', 'public_profile'],
                 scopeDelimiter: ',',
