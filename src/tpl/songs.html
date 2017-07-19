@@ -10,7 +10,7 @@
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des Songs </h1>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" style="overflow: scroll; overflow-x: scroll">
     <div class="panel-heading font-bold">
       Rechercher un song
     </div>
@@ -27,16 +27,17 @@
       </form>
     </div>
 </div>
-<div class="wrapper-md">
+<div class="wrapper-md" style="overflow: scroll; overflow-x: scroll">
   <h4>Editer un song</h4>
   <table ng-show="vue" ng-init="initSong()"  class="table table-bordered table-hover  bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">title</td>
       <td style="width:35%">Link</td>
-      <td style="width:35%">SingleRating</td>     
+      <td style="width:35%">CoverImage</td>
+      <td style="width:35%">SingleRating</td>
       <td style="width:35%">ArtistName</td>
       <td style="width:35%">Album Id</td>
-      
+
       <td style="width:30%">IsDownload</td>
 
       <td style="width:25%">Edit</td>
@@ -52,6 +53,12 @@
         <!-- editable username (text with validation) -->
         <span editable-text="song.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
           {{ song.link || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="song.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, song.id)" e-required>
+          {{ song.coverImage || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
@@ -79,7 +86,7 @@
           {{ song.downloadable }}
         </span>
       </td>
-     
+
 
       <td style="white-space: nowrap">
         <!-- form -->
@@ -112,8 +119,12 @@
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="tit.name">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">cover image</label>
+          <label class="sr-only" for="exampleInputEmail2"> song link url</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="cover image" ng-model="tit.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">cover image</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="cover image" ng-model="tit.coverImage">
         </div>
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Single Rating</label>
@@ -129,7 +140,7 @@
             </ui-select-choices>
           </ui-select>
         </div>
-        
+
         <div class="form-group">
           <ui-select  ng-model="tit.albumId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher un album...">{{$select.selected.id}}</ui-select-match>
