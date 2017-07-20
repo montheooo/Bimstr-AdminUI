@@ -1,11 +1,11 @@
 <script type="text/ng-template" id="deleteContent.html">
-    <div ng-include="'tpl/modal/playlists_delete.html'"></div>
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
 </script>
 <script type="text/ng-template" id="successContent.html">
-    <div ng-include="'tpl/modal/playlists_success.html'"></div>
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
 </script>
 <script type="text/ng-template" id="rejectContent.html">
-    <div ng-include="'tpl/modal/playlists_reject.html'"></div>
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
 </script>
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des playlists </h1>
@@ -61,7 +61,7 @@
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="playlist.createdById"  e-name="createdById" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+        <span editable-select="playlist.createdById"  e-name="createdById" e-form="rowform" onshow="loadGroupsUser()" e-ng-options="g.id as g.firstName for g in users">
           {{ playlist.createdById || 'empty' }}
         </span>
       </td>
@@ -170,37 +170,40 @@
 
 <div ng-show="vue2" class="panel panel-default">
     <div class="panel-heading font-bold">                  
-      Ajouter un song à la playlist
+      Ajouter un song ou une video à la playlist
     </div>
     
     <div class="panel-body">
       
-         
-            <ui-select  ng-model="so.songId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
-              <div ng-bind-html="item.name | highlight: $select.search"></div>
-              <small ng-bind-html="item.artistName | highlight: $select.search"></small>
-            </ui-select-choices>
-          </ui-select>
-         
-           
-        <button ng-click="addPlaylist2song()" class="btn btn-primary ">Enregistrer</button>
+         <form class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+            <div class="form-group">
+              <ui-select  ng-model="so.songId" theme="bootstrap">
+                <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
+                <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                  <small ng-bind-html="item.artistName | highlight: $select.search"></small>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+                      
+          <button  class="btn btn-primary ">Enregistrer</button>
         
-      
-      
-        
+        </form>
+    <hr>  
+        <form class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
+         <div class="form-group">
             <ui-select  ng-model="so2.songId" theme="bootstrap">
             <ui-select-match placeholder="Selectionner ou chercher une video...">{{$select.selected.id}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in videos | filter: $select.search">
               <div ng-bind-html="item.name | highlight: $select.search"></div>
               <small ng-bind-html="item.artistName | highlight: $select.search"></small>
             </ui-select-choices>
-          </ui-select>
-         
-              
-        <button ng-click="addPlaylist2video()" class="btn btn-primary ">Enregistrer</button>
-        
+            </ui-select>
+
+         </div>
+                         
+          <button  class="btn btn-primary ">Enregistrer</button>
+        </form>
       
     </div>
   </div>
@@ -230,10 +233,15 @@
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Create On" ng-model="pla.createdOn">
         </div>
 
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Create By</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Create By" ng-model="pla.createdById">
-        </div>
+       <div class="form-group">
+          <ui-select  ng-model="pla.createdById" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un utilisateur...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+              <div ng-bind-html="item.firstName | highlight: $select.search"></div>
+              <small ng-bind-html="item.emailAddress | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+       </div>
 
         <div class="form-group">
           <label class="sr-only" for="exampleInputPassword2">description</label>
