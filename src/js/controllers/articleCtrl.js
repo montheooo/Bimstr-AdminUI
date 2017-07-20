@@ -1,21 +1,87 @@
-app.controller('articleCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 'Article', 
-  function($scope, $filter, $http, editableOptions, editableThemes, Article){
+app.controller('ModalInstanceArticleCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+
+  }]);
+
+app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editableOptions', 'editableThemes', 'Article', 
+  function($scope, $filter, $http, $modal, editableOptions, editableThemes, Article){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
+    $scope.selected ;
+    $scope.open = function (album) {
 
-    $scope.alerts = [];  // initialize alerts table
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstanceArticleCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = album ;
+                return $scope.selected ;
+                
+              }
+            }
+
+          });
+
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+            
+                  return Article.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.articles= Article.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArticleCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
+
+                      }, function(){
+                      
+                       
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArticleCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
+/**************************************************************************************/  
+
     $scope.articles =[];  // initialize articles table
     $scope.vue = true;   // show articles table
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-      $scope.vue= true;
-    };
 
     // init Article Table
     $scope.initArticle = function(){
@@ -44,44 +110,76 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', 'editableOptions', 
       console.log(data);
       angular.extend(data, {id: id});
      return Article.update({id: id}, data, function(){
-       $scope.vue =false;
-       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
+       $scope.articles= Article.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArticleCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
      }, function(){
-      alert("les donnees n'ont pas été modifiées dans la base");
+         var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArticleCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
      });
 
     };
-
-     // remove Article
-    $scope.removeArticle = function(index, data) {
-    
-    $scope.articles.splice(index, 1);
-    
-    return Article.delete({id: data}, null, function(){
-
-       $scope.vue=false;
-      $scope.alerts.push({type: 'danger', msg: "Les informations ont été suprimées de la base de données"});
-      }, function(){
-        alert("Les informations n'ont pas été suprimées de la base de données");
-      });
-           
-    };
-  
+ 
      // add Article
 
     $scope.addArticle = function() {
 
-      $scope.articles.push($scope.art);
       console.log($scope.articles);
 
     return  Article.save(null, $scope.art, function(){
 
-      $scope.vue=false;
+      
       $scope.art=null;
-      $scope.alerts.push({type: 'info', msg: "Les informations ont été ajoutées dans la base de données"});
       $scope.articles= Article.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceArticleCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
     }, function(){
-      alert("Les informations n'ont pas été ajoutées à la base de données");
+       var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceArticleCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
     });
        
 

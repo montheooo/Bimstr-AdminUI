@@ -14,43 +14,13 @@ app.controller('ModalInstancePlaylistCtrl', ['$scope', '$modalInstance', 'items'
   }]);
 
 
-app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video',
-  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video ){
+app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video','User',
+  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video, User ){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-      $scope.selected ;
-      function success ($modal){
-
-        $scope.playlists= Playlist.query();
-        var modalInstance = $modal.open({
-        templateUrl: 'successContent.html',
-         controller: 'ModalInstancePlaylistCtrl',
-         size: 'sm',
-         resolve: {
-              items: function () {
-                
-                return $scope.selected ;
-                
-              }
-            }
-
-        });
-
-      }
-
-      function reject ($modal){
-        $scope.playlists= Playlist.query();
-        var modalInstance = $modal.open({
-        templateUrl: 'rejectContent.html',
-         controller: 'ModalInstancePlaylistCtrl',
-         size: 'sm'
-      
-        });
-
-      }
-
+    $scope.selected ;
     $scope.open = function (playlist) {
 
           var modalInstance = $modal.open({
@@ -123,6 +93,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
     $scope.playlist={};  // add playlist to table
     $scope.playlist.songs=[];  // add songs of one playlist
     $scope.playlists_songs = []; // add songs of playlist index
+    $scope.users = User.query(); // get all user
    
 
   // show songs of playlist
@@ -333,6 +304,11 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
       return $scope.groups.length ? null : $http.get('api/groups').success(function(data) {
         $scope.groups = data;
       });
+    }
+
+    $scope.loadGroupsUser = function() {
+      return $scope.users.length ? null :  $scope.groupsUsers = $scope.users;
+      
     }
     
       // update playlist

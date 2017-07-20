@@ -5,10 +5,11 @@
  */
  angular.module('app')
  .run(
-  [          '$rootScope', '$state', '$stateParams',
-  function ($rootScope,   $state,   $stateParams) {
+  [          '$rootScope', '$state', '$stateParams', '$http',
+  function ($rootScope,   $state,   $stateParams , $http) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams; 
+    $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
 
   }])
  

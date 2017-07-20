@@ -1,119 +1,245 @@
-app.controller('userCtrl', ['$scope', '$filter', '$http', '$facebook','editableOptions', 'editableThemes', 'Playlist', 'Song','User','Artist',
-  function($scope, $filter, $http, $facebook, editableOptions, editableThemes, Playlist, Song, User,Artist){
+app.controller('ModalInstanceUserCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+    $scope.items = items;
+    console.log($scope.items);
+
+    $scope.OK = function () {
+      $modalInstance.close($scope.items);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+
+  }]);
+
+
+
+app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOptions', 'editableThemes', 'Playlist', 'Song','User',
+  function($scope, $filter, $http, $modal, editableOptions, editableThemes, Playlist, Song, User,){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
-    $scope.isLoggedIn = false;
-  $scope.login = function() {
-    $facebook.login().then(function() {
-      refresh();
-    });
-  }
-  function refresh() {
-    $facebook.api("/me").then( 
-      function(response) {
-        $scope.welcomeMsg = "Welcome " + response.name;
-        $scope.isLoggedIn = true;
-      },
-      function(err) {
-        $scope.welcomeMsg = "Please log in";
-      });
-  }
-  
-  refresh();
+    $scope.selected ;
+    $scope.open = function (user) {
 
-    $scope.alerts = [];  // initialize alerts 
-    $scope.albums =[];   // initialise Albums
-    $scope.artist = Artist.query();  // initialise Artist
-    $scope.vue = true;  // show song table
-    $scope.alb = {};   // initialise submit song object
-    $scope.albums_songs=[]; // initialise songs table for album
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstanceUserCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = user ;
+                return $scope.selected ;
+                
+              }
+            }
 
-    $scope.disabled = undefined;
-    $scope.searchEnabled = undefined;
+          });
 
-    // show songs for album
-    $scope.moreAlbum_song = function(index, album){
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+            
+                  return User.delete({id: $scope.select.id}, null, function(){
+                   
+                      $scope.users= User.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceUserCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
 
-      $scope.albums_songs= $scope.albums[index].song;
+                      });
+
+                      }, function(){
+                      
+                       
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceUserCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
+/**************************************************************************************/
+    $scope.vue = true;  // show user form  
+    $scope.vue2 = false; // show social_profile of user
+    $scope.vue3= false;  // show playlists of user
+    $scope.user={};  // add user to table
+   
+    $scope.social_profile = []; // add socialProfiles of user index
+    $scope.user_playlist = []; // add socialProfiles of user index
+    $scope.user_song = []; // add songs of user index
+    $scope.pla={};
+
+  // show socialProfiles of user
+
+    $scope.moreUser = function(index, playid){
+       $scope.social_profile= $scope.users[index].socialProfiles;  //save the socialProfiles of current user index
+       $scope.index= index;      // save user index
        $scope.vue = false;
        $scope.vue2 = true;
-       $scope.albumId = album;
-       console.log($scope.albums_songs);
-       }
-    // show album table
-     $scope.showAlbum = function(){
+       $scope.vue3 = false;
+       $scope.vue4 = false;
+       $scope.userId = playid;  //get user id
+       
+      
+
+    }
+
+    // Show Playlists of user
+
+$scope.morePlaylist = function(){
+
+       $scope.user_playlist= $scope.users[$scope.index].playlist;  //save the playlist of current user index
+      
+       $scope.vue = false;
+       $scope.vue2 = false;
+       $scope.vue3 = true;
+       $scope.vue4 = false;
+       console.log($scope.user_playlist);
+    }
+   
+   // Show songs of playlist
+  $scope.moreSong = function(index){
+
+       $scope.user_song= $scope.users[$scope.index].playlist[index].songs;  //save the playlist of current user index
+      
+       $scope.vue = false;
+       $scope.vue2 = false;
+       $scope.vue3 = false;
+       $scope.vue4 = true;
+       console.log($scope.user_song);
+
+    } 
+    // Back to users
+
+    $scope.showUser = function(){
 
       $scope.vue2 = false;
       $scope.vue = true;
+      $scope.vue3 = false;
+      $scope.vue4 = false;
        
     }
-        $scope.enable = function() {
-        $scope.disabled = false;
-        };
 
-        $scope.disable = function() {
-        $scope.disabled = true;
-        };
+   
 
-        $scope.enableSearch = function() {
-        $scope.searchEnabled = true;
-        }
-
-        $scope.disableSearch = function() {
-        $scope.searchEnabled = false;
-        }
-
-
-    $scope.addAlert = function() {
-      $scope.alerts.push({type: 'success', msg: "Les informations ont été enregistrées"});
-    };
-
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-      $scope.vue= true;
-    };
-
-    // initialize album table
-    $scope.initAlbum = function(){
-    $scope.albums= Album.query(null,null,function(){
-      console.log($scope.albums);
-    });
-    };
+    // init user table
+    $scope.initUser = function(){
+    $scope.users = User.query();
+    }
 
 
     $scope.groups = [];
-    $scope.groupsAlbum = [];
-
-     // show True or False
+    
+    // select group True or False
     $scope.loadGroups = function() {
       return $scope.groups.length ? null : $http.get('api/groups').success(function(data) {
         $scope.groups = data;
       });
-    };
+    }
+    
+      // update user
+    $scope.saveUser = function(data, id) {
+        console.log(data);
+        angular.extend(data, {id: id});
+       return User.update({id: id}, data, function(){
+         
+         $scope.users= User.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstanceUserCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
 
-    // show artist list
-    $scope.loadGroupsAlbum = function() {
-      return $scope.groupsAlbum.length ? null : $scope.groupsAlbum=$scope.artist;
-    //    $scope.groupsAlbum = data;
-      
-    };
-   // check name before Submit
-    $scope.checkName = function(data, id) {
-      if (id === 100001 && data !== 'awesome') {
-        return "Username 2 should be `awesome`";
-      }
-    };
+        });
+       }, function(){
+              $scope.users= User.query();
+              var modalInstance = $modal.open({
+              templateUrl: 'rejectContent.html',
+               controller: 'ModalInstanceUserCtrl',
+               size: 'sm',
+               resolve: {
+                    items: function () {
+                      
+                      return $scope.selected ;
+                      
+                    }
+                  }
+            
+              });
+        
+       });
 
+    }
+
+    
+     // add User
+    $scope.addUser = function() {
+      angular.extend($scope.pla, {user: 
+      {emailAddress:$scope.pla.emailAddress}});
+        return  User.save($scope.pla, function(){
+        $scope.pla = null;
+        $scope.users= User.query();
+        var modalInstance = $modal.open({
+        templateUrl: 'successContent.html',
+         controller: 'ModalInstanceUserCtrl',
+         size: 'sm',
+         resolve: {
+              items: function () {
+                
+                return $scope.selected ;
+                
+              }
+            }
+
+        });
+        }, function(){
+              
+              var modalInstance = $modal.open({
+              templateUrl: 'rejectContent.html',
+               controller: 'ModalInstanceUserCtrl',
+               size: 'sm',
+               resolve: {
+                    items: function () {
+                      
+                      return $scope.selected ;
+                      
+                    }
+                  }
+            
+              });
+          
+        });
+
+  }
+ 
 }])
-      // update Album
-/*    $scope.saveAlbum = function(data, id) {
      
-      console.log(data);
-      angular.extend(data, {id: id});
-     return Album.update({id: id}, data, function(){
-       $scope.vue =false;
-       $scope.alerts.push({type: 'success', msg: "Les informations ont été modifiées dans la base de données"});
-     }, function(){
-*/
