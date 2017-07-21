@@ -8,11 +8,9 @@
   [          '$rootScope', '$state', '$stateParams', '$http',
   function ($rootScope,   $state,   $stateParams , $http) {
     $rootScope.$state = $state;
-<<<<<<< HEAD
+
     $rootScope.$stateParams = $stateParams; 
-=======
-    $rootScope.$stateParams = $stateParams;
->>>>>>> 97ebbb29710b138843b73029d784dda014faec5b
+
     $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
 
   }])
@@ -168,6 +166,18 @@
       resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/userCtrl.js'
+            ])
+
+    })
+
+       .state('app.beats', {
+      url: '/beats',
+      templateUrl: 'tpl/beats.html',
+      controller: 'beatCtrl',
+      resolve :load(['xeditable','ui.select',
+            'js/services/services-admin.js',
+            'js/controllers/beatCtrl.js'
+            
             ])
 
     })
