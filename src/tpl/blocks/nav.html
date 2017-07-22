@@ -1,7 +1,7 @@
 <!-- list -->
 <ul class="nav">
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-    <span translate="aside.nav.HEADER">Admin UI</span>
+    <span >Admin UI</span>
   </li>
   <li>
     <a href class="auto">      
@@ -9,78 +9,81 @@
         <i class="fa fa-fw fa-angle-right text"></i>
         <i class="fa fa-fw fa-angle-down text-active"></i>
       </span>
-      <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
-      <span class="font-bold" translate="aside.nav.DASHBOARD">Admin UI</span>
+      <i class="glyphicon glyphicon-music"></i>
+      <span class="font-bold">Music</span>
     </a>
     <ul class="nav nav-sub dk">
       <li class="nav-sub-header">
         <a href>
-          <span translate="aside.nav.DASHBOARD">Admin UI</span>
+          <span >Admin UI</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.dashboard">
-          <span>Dashboard v1</span>
+        <a ui-sref="app.albums">
+          <span>Albums</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.dashboard-v2">
-          <b class="label bg-info pull-right">N</b>
-          <span>Dashboard v2</span>
+        <a ui-sref="app.songs">
+          
+          <span>Songs</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.playlists">
+          
+          <span>Playlists</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.videos">
+          
+          <span>Videos</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.beats">
+          
+          <span>Beats</span>
         </a>
       </li>
     </ul>
   </li>
   <li ui-sref-active="active">
-    <a ui-sref="app.calendar">
-      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
-      <span class="font-bold" translate="aside.nav.CALENDAR">Calendar</span>
+    <a ui-sref="app.artists">
+      <i  class="glyphicon glyphicon-user" aria-hidden="true"></i>
+      <span class="font-bold" >Artists</span>
     </a>
   </li>
   <li ui-sref-active="active">
-    <a ui-sref="app.mail.list">
-      <b class="badge bg-info pull-right">9</b>
-      <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
-      <span class="font-bold" translate="aside.nav.EMAIL">Email</span>
+    <a ui-sref="app.banners">
+      
+      <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>
+      <span class="font-bold" >Banners</span>
     </a>
   </li>
-  <li>
-    <a href class="auto">
-      <span class="pull-right text-muted">
-        <i class="fa fa-fw fa-angle-right text"></i>
-        <i class="fa fa-fw fa-angle-down text-active"></i>
-      </span>
-      <i class="glyphicon glyphicon-th-large icon text-success"></i>
-      <span class="font-bold">Apps</span>
+  <li ui-sref-active="active">
+    <a ui-sref="app.articles">
+      
+      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+      <span class="font-bold" >Articles</span>
     </a>
-    <ul class="nav nav-sub dk">
-      <li class="nav-sub-header">
-        <a href>
-          <span>Apps</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="app.todo">
-          <span>Todo</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="apps.note">
-          <span>Note</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="apps.contact">
-          <span>Contacts</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="app.weather">
-          <span>Weather</span>
-        </a>
-      </li>
-    </ul>
   </li>
+  <li ui-sref-active="active">
+    <a ui-sref="app.search">
+      
+      <i class="fa fa-search" aria-hidden="true"></i>
+      <span class="font-bold" >Search</span>
+    </a>
+  </li>
+  <li ui-sref-active="active">
+    <a ui-sref="app.users">
+      
+      <i class="fa fa-users" aria-hidden="true"></i>
+      <span class="font-bold">Users</span>
+    </a>
+  </li>
+  
 
   <li class="line dk"></li>
 <!--...................................................................................-->
