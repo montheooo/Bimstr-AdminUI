@@ -80,7 +80,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
     }
 /**************************************************************************************/
- 
+    $scope.spinner = true;
     $scope.albums =[];   // initialise Albums
     $scope.artist = Artist.query();  // initialise Artist
     $scope.vue = true;  // show song table
@@ -110,7 +110,13 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
     // initialize album table
     $scope.initAlbum = function(){
 
-      $scope.albums= Album.query();    
+      $scope.albums= Album.query(null,null,function(){
+
+         $scope.spinner = false;
+
+      }, function(){
+           $scope.spinner = false;
+      });    
     };
 
 
