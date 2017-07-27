@@ -11,11 +11,6 @@
 
     $rootScope.$stateParams = $stateParams; 
 
-<<<<<<< HEAD
-  //  $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
-
-=======
->>>>>>> 23b198a3bc288edc2b3311cf11289f13fab90515
   }])
 
  .config(

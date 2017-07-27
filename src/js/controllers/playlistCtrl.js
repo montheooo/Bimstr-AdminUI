@@ -85,6 +85,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
    
 
 /***************************************************************************************************************/      
+    $scope.spinner = true; 
     $scope.vue = true;  // show playlist form
     $scope.vue_audio = false;  // show playlist form
     $scope.vue2 = false; // show song of playlist
@@ -293,7 +294,12 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
     // init playlist table
     $scope.initPlaylist = function(){
-    $scope.playlists= Playlist.query();
+    $scope.playlists= Playlist.query(null, null, function(){
+      $scope.spinner = false; 
+    }, function(){
+      $scope.spinner = false; 
+
+    });
     }
 
 
