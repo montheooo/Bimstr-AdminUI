@@ -1,9 +1,6 @@
 'use strict';
 
 
-app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, artistFactory) {
- // console.log(Album);
-  $scope.artists = artistFactory.query();
 
 app.controller('AlbumController', function($scope, $state, $window, $location, $auth, uiGridConstants, Album, Artist) {
   console.log(Album);

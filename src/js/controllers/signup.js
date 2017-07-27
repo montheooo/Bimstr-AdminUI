@@ -1,7 +1,7 @@
 'use strict';
 
 // signup controller
-app.controller('SignupFormController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+app.controller('SignupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
     $scope.user = {};
     $scope.authError = null;
     $scope.signup = function() {
