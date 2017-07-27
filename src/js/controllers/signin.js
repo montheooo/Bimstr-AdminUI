@@ -22,7 +22,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
         if ( !response.data.user ) {
           $scope.authError = 'Email or Password not right';
         }else{
-          $state.go('app.dashboard');
+          $state.go('app.users');
         }
       }, function(x) {
         $scope.authError = 'Server Error';
@@ -44,7 +44,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
       $auth.logout()
         .then(function(response) {
           console.log(response.data);
-          $state.go('login.dashboard');
+          $state.go('app.dashboard');
         });
     };
 
@@ -56,7 +56,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
           console.log($auth.getToken());
           console.log($auth.getPayload());
           console.log($localStorage.loggedUser);
-          $state.go('app.dashboard');
+          $state.go('app.users');
           notify({
             message: $scope.msg,
             classes: $scope.classes,

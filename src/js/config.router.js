@@ -11,8 +11,11 @@
 
     $rootScope.$stateParams = $stateParams; 
 
+<<<<<<< HEAD
   //  $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
 
+=======
+>>>>>>> 23b198a3bc288edc2b3311cf11289f13fab90515
   }])
 
  .config(
@@ -45,7 +48,12 @@
       templateUrl: 'tpl/page_signup.html',
       controller: 'SignupCtrl',
       resolve: {
-        skipIfLoggedIn: skipIfLoggedIn
+        skipIfLoggedIn: skipIfLoggedIn,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load([
+              'js/services/services-admin.js',
+              'js/controllers/signup.js']);
+        }]
       }
     })
     .state('logout', {
@@ -126,11 +134,15 @@
       url: '/playlists',
       templateUrl: 'tpl/playlists.html',
       controller: 'playlistCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
+      resolve :{
+        loginRequired: loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load(['xeditable','ui.select', 'js/controllers/alert.js',
             'js/services/services-admin.js',
             'js/controllers/playlistCtrl.js'
-            ])
-
+            ]);
+        }]
+      }
     })
 
      .state('app.articles', {
@@ -163,11 +175,14 @@
       url: '/users',
       templateUrl: 'tpl/users.html',
       controller: 'userCtrl',
-      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
-            'js/services/services-admin.js',
-            'js/controllers/userCtrl.js'
-            ])
-
+      resolve : {
+        loginRequired: loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load(['xeditable','ui.select',
+              'js/services/services-admin.js',
+              'js/controllers/userCtrl.js']);
+        }]
+      }
     })
 
        .state('app.beats', {
@@ -592,7 +607,7 @@
 
               $authProvider.facebook({
                 clientId: '901473839934047',
-                responseType: 'token',
+                responseType: 'code',
                 name: 'facebook',
                 tokenName: 'token',
                 url: 'http://188.166.151.38:8080/bimstr/rest/user/fblogin',

@@ -12,31 +12,32 @@
 </div>
 <div  class="panel panel-default">
 <div ng-show="vue">
-    <div class="panel-heading font-bold">                  
+    <div class="panel-heading font-bold">
       Rechercher une Playlist
     </div>
     <div class="panel-body">
       <form  class="form-inline" role="form"  ng-submit="addPlaylist()" >
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="pl.name">   
-        </div> 
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="pl.name">
+        </div>
       </form>
-    </div>  
+    </div>
 </div>
-<div ng-show="vue" class="panel panel-default"> 
-    <div class="panel-heading font-bold">                  
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">
       Editer une Playlist
     </div>
   <table  ng-init="initPlaylist()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Picture</td>
+      <td style="width:35%">Ordering</td>
       <td style="width:35%">Create On</td>
-      <td style="width:20%">Create By</td>      
-      <td style="width:35%">Description</td>            
+      <td style="width:20%">Create By</td>
+      <td style="width:35%">Description</td>
       <td style="width:20%">IsDownload</td>
-        
+
       <td style="width:25%">Edit</td>
     </tr>
     <tr  ng-repeat="playlist in playlists | filter: pl.name | orderBy: playlist.name  track by playlist.id">
@@ -46,13 +47,21 @@
           {{ playlist.name || 'empty' }}
         </span>
       </td>
-      
+
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="playlist.playlistAvatar"  e-name="playlistAvatar" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
           {{ playlist.playlistAvatar || 'empty' }}
         </span>
       </td>
+
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.ordering"  e-name="ordering" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.ordering || 'empty' }}
+        </span>
+      </td>
+
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="playlist.createdOn"  e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
@@ -72,17 +81,17 @@
           {{ playlist.description || 'empty' }}
         </span>
       </td>
-     
-      
+
+
       <td class="v-middle">
         <!-- editable group (select-remote) -->
         <span editable-select="playlist.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
           {{ playlist.downloadable }}
         </span>
-      
+
 
       </td>
-      
+
       <td style="white-space: nowrap">
         <!-- form -->
         <form editable-form name="rowform" onbeforesave="savePlaylist($data, playlist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == playlist">
@@ -97,8 +106,8 @@
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
           <button class="btn btn-sm btn-danger" ng-click="open(playlist)">del</button>
          <a class="btn btn-sm btn-default" ng-click="morePlaylist($index, playlist.id)">song</a>
-        </div>  
-        
+        </div>
+
       </td>
     </tr>
   </table>
@@ -112,9 +121,9 @@
       <td style="width:35%">Name</td>
       <td style="width:35%">Link</td>
       <td style="width:35%">Cover Image</td>
-            
+
       <td style="width:20%">IsDownload</td>
-        
+
       <td style="width:25%">Edit</td>
     </tr>
     <tr  ng-repeat="play in playlists_songs | filter: p.name  ">
@@ -124,7 +133,7 @@
           {{ play.name || 'empty' }}
         </span>
       </td>
-      
+
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="play.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
@@ -136,16 +145,16 @@
         <span editable-text="play.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
           {{ play.coverImage || 'empty' }}
         </span>
-      </td>  
-      
+      </td>
+
       <td class="v-middle">
         <!-- editable group (select-remote) -->
         <span editable-select="play.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
           {{ play.downloadable }}
         </span>
       </td>
-      
-      
+
+
       <td style="white-space: nowrap">
         <!-- form -->
         <form editable-form name="rowform" onbeforesave="savePlaylist_song($data, play.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == play">
@@ -159,8 +168,8 @@
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
           <button class="btn btn-sm btn-danger" ng-click="removePlaylist_song($index, play.id)">del</button>
-          
-        </div>  
+
+        </div>
       </td>
     </tr>
   </table>
@@ -169,12 +178,12 @@
 <!--************************************************************************************-->
 
 <div ng-show="vue2" class="panel panel-default">
-    <div class="panel-heading font-bold">                  
+    <div class="panel-heading font-bold">
       Ajouter un song ou une video à la playlist
     </div>
-    
+
     <div class="panel-body">
-      
+
          <form class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
             <div class="form-group">
               <ui-select  ng-model="so.songId" theme="bootstrap">
@@ -185,11 +194,11 @@
                 </ui-select-choices>
               </ui-select>
             </div>
-                      
+
           <button  class="btn btn-primary ">Enregistrer</button>
-        
+
         </form>
-    <hr>  
+    <hr>
         <form class="form-inline" role="form"  ng-submit="addPlaylist2video()" >
          <div class="form-group">
             <ui-select  ng-model="so2.songId" theme="bootstrap">
@@ -201,18 +210,18 @@
             </ui-select>
 
          </div>
-                         
+
           <button  class="btn btn-primary ">Enregistrer</button>
         </form>
-      
+
     </div>
   </div>
 
 </div>
-  
+
 <!--******************************************************************-->
 <div ng-show="vue" class="panel panel-default">
-    <div class="panel-heading font-bold">                  
+    <div class="panel-heading font-bold">
       Ajouter une playlist
     </div>
     <div class="panel-body">
@@ -221,13 +230,18 @@
           <label class="sr-only" for="exampleInputEmail2">Tile</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Tile" ng-model="pla.name">
         </div>
-        
-        
+
+
         <div class="form-group">
           <label class="sr-only" for="exampleInputPassword2">ImageLink</label>
           <input type="text" class="form-control" id="exampleInputPassword2" placeholder="ImageLink" ng-model="pla.playlistAvatar">
         </div>
-        
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Rating</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Rqting" ng-model="pla.ordering">
+        </div>
+
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Create On</label>
           <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Create On" ng-model="pla.createdOn">
@@ -247,16 +261,16 @@
           <label class="sr-only" for="exampleInputPassword2">description</label>
           <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="pla.description">
         </div>
-                
+
         <div class="checkbox m-l m-r-xs">
           <label class="i-checks">
             <input type="checkbox" ng-model="pla.downloadable"><i></i>IsDownload
           </label>
         </div>
-       
-        
+
+
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
-        
+
       </form>
     </div>
   </div>

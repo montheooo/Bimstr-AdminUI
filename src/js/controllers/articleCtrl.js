@@ -79,14 +79,20 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
 
     }
 /**************************************************************************************/  
-
+    $scope.spinner = true; 
     $scope.articles =[];  // initialize articles table
     $scope.vue = true;   // show articles table
 
     // init Article Table
     $scope.initArticle = function(){
 
-    $scope.articles= Article.query();
+    $scope.articles= Article.query(null, null, function(){
+      $scope.spinner = false;
+
+    }, function(){
+
+      $scope.spinner = false;
+    });
 
     };
 

@@ -20,6 +20,7 @@ app
     $scope.d2 = [];
 
     for (var i = 0; i < 20; ++i) {
+      
       $scope.d2.push([i, Math.round( Math.sin(i)*100)/100] );
     }   
 

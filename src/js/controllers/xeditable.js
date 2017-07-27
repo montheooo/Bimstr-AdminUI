@@ -1,5 +1,5 @@
 
-app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes','artistFactory'
+app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes','artistFactory',
   function($scope, $filter, $http, editableOptions, editableThemes, artistFactory){
 
 
