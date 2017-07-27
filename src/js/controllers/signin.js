@@ -52,10 +52,15 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
       $auth.authenticate(provider)
         .then(function(response) {
           //$localStorage.loggedUser  = User.getFacebookInfo();
+          $scope.user.avatar= response.data.avatar;
+          $scope.user.name = response.data.fname;
+          $scope.user.lname = response.data.lname;
+          $scope.user.userId = response.data.userId;
           console.log(response);
           console.log($auth.getToken());
           console.log($auth.getPayload());
           console.log($localStorage.loggedUser);
+          console.log($scope.user);
           $state.go('app.users');
           notify({
             message: $scope.msg,
