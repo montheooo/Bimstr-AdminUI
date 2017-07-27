@@ -11,7 +11,7 @@
 
     $rootScope.$stateParams = $stateParams; 
 
-    $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
+  //  $http.defaults.headers.common.Authorization = 'Bearer edf07638-78ca-4fa5-b2c0-9e0cf9a8f4dc ';
 
   }])
 
@@ -597,7 +597,7 @@
                 tokenName: 'token',
                 url: 'http://188.166.151.38:8080/bimstr/rest/user/fblogin',
                 authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
-                redirectUri: 'http://127.0.0.1:8000/src',
+                redirectUri: 'http://localhost:8080/src/login',
                 requiredUrlParams: ['display', 'scope'],
                 scope: ['email', 'public_profile'],
                 scopeDelimiter: ',',
