@@ -14,8 +14,11 @@
   }])
 
  .config(
-  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider',
-  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider) {
+  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider','$locationProvider',
+  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider, $locationProvider) {
+    
+  
+
     var layout = "tpl/app.html";
     if(window.location.href.indexOf("material") > 0){
       layout = "tpl/blocks/material.layout.html";
@@ -25,6 +28,8 @@
       $urlRouterProvider
       .otherwise('/app/dashboard-v1');
     }
+
+    
 
     $stateProvider
     .state('login', {
