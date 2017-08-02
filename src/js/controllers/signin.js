@@ -13,6 +13,9 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
     $scope.position = $scope.positions[2];
     $scope.classes= "alert-success";
     $scope.duration = 10000;
+    $localStorage.User={};
+
+
 
     $scope.login = function() {
       $scope.authError = null;
@@ -51,17 +54,24 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function(response) {
-          //$localStorage.loggedUser  = User.getFacebookInfo();
-          $scope.user.avatar= response.data.avatar;
-          $scope.user.name = response.data.fname;
-          $scope.user.lname = response.data.lname;
-          $scope.user.userId = response.data.userId;
+
+          
+
+          $scope.app.user.avatar = response.data.avatar;
+          $scope.app.user.name = response.data.fname;
+          $scope.app.user.lname = response.data.lname;
+          $scope.app.user.userId = response.data.userId;
+          $localStorage.User.avatar = response.data.avatar;
+          $localStorage.User.name = response.data.fname;
+          $localStorage.User.lname = response.data.lname;
+          $localStorage.User.userId = response.data.userId;
+        
           console.log(response);
           console.log($auth.getToken());
           console.log($auth.getPayload());
-          console.log($localStorage.loggedUser);
-          console.log($scope.user);
-          $state.go('app.users');
+          console.log($localStorage.User);
+        
+          $state.go('app.dashboard');
           notify({
             message: $scope.msg,
             classes: $scope.classes,

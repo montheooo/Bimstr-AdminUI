@@ -8,16 +8,16 @@
       <div class="dropdown wrapper" dropdown>
         <a ui-sref="app.page.profile">
           <span class="thumb-lg w-auto-folded avatar m-t-sm">
-            <img ng-src="{{user.avatar}}" class="img-full" alt="...">
+            <img ng-src="{{app.user.avatar}}" class="img-full" alt="...">
           </span>
         </a>
         <a href class="dropdown-toggle hidden-folded" dropdown-toggle>
           <span class="clear">
             <span class="block m-t-sm">
-              <strong class="font-bold text-lt">{{user.name}}</strong> 
+              <strong class="font-bold text-lt">{{app.user.name}}</strong> 
               <b class="caret"></b>
             </span>
-            <span class="text-muted text-xs block">{{user.lname}}</span>
+            <span class="text-muted text-xs block">{{app.user.lname}}</span>
           </span>
         </a>
         <!-- dropdown -->

@@ -35,26 +35,34 @@ angular.module('app')
           asideFolded: false,
           asideDock: false,
           container: false
-        }
-      }
-
-      $scope.authError = null;
-      $scope.alerts = [];
-      $scope.user = {
+        },
+      user:{
         avatar :'img/a0.jpg',
         name: '',
         lname:'',
         userId:''
+      }
 
-      };
+    }
 
-console.log($scope.user);
+      $scope.authError = null;
+      $scope.alerts = [];
+      
+
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
         $scope.app.settings = $localStorage.settings;
       } else {
         $localStorage.settings = $scope.app.settings;
       }
+    // save user profile to local storage
+      if ( $localStorage.User) {
+      $scope.app.user = $localStorage.User;
+      
+      } 
+console.log($scope.app.user);
+console.log($localStorage.User);
+
       $scope.$watch('app.settings', function(){
         if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ){
           // aside dock and fixed must set the header fixed.

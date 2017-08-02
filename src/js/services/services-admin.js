@@ -54,6 +54,13 @@ app.factory('saveSong2playlist', function($resource) {
     }
   });
 });
+app.factory('RmSong2playlist', function($resource) {
+  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:playlistId/rem/:songId', { playlistId: '@_id', songId: '@_id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
 
 app.factory('Playlist', function($resource) {
   return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@_id' }, {

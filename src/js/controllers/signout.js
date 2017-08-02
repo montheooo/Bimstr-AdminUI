@@ -3,7 +3,7 @@
 
 /* Controllers */
   // signout controller
-  app.controller('SignoutCtrl',  function($location, $auth, $state, $scope, notify) {
+  app.controller('SignoutCtrl',  function($location, $localStorage, $auth, $state, $scope, notify) {
 
   	$scope.msg = 'Aurevoir! à bientot sur BimStr';
     $scope.template = '';
@@ -17,9 +17,11 @@
 	      .then(function() {
 	      	$scope.alerts = [];
 	      	console.log($auth.getToken());
-	      	$scope.user.avatar = 'img/a0.jpg';
-	      	$scope.user.name = '';
-	      	$scope.user.lname = '';
+	      	$localStorage.User = null ;
+	      	$scope.app.user.avatar= 'img/a0.jpg';
+	      	$scope.app.user.name= '';
+	      	$scope.app.user.lname= '';
+	      	$scope.app.user.userId= '';
 	      	 notify({
             message: $scope.msg,
             classes: $scope.classes,
