@@ -26,7 +26,7 @@
 <div class="panel panel-default">
   <div class="panel-heading font-bold">                  
       Editer un artiste
-    </div>
+  </div>
   <table  ng-init="initArtist()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
@@ -126,7 +126,11 @@
       </td>
     </tr>
   </table>
-
+  </div>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
   
 
    <div class="panel panel-default">
@@ -190,4 +194,3 @@
       </form>
     </div>
   </div>
-</div>

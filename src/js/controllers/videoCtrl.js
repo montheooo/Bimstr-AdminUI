@@ -81,7 +81,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
     }
 /**************************************************************************************/
-    
+    $scope.spinner = true;
     $scope.videos =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
@@ -89,7 +89,12 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
     $scope.initVideo = function(){
 
-    $scope.videos= Video.query();
+    $scope.videos= Video.query(null, null, function(){
+        $scope.spinner = false;
+      }, function(){
+        $scope.spinner = false;
+
+      });
 
     };
 

@@ -82,6 +82,7 @@ app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOpti
 
     }
 /**************************************************************************************/
+    $scope.spinner = true;
     $scope.vue = true;  // show user form  
     $scope.vue2 = false; // show social_profile of user
     $scope.vue3= false;  // show playlists of user
@@ -147,7 +148,11 @@ $scope.morePlaylist = function(){
 
     // init user table
     $scope.initUser = function(){
-    $scope.users = User.query();
+    $scope.users = User.query(null, null, function(){
+      $scope.spinner = false;
+    }, function(){
+      $scope.spinner = false;
+    });
     }
 
 

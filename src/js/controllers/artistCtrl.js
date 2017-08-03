@@ -82,10 +82,14 @@ $scope.selected ;
 
      $scope.artists = [];   
     // init Artist Table
-
+    $scope.spinner = true ;
     $scope.initArtist = function(){
 
-    return   $scope.artists = Artist.query();
+    return   $scope.artists = Artist.query(null, null, function(){
+          $scope.spinner = false ;
+    }, function(){
+          $scope.spinner = false ;
+    });
 
     }
 

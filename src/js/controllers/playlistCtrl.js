@@ -1,9 +1,10 @@
-app.controller('ModalInstancePlaylistCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
+app.controller('ModalInstancePlaylistCtrl', ['$scope', '$modalInstance', 'items',  function($scope, $modalInstance, items ) {
     $scope.items = items;
     console.log($scope.items);
 
     $scope.OK = function () {
       $modalInstance.close($scope.items);
+      
     };
 
     $scope.cancel = function () {
@@ -14,8 +15,8 @@ app.controller('ModalInstancePlaylistCtrl', ['$scope', '$modalInstance', 'items'
   }]);
 
 
-app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song','saveSong2playlist','Video','User',
-  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Playlist, Song2playlist, Song, saveSong2playlist, Video, User ){
+app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 'editableOptions', 'editableThemes', 'Playlist','Song2playlist','Song', 'RmSong2playlist', 'saveSong2playlist','Video','User',
+  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Playlist, Song2playlist, Song, RmSong2playlist, saveSong2playlist, Video, User ){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
@@ -30,6 +31,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
              resolve: {
               items: function () {
                 $scope.selected = playlist ;
+                angular.extend($scope.selected, {playlistid: $scope.playlistId});
                 return $scope.selected ;
                 
               }
@@ -82,9 +84,79 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
           });        
 
     }
+
+    $scope.open2 = function (songid) {
+
+          var modalInstance = $modal.open({
+            templateUrl: 'deleteContent.html',
+             controller: 'ModalInstancePlaylistCtrl',
+             size: 'sm',
+             resolve: {
+              items: function () {
+                $scope.selected = songid ;
+                angular.extend($scope.selected, {playlistid: $scope.playlistId});
+
+                return $scope.selected ;                
+              }
+              
+            }
+
+          });
+
+              console.log($scope.selected);
+            
+            modalInstance.result.then(function (selectedItem) {
+                  $scope.select = selectedItem;
+                  
+                console.log($scope.select);
+             
+
+            
+                  return RmSong2playlist.update({playlistId:$scope.select.playlistid, songId:$scope.select.id }, null, function(){
+                      $scope.playlists= Playlist.query(function(){
+                      $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
+                      });
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstancePlaylistCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
+
+                      }, function(){
+                      
+                        
+                        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstancePlaylistCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                
+                                return $scope.selected ;
+                                
+                              }
+                            }
+                      
+                        });
+                  
+                    });
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });        
+
+    }
    
 
 /***************************************************************************************************************/      
+    $scope.spinner = true; 
     $scope.vue = true;  // show playlist form
     $scope.vue_audio = false;  // show playlist form
     $scope.vue2 = false; // show song of playlist
@@ -153,46 +225,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
     // remove song to playlist
 
-    $scope.removePlaylist_song = function(index, data){
-
-     
-    
-    return Song2playlist.delete({id: data}, null, function(){
-      
-         $scope.playlists= Playlist.query();
-        var modalInstance = $modal.open({
-        templateUrl: 'successContent.html',
-         controller: 'ModalInstancePlaylistCtrl',
-         size: 'sm',
-         resolve: {
-              items: function () {
-                
-                return $scope.selected ;
-                
-              }
-            }
-
-        });
-      }, function(){  
-            $scope.playlists= Playlist.query();
-            var modalInstance = $modal.open({
-            templateUrl: 'rejectContent.html',
-             controller: 'ModalInstancePlaylistCtrl',
-             size: 'sm',
-             resolve: {
-                  items: function () {
-                    
-                    return $scope.selected ;
-                    
-                  }
-                }
-          
-            });
-        
-      });
-           
-    }
-
+   
     // Back to Playlists
 
     $scope.showPlaylist = function(){
@@ -206,7 +239,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
         angular.extend($scope.so, {playlistid: $scope.playlistId});
        
-        return Song2playlist.save($scope.so, function(){
+        return Song2playlist.save(null, $scope.so, function(){
        
 
         $scope.playlists= Playlist.query(function(){
@@ -293,7 +326,12 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
     // init playlist table
     $scope.initPlaylist = function(){
-    $scope.playlists= Playlist.query();
+    $scope.playlists= Playlist.query(null, null, function(){
+      $scope.spinner = false; 
+    }, function(){
+      $scope.spinner = false; 
+
+    });
     }
 
 

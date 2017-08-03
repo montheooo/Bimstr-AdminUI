@@ -110,8 +110,12 @@
 
       </td>
     </tr>
-  </table>
+  </table>     
 </div>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
 <!--***************************************************************************************-->
 <div ng-show="vue2">
     <h4>Editer un song de la Playlist</h4>
@@ -167,12 +171,13 @@
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-sm btn-danger" ng-click="removePlaylist_song($index, play.id)">del</button>
+          <button class="btn btn-sm btn-danger" ng-click="open2(play)">del</button>
 
         </div>
       </td>
     </tr>
   </table>
+    
 
   <a class="btn btn-sm btn-default" ng-click="showPlaylist()">revenir aux Playlists</a>
 <!--************************************************************************************-->

@@ -84,7 +84,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
    
 
 /***************************************************************************************************************/      
-    
+    $scope.spinner = true;
     $scope.songs =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
@@ -92,7 +92,13 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
 
     $scope.initSong = function(){
 
-    $scope.songs= Song.query();
+      $scope.songs= Song.query(null,null, function(){
+        $scope.spinner = false;
+
+      }, function(){
+        $scope.spinner = false;
+
+      });
 
     };
 

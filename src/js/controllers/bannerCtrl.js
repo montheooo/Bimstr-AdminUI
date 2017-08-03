@@ -81,6 +81,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
 
     }
 /**************************************************************************************/     
+    $scope.spinner = true;
     $scope.Banners =[];   // initialise Banners table
     $scope.groupsBanner = [];  // initialise groups banner table
           // show banner table
@@ -88,7 +89,11 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
   
     // init Banner
     $scope.initBanner = function(){
-    $scope.Banners= Banner.query();
+    $scope.Banners= Banner.query(null, null, function(){
+      $scope.spinner = false;
+    }, function(){
+      $scope.spinner = false;
+    });
     };
     // True or False
     $scope.loadGroups = function() {

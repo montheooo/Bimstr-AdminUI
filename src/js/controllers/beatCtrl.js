@@ -84,7 +84,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
    
 
 /***************************************************************************************************************/      
-    
+    $scope.spinner= true;
     $scope.beats =[];
     $scope.album = Album.query(); // get album for UI-select
     $scope.artist = Artist.query(); // get artist for UI-select
@@ -92,7 +92,12 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
 
     $scope.initBeat = function(){
 
-    $scope.beats= Beat.query();
+      $scope.beats= Beat.query(null, null, function(){
+        $scope.spinner= false;
+      }, function(){
+        $scope.spinner= false;
+
+      });
 
     };
 

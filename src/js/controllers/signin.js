@@ -13,6 +13,9 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
     $scope.position = $scope.positions[2];
     $scope.classes= "alert-success";
     $scope.duration = 10000;
+    $localStorage.User={};
+
+
 
     $scope.login = function() {
       $scope.authError = null;
@@ -22,7 +25,7 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
         if ( !response.data.user ) {
           $scope.authError = 'Email or Password not right';
         }else{
-          $state.go('app.dashboard');
+          $state.go('app.users');
         }
       }, function(x) {
         $scope.authError = 'Server Error';
@@ -44,18 +47,30 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', '$auth', '$
       $auth.logout()
         .then(function(response) {
           console.log(response.data);
-          $state.go('login.dashboard');
+          $state.go('app.dashboard');
         });
     };
 
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function(response) {
-          //$localStorage.loggedUser  = User.getFacebookInfo();
+
+          
+
+          $scope.app.user.avatar = response.data.avatar;
+          $scope.app.user.name = response.data.fname;
+          $scope.app.user.lname = response.data.lname;
+          $scope.app.user.userId = response.data.userId;
+          $localStorage.User.avatar = response.data.avatar;
+          $localStorage.User.name = response.data.fname;
+          $localStorage.User.lname = response.data.lname;
+          $localStorage.User.userId = response.data.userId;
+        
           console.log(response);
           console.log($auth.getToken());
           console.log($auth.getPayload());
-          console.log($localStorage.loggedUser);
+          console.log($localStorage.User);
+        
           $state.go('app.dashboard');
           notify({
             message: $scope.msg,
