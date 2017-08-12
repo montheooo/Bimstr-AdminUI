@@ -12,6 +12,67 @@
 </div>
 <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
+      Ajouter un Artiste
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addArtist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="art.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" ng-model="art.email">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Age</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Age" ng-model="art.age">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Bio</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Biographie" ng-model="art.bio">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Picture</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Picture" ng-model="art.picture">
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.active"><i></i>IsActive
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.beatMaker"><i></i>IsBeatMaker
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.producer"><i></i>IsProducer
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.stylist"><i></i>IsStylist
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.designer"><i></i>IsDesigner
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.singer"><i></i>IsSinger
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
       Rechercher un Artiste
     </div>
     <div class="panel-body">
@@ -133,64 +194,4 @@
     </div>
   
 
-   <div class="panel panel-default">
-    <div class="panel-heading font-bold">                  
-      Ajouter un Artiste
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addArtist()" >
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="art.name">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" ng-model="art.email">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Age</label>
-          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Age" ng-model="art.age">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Bio</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Biographie" ng-model="art.bio">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Picture</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Picture" ng-model="art.picture">
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.active"><i></i>IsActive
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.beatMaker"><i></i>IsBeatMaker
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.producer"><i></i>IsProducer
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.stylist"><i></i>IsStylist
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.designer"><i></i>IsDesigner
-          </label>
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="art.singer"><i></i>IsSinger
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-        
-      </form>
-    </div>
-  </div>
+   

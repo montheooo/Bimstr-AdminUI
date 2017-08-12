@@ -10,6 +10,60 @@
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des playlists </h1>
 </div>
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter une playlist
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addPlaylist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Tile</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Tile" ng-model="pla.name">
+        </div>
+
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">ImageLink</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="ImageLink" ng-model="pla.playlistAvatar">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Rating</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Rqting" ng-model="pla.ordering">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Create On</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Create On" ng-model="pla.createdOn">
+        </div>
+
+       <div class="form-group">
+          <ui-select  ng-model="pla.createdById" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un utilisateur...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in users | filter: $select.search">
+              <div ng-bind-html="item.firstName | highlight: $select.search"></div>
+              <small ng-bind-html="item.emailAddress | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+       </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">description</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="pla.description">
+        </div>
+
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="pla.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
 <div  class="panel panel-default">
 <div ng-show="vue">
     <div class="panel-heading font-bold">
@@ -119,7 +173,7 @@
 <!--***************************************************************************************-->
 <div ng-show="vue2">
     <h4>Editer un song de la Playlist</h4>
-
+    <a class="btn btn-sm btn-default" ng-click="showPlaylist()">revenir aux Playlists</a>
   <table ng-init="playlists_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
@@ -225,58 +279,5 @@
 </div>
 
 <!--******************************************************************-->
-<div ng-show="vue" class="panel panel-default">
-    <div class="panel-heading font-bold">
-      Ajouter une playlist
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addPlaylist()" >
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Tile</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Tile" ng-model="pla.name">
-        </div>
 
-
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">ImageLink</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="ImageLink" ng-model="pla.playlistAvatar">
-        </div>
-
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Rating</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Rqting" ng-model="pla.ordering">
-        </div>
-
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Create On</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Create On" ng-model="pla.createdOn">
-        </div>
-
-       <div class="form-group">
-          <ui-select  ng-model="pla.createdById" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner ou chercher un utilisateur...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item.id as item in users | filter: $select.search">
-              <div ng-bind-html="item.firstName | highlight: $select.search"></div>
-              <small ng-bind-html="item.emailAddress | highlight: $select.search"></small>
-            </ui-select-choices>
-          </ui-select>
-       </div>
-
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">description</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="pla.description">
-        </div>
-
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="pla.downloadable"><i></i>IsDownload
-          </label>
-        </div>
-
-
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-
-      </form>
-    </div>
-  </div>
 </div>

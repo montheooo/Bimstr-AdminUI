@@ -10,7 +10,61 @@
 <div class="bg-light lter b-b wrapper-md" >
   <h1 class="m-n font-thin h3">Gestion des Beats </h1>
 </div>
-<div class="panel panel-default" style="overflow: scroll; overflow-x: scroll">
+   <div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter un Beat
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addBeat()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="tit.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2"> beat link url</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="beat url" ng-model="tit.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">cover image</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="cover image" ng-model="tit.coverImage">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Single Rating</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Single Rating" ng-model="tit.singleRating">
+        </div>
+
+        <div class="form-group">
+          <ui-select class="form-group" ng-model="tit.artistId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner un artiste">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.email | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="form-group">
+          <ui-select  ng-model="tit.albumId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un album...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in album | filter: $select.search">
+              <div ng-bind-html="item.albumName | highlight: $select.search"></div>
+              <small ng-bind-html="item.label | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="tit.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
     <div class="panel-heading font-bold">
       Rechercher un beat
     </div>
@@ -27,7 +81,7 @@
       </form>
     </div>
 </div>
-<div class="wrapper-md" style="overflow: scroll; overflow-x: scroll">
+<div class="wrapper-md">
   <h4>Editer un beat</h4>
   <table ng-show="vue" ng-init="initBeat()"  class="table table-bordered table-hover  bg-white-only">
     <tr style="font-weight: bold">
@@ -111,58 +165,5 @@
     </div>
 
 
-   <div class="panel panel-default">
-    <div class="panel-heading font-bold">
-      Ajouter un Beat
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addBeat()" >
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="tit.name">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2"> beat link url</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="beat url" ng-model="tit.link">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">cover image</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="cover image" ng-model="tit.coverImage">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Single Rating</label>
-          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Single Rating" ng-model="tit.singleRating">
-        </div>
 
-        <div class="form-group">
-          <ui-select class="form-group" ng-model="tit.artistId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner un artiste">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
-              <div ng-bind-html="item.name | highlight: $select.search"></div>
-              <small ng-bind-html="item.email | highlight: $select.search"></small>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-
-        <div class="form-group">
-          <ui-select  ng-model="tit.albumId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner ou chercher un album...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item.id as item in album | filter: $select.search">
-              <div ng-bind-html="item.albumName | highlight: $select.search"></div>
-              <small ng-bind-html="item.label | highlight: $select.search"></small>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="tit.downloadable"><i></i>IsDownload
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-
-      </form>
-    </div>
-  </div>
 </div>

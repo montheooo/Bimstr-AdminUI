@@ -13,6 +13,61 @@
 </div>
 <div ng-show="vue" class="panel panel-default">
     <div class="panel-heading font-bold">                  
+      Ajouter un Album
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addAlbum()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="alb.albumName">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Link</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Link" ng-model="alb.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Alb Rating</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="album Rating" ng-model="alb.albRating">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">label</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="label" ng-model="alb.label">
+        </div>
+        
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">description</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="alb.description">
+        </div>
+        <div class="form-group">
+          <ui-select  ng-model="alb.artistId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.email | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+         
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="alb.active"><i></i>IsActive
+          </label>
+        </div>
+       
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="alb.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
       Rechercher un Album
     </div>
     <div class="panel-body">
@@ -120,6 +175,7 @@
 </div>
 <!--***************************************************************************************-->
 <div ng-show="vue2">
+  <a class="btn btn-sm btn-default" ng-click="showAlbum()">revenir aux Albums</a>
     <h4> Songs de l'Album</h4>
 
   <table ng-show="vue2" ng-init="albums_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
@@ -168,9 +224,7 @@
       
     </tr>
   </table>
-
   <a class="btn btn-sm btn-default" ng-click="showAlbum()">revenir aux Albums</a>
-<!--************************************************************************************-->
 </div>
 <!--
 <div ng-show="vue2" class="panel panel-default">
@@ -195,58 +249,4 @@
   
 <!--******************************************************************-->  
 
-<div ng-show="vue" class="panel panel-default">
-    <div class="panel-heading font-bold">                  
-      Ajouter un Album
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addAlbum()" >
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="alb.albumName">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Link</label>
-          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Link" ng-model="alb.link">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Alb Rating</label>
-          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="album Rating" ng-model="alb.albRating">
-        </div>
 
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">label</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="label" ng-model="alb.label">
-        </div>
-        
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">description</label>
-          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="alb.description">
-        </div>
-        <div class="form-group">
-          <ui-select  ng-model="alb.artistId" theme="bootstrap">
-            <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.id}}</ui-select-match>
-            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
-              <div ng-bind-html="item.name | highlight: $select.search"></div>
-              <small ng-bind-html="item.email | highlight: $select.search"></small>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-         
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="alb.active"><i></i>IsActive
-          </label>
-        </div>
-       
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox" ng-model="alb.downloadable"><i></i>IsDownload
-          </label>
-        </div>
-        
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-        
-      </form>
-    </div>
-  </div>

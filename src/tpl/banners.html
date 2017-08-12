@@ -10,6 +10,41 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">Gestion des Bannieres </h1>
 </div>
+ <div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter une banniere
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addBanner()" >
+        <div class="form-group">
+          <label class="sr-only" >Banner Type</label>
+          <select ng-model="bann.bannerElementType" >
+            <option value="Audio">Audio</option>
+            <option value="video">Video</option>
+            <option value="Article">Article</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" >Banner Comment</label>
+          <textarea ng-model="bann.bannerComment" class="form-control"  placeholder="Commentaire de la banniere" ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Banner Media</label>
+          <input type="text" class="form-control"  placeholder="Url image/gif banniere" ng-model="bann.bannerMediaSrc">
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Target Element Id (video or audio or article id)</label>
+          <input type="text" class="form-control"  placeholder="Target Element Id" ng-model="bann.bannerElementId">
+        </div>
+        <div class="form-group">
+          <label class="sr-only">BannerElementPage</label>
+          <input type="text" class="form-control"  placeholder="Banner Element Page" ng-model="bann.bannerElementPage">
+        </div>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
 <div class="wrapper-md">
   <h4>Editer une Banniere</h4>
   <table  ng-init="initBanner()" class="table table-bordered table-hover table-condensed bg-white-only">
@@ -76,39 +111,5 @@
       <span class="sr-only">Loading...</span>
     </div>
 
-   <div class="panel panel-default">
-    <div class="panel-heading font-bold">
-      Ajouter une banniere
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form"  ng-submit="addBanner()" >
-        <div class="form-group">
-          <label class="sr-only" >Banner Type</label>
-          <select ng-model="bann.bannerElementType" >
-            <option value="Audio">Audio</option>
-            <option value="video">Video</option>
-            <option value="Article">Article</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="sr-only" >Banner Comment</label>
-          <textarea ng-model="bann.bannerComment" class="form-control"  placeholder="Commentaire de la banniere" ></textarea>
-        </div>
-        <div class="form-group">
-          <label class="sr-only">Banner Media</label>
-          <input type="text" class="form-control"  placeholder="Url image/gif banniere" ng-model="bann.bannerMediaSrc">
-        </div>
-        <div class="form-group">
-          <label class="sr-only">Target Element Id (video or audio or article id)</label>
-          <input type="text" class="form-control"  placeholder="Target Element Id" ng-model="bann.bannerElementId">
-        </div>
-        <div class="form-group">
-          <label class="sr-only">BannerElementPage</label>
-          <input type="text" class="form-control"  placeholder="Banner Element Page" ng-model="bann.bannerElementPage">
-        </div>
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-
-      </form>
-    </div>
-  </div>
+  
 </div>

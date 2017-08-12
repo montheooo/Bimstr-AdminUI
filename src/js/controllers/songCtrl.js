@@ -171,7 +171,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
      // add Song
 
     $scope.addSong = function() {
-      $scope.songs.push($scope.tit);
+      
       angular.extend($scope.tit, {id:$scope.songs.length+1});
       console.log($scope.tit);
     return  Song.save($scope.tit, function(){
