@@ -165,7 +165,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
      // add Video
 
     $scope.addVideo = function() {
-      $scope.videos.push($scope.tit);
+     
       angular.extend($scope.tit, {id:$scope.videos.length+1});
       console.log($scope.tit);
     return  Video.save($scope.tit, function(){
