@@ -24,6 +24,10 @@
           <label class="sr-only" for="exampleInputEmail2">Email address</label>
           <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" ng-model="art.email">
         </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">ordering</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Ordering" ng-model="art.ordering">
+        </div>
         <div class="form-group">
           <label class="sr-only" for="exampleInputEmail2">Age</label>
           <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Age" ng-model="art.age">
@@ -92,6 +96,7 @@
     <tr style="font-weight: bold">
       <td style="width:35%">Name</td>
       <td style="width:35%">Email</td>
+      <td style="width:35%">Ordering</td>
       <td style="width:35%">Age</td>
       <td style="width:35%">Bio</td>
       <td style="width:35%">Picture</td>
@@ -114,6 +119,12 @@
         <!-- editable username (text with validation) -->
         <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
           {{ artist.email || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.ordering"  e-name="ordering" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.ordering || 'empty' }}
         </span>
       </td>
       <td class="v-middle">
