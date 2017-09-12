@@ -83,6 +83,8 @@
   <h4>Editer un Album</h4>
   <table  ng-init="initAlbum()"  class="table table-bordered table-hover table-condensed bg-white-only">
     <tr style="font-weight: bold">
+      <td style="width:35%">Album Id</td>
+
       <td style="width:35%">Name</td>
       <td style="width:35%">coverImage</td>
       <td style="width:35%">AlbRating</td>     
@@ -97,6 +99,12 @@
     </tr>
     
     <tr  ng-repeat="album in albums | filter: al.name | orderBy: album.name  track by album.id">
+    <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.albumName"  e-name="albumName" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.id || 'empty' }}
+        </span>
+      </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="album.albumName"  e-name="albumName" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
