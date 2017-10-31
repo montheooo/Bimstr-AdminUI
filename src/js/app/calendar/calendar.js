@@ -14,7 +14,7 @@ app.controller('FullcalendarCtrl', ['$scope', function($scope) {
             url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
             className: 'gcal-event',           // an option!
             currentTimezone: 'America/Chicago' // an option!
-    };
+    }; 
 
     /* event source that contains custom events on the scope */
     $scope.events = [
@@ -86,6 +86,21 @@ app.controller('FullcalendarCtrl', ['$scope', function($scope) {
           center: 'title',
           right: 'next'
         },
+        axisFormat: 'H(:mm)',
+        timeFormat: 'H(:mm)',
+        monthNames : ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet',
+                      'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+        monthNamesShort : ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin',
+                      'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+        dayNames : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi',
+                   'Jeudi', 'Vendredi', 'Samedi'],
+        dayNamesShort : ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        columnFormat: {
+
+    month: 'ddd',    // Mon
+    week: 'ddd d/M', // Mon 9/7
+    day: 'dddd d/M'  // Monday 9/7
+},
         dayClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize,

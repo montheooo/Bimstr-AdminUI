@@ -208,6 +208,18 @@
 
     })
 
+    .state('app.submit', {
+      url: '/submit',
+      templateUrl: 'tpl/submit.html',
+      controller: 'submitCtrl',
+      resolve :load(['xeditable','ui.select',
+            'js/services/services-admin.js',
+            'js/controllers/submitCtrl.js'
+            
+            ])
+
+    })
+
 
     .state('app.dashboard-v2', {
       url: '/dashboard-v2',
