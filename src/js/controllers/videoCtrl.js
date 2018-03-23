@@ -40,7 +40,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Video.delete({id: $scope.select.id}, null, function(){
+                  return Video.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.videos= Video.query();
                       var modalInstance = $modal.open({
@@ -49,7 +49,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -57,7 +57,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -66,7 +66,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -89,7 +89,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
     $scope.initVideo = function(){
 
-    $scope.videos= Video.query(null, null, function(){
+    $scope.videos= Video.query(null, null, function(data){
         $scope.spinner = false;
       }, function(){
         $scope.spinner = false;
@@ -129,7 +129,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Video.update({id: id}, data, function(){
+     return Video.update({id: id}, data, function(data){
        $scope.videos= Video.query();
                       var modalInstance = $modal.open({
                       templateUrl: 'successContent.html',
@@ -137,21 +137,21 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceVideoCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -168,7 +168,7 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
      
       angular.extend($scope.tit, {id:$scope.videos.length+1});
       console.log($scope.tit);
-    return  Video.save($scope.tit, function(){
+    return  Video.save($scope.tit, function(data){
       
       $scope.tit=null;
       $scope.videos= Video.query();
@@ -178,21 +178,21 @@ app.controller('videoCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceVideoCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

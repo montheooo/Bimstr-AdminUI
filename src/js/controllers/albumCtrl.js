@@ -39,7 +39,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Album.delete({id: $scope.select.id}, null, function(){
+                  return Album.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.albums= Album.query();
                       var modalInstance = $modal.open({
@@ -48,7 +48,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -56,7 +56,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -65,7 +65,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -147,7 +147,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Album.update({id: id}, data, function(){
+     return Album.update({id: id}, data, function(data){
        
        $scope.albums= Album.query();
                       var modalInstance = $modal.open({
@@ -156,21 +156,21 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceAlbumCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -187,7 +187,7 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
       $scope.albums.push($scope.alb);
       angular.extend($scope.alb, {id:$scope.albums.length+1});
       console.log($scope.alb);
-    return  Album.save({}, $scope.alb, function(){
+    return  Album.save({}, $scope.alb, function(data){
       
       $scope.alb=null;
       $scope.albums= Album.query();
@@ -197,21 +197,21 @@ app.controller('albumCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpt
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceAlbumCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

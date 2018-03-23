@@ -41,7 +41,7 @@ app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOpti
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return User.delete({id: $scope.select.id}, null, function(){
+                  return User.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.users= User.query();
                       var modalInstance = $modal.open({
@@ -50,7 +50,7 @@ app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -58,7 +58,7 @@ app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOpti
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -67,7 +67,7 @@ app.controller('userCtrl', ['$scope', '$filter', '$http', '$modal','editableOpti
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -169,7 +169,7 @@ $scope.morePlaylist = function(){
     $scope.saveUser = function(data, id) {
         console.log(data);
         angular.extend(data, {id: id});
-       return User.update({id: id}, data, function(){
+       return User.update({id: id}, data, function(data){
          
          $scope.users= User.query();
         var modalInstance = $modal.open({
@@ -178,14 +178,14 @@ $scope.morePlaylist = function(){
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
             }
 
         });
-       }, function(){
+       }, function(data){
               $scope.users= User.query();
               var modalInstance = $modal.open({
               templateUrl: 'rejectContent.html',
@@ -193,7 +193,7 @@ $scope.morePlaylist = function(){
                size: 'sm',
                resolve: {
                     items: function () {
-                      
+                      $scope.selected = data ;
                       return $scope.selected ;
                       
                     }
@@ -210,7 +210,7 @@ $scope.morePlaylist = function(){
     $scope.addUser = function() {
       angular.extend($scope.pla, {user: 
       {emailAddress:$scope.pla.emailAddress}});
-        return  User.save($scope.pla, function(){
+        return  User.save($scope.pla, function(data){
         $scope.pla = null;
         $scope.users= User.query();
         var modalInstance = $modal.open({
@@ -219,14 +219,14 @@ $scope.morePlaylist = function(){
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
             }
 
         });
-        }, function(){
+        }, function(data){
               
               var modalInstance = $modal.open({
               templateUrl: 'rejectContent.html',
@@ -234,7 +234,7 @@ $scope.morePlaylist = function(){
                size: 'sm',
                resolve: {
                     items: function () {
-                      
+                      $scope.selected = data ;
                       return $scope.selected ;
                       
                     }

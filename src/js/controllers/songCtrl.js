@@ -41,7 +41,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Song.delete({id: $scope.select.id}, null, function(){
+                  return Song.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.songs= Song.query();
                       var modalInstance = $modal.open({
@@ -50,7 +50,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -58,7 +58,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                         $scope.songs= Song.query();
                         var modalInstance = $modal.open({
@@ -67,7 +67,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -134,7 +134,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Song.update({id: id}, data, function(){
+     return Song.update({id: id}, data, function(data){
        
         $scope.songs= Song.query();
                       var modalInstance = $modal.open({
@@ -143,21 +143,21 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceSongCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -174,7 +174,7 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
       
       angular.extend($scope.tit, {id:$scope.songs.length+1});
       console.log($scope.tit);
-    return  Song.save($scope.tit, function(){
+    return  Song.save($scope.tit, function(data){
       
       $scope.tit=null;
        $scope.songs= Song.query();
@@ -184,21 +184,21 @@ app.controller('songCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceSongCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

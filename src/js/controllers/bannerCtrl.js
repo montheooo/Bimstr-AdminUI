@@ -40,7 +40,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Banner.delete({id: $scope.select.id}, null, function(){
+                  return Banner.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.Banners= Banner.query();
                       var modalInstance = $modal.open({
@@ -49,7 +49,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -57,7 +57,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -66,7 +66,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -111,7 +111,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
       // save banner
     $scope.saveBanner = function(data, id) {      
       angular.extend(data, {id: id});
-     return Banner.update({id: id}, data, function(){
+     return Banner.update({id: id}, data, function(data){
         $scope.Banners= Banner.query();
                       var modalInstance = $modal.open({
                       templateUrl: 'successContent.html',
@@ -119,21 +119,21 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceBannerCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -148,7 +148,7 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
     $scope.addBanner = function() {
       
       console.log($scope.Banners);
-    return  Banner.save($scope.bann, function(){      
+    return  Banner.save($scope.bann, function(data){      
       $scope.bann=null;
       $scope.Banners= Banner.query();
                       var modalInstance = $modal.open({
@@ -157,21 +157,21 @@ app.controller('bannerCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceBannerCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

@@ -1,6 +1,6 @@
 
 app.factory('Album', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/album/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/album/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -8,7 +8,7 @@ app.factory('Album', function($resource) {
 });
 
 app.factory('Song', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/song/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/song/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -16,7 +16,7 @@ app.factory('Song', function($resource) {
 });
 
 app.factory('Beat', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/beat/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/beat/:id', { id: '@_id', sort: 'releaseDate', desc: 'desc' }, {
     update: {
       method: 'PUT'
     }
@@ -24,7 +24,7 @@ app.factory('Beat', function($resource) {
 });
 
 app.factory('Video', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/video/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/video/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -32,7 +32,7 @@ app.factory('Video', function($resource) {
 });
 
 app.factory('User', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/user/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/user/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -40,7 +40,7 @@ app.factory('User', function($resource) {
 });
 
 app.factory('Song2playlist', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/song2playlist/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/song2playlist/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -48,14 +48,14 @@ app.factory('Song2playlist', function($resource) {
 });
 
 app.factory('saveSong2playlist', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:playlistId/add/:songId', { playlistId: '@_id', songId: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/playlist/:playlistId/add/:songId', { playlistId: '@_id', songId: '@_id' }, {
     update: {
       method: 'PUT'
     }
   });
 });
 app.factory('RmSong2playlist', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:playlistId/rem/:songId', { playlistId: '@_id', songId: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/playlist/:playlistId/rem/:songId', { playlistId: '@_id', songId: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -63,14 +63,14 @@ app.factory('RmSong2playlist', function($resource) {
 });
 
 app.factory('Playlist', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/music/playlist/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/music/playlist/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
   });
 });
 app.factory('Artist', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/artist/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/artist/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -78,14 +78,14 @@ app.factory('Artist', function($resource) {
 });
 
 app.factory('Article', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/article/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/article/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
   });
 });
 app.factory('Banner', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/banner/:id', { id: '@_id' }, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/banner/:id', { id: '@_id' }, {
     update: {
       method: 'PUT'
     }
@@ -93,7 +93,7 @@ app.factory('Banner', function($resource) {
 });
 
 app.factory('User', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/user/:id', { id: '@_id'}, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/user/:id', { id: '@_id'}, {
   
     update: {
       method: 'PUT'
@@ -102,7 +102,7 @@ app.factory('User', function($resource) {
 });
 
 app.factory('Submit', function($resource) {
-  return $resource('http://188.166.151.38:8080/bimstr/rest/submit/:id', { id: '@_id'}, {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/submit/:id', { id: '@_id'}, {
   
     update: {
       method: 'PUT'
@@ -110,6 +110,14 @@ app.factory('Submit', function($resource) {
   });
 });
 
+app.factory('Validation', function($resource) {
+  return $resource('http://178.62.12.238:8080/bimstr/rest/validation/singleSubmission/:id', { id: '@_id'}, {
+  
+    update: {
+      method: 'PUT'
+    }
+  });
+});
 
 
 app.factory('userFactory', function($resource) {

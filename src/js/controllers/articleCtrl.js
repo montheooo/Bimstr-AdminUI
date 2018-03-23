@@ -38,7 +38,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Article.delete({id: $scope.select.id}, null, function(){
+                  return Article.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.articles= Article.query();
                       var modalInstance = $modal.open({
@@ -47,7 +47,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -55,7 +55,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -64,7 +64,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -115,7 +115,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
-     return Article.update({id: id}, data, function(){
+     return Article.update({id: id}, data, function(data){
        $scope.articles= Article.query();
                       var modalInstance = $modal.open({
                       templateUrl: 'successContent.html',
@@ -123,21 +123,21 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
          var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceArticleCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -154,7 +154,7 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
 
       console.log($scope.articles);
 
-    return  Article.save(null, $scope.art, function(){
+    return  Article.save(null, $scope.art, function(data){
 
       
       $scope.art=null;
@@ -165,21 +165,21 @@ app.controller('articleCtrl', ['$scope', '$filter', '$http', '$modal', 'editable
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
        var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceArticleCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

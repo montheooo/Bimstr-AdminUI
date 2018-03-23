@@ -37,7 +37,7 @@ $scope.selected ;
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Artist.delete({id: $scope.select.id}, null, function(){
+                  return Artist.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.artists= Artist.query();
                       var modalInstance = $modal.open({
@@ -46,7 +46,7 @@ $scope.selected ;
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -54,7 +54,7 @@ $scope.selected ;
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                        
                         var modalInstance = $modal.open({
@@ -63,7 +63,7 @@ $scope.selected ;
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -112,7 +112,7 @@ $scope.selected ;
     $scope.saveArtist = function(data, id) {
      
       angular.extend(data, {id: id});
-     return Artist.update({id: id}, data, function(){  
+     return Artist.update({id: id}, data, function(data){  
 
           $scope.artists= Artist.query();
                       var modalInstance = $modal.open({
@@ -121,7 +121,7 @@ $scope.selected ;
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -129,7 +129,7 @@ $scope.selected ;
 
                       });
 
-       }, function(){
+       }, function(data){
 
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
@@ -137,7 +137,7 @@ $scope.selected ;
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -154,7 +154,7 @@ $scope.selected ;
 
     $scope.addArtist = function() {
 
-           return  Artist.save(null, $scope.art, function(){
+           return  Artist.save(null, $scope.art, function(data){
      
           $scope.art=null;
            $scope.artists= Artist.query();
@@ -164,7 +164,7 @@ $scope.selected ;
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -173,7 +173,7 @@ $scope.selected ;
                       });
           
 
-        }, function(){
+        }, function(data){
 
           var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
@@ -181,7 +181,7 @@ $scope.selected ;
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

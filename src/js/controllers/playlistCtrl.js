@@ -44,7 +44,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Playlist.delete({id: $scope.select.id}, null, function(){
+                  return Playlist.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.playlists= Playlist.query();
                       var modalInstance = $modal.open({
@@ -53,7 +53,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -61,7 +61,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                         $scope.playlists= Playlist.query();
                         var modalInstance = $modal.open({
@@ -70,7 +70,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -112,8 +112,8 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
              
 
             
-                  return RmSong2playlist.update({playlistId:$scope.select.playlistid, songId:$scope.select.id }, null, function(){
-                      $scope.playlists= Playlist.query(function(){
+                  return RmSong2playlist.update({playlistId:$scope.select.playlistid, songId:$scope.select.id }, null, function(data){
+                      $scope.playlists= Playlist.query(function(data){
                       $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
                       });
                       var modalInstance = $modal.open({
@@ -122,7 +122,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -130,7 +130,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                         
                         var modalInstance = $modal.open({
@@ -139,7 +139,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -188,7 +188,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
       angular.extend(data, {songId: songid});
       angular.extend(data, {playlistId: $scope.playlistId});
       
-         return saveSong2playlist.update({playlistId: $scope.playlistId, songId:songid }, data, function(){
+         return saveSong2playlist.update({playlistId: $scope.playlistId, songId:songid }, data, function(data){
            
            $scope.playlists= Playlist.query();
             var modalInstance = $modal.open({
@@ -197,14 +197,14 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
              size: 'sm',
              resolve: {
                   items: function () {
-                    
+                    $scope.selected = data ;
                     return $scope.selected ;
                     
                   }
                 }
 
             });
-         }, function(){
+         }, function(data){
                   $scope.playlists= Playlist.query();
                   var modalInstance = $modal.open({
                   templateUrl: 'rejectContent.html',
@@ -212,7 +212,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                    size: 'sm',
                    resolve: {
                         items: function () {
-                          
+                          $scope.selected = data ;
                           return $scope.selected ;
                           
                         }
@@ -239,7 +239,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
         angular.extend($scope.so, {playlistid: $scope.playlistId});
        
-        return Song2playlist.save(null, $scope.so, function(){
+        return Song2playlist.save(null, $scope.so, function(data){
        
 
         $scope.playlists= Playlist.query(function(){
@@ -252,14 +252,14 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
             }
 
         });
-        }, function(){
+        }, function(data){
 
                 $scope.playlists= Playlist.query();
                 var modalInstance = $modal.open({
@@ -268,7 +268,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                  size: 'sm',
                  resolve: {
                       items: function () {
-                        
+                        $scope.selected = data ;
                         return $scope.selected ;
                         
                       }
@@ -284,7 +284,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
       angular.extend($scope.so2, {playlistid: $scope.playlistId});
   
-        return Song2playlist.save($scope.so2, function(){
+        return Song2playlist.save($scope.so2, function(data){
         
         $scope.playlists= Playlist.query(function(){
         $scope.playlists_songs= $scope.playlists[$scope.index].songs;        
@@ -296,7 +296,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
@@ -304,7 +304,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
 
         });
         
-        }, function(){
+        }, function(data){
                 $scope.playlists= Playlist.query();
                 var modalInstance = $modal.open({
                 templateUrl: 'rejectContent.html',
@@ -312,7 +312,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                  size: 'sm',
                  resolve: {
                       items: function () {
-                        
+                        $scope.selected = data ;
                         return $scope.selected ;
                         
                       }
@@ -353,7 +353,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
     $scope.savePlaylist = function(data, id) {
         console.log(data);
         angular.extend(data, {id: id});
-       return Playlist.update({id: id}, data, function(){
+       return Playlist.update({id: id}, data, function(data){
          
          $scope.playlists= Playlist.query();
         var modalInstance = $modal.open({
@@ -362,14 +362,14 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
             }
 
         });
-       }, function(){
+       }, function(data){
               $scope.playlists= Playlist.query();
               var modalInstance = $modal.open({
               templateUrl: 'rejectContent.html',
@@ -377,7 +377,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                size: 'sm',
                resolve: {
                     items: function () {
-                      
+                      $scope.selected = data ;
                       return $scope.selected ;
                       
                     }
@@ -393,7 +393,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
      // add Playlist
     $scope.addPlaylist = function() {
      
-        return  Playlist.save($scope.pla, function(){
+        return  Playlist.save($scope.pla, function(data){
         $scope.pla = null;
         $scope.playlists= Playlist.query();
         var modalInstance = $modal.open({
@@ -402,14 +402,14 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
          size: 'sm',
          resolve: {
               items: function () {
-                
+                $scope.selected = data ;
                 return $scope.selected ;
                 
               }
             }
 
         });
-        }, function(){
+        }, function(data){
               $scope.playlists= Playlist.query();
               var modalInstance = $modal.open({
               templateUrl: 'rejectContent.html',
@@ -417,7 +417,7 @@ app.controller('playlistCtrl', ['$scope', '$filter', '$http', '$modal', '$log', 
                size: 'sm',
                resolve: {
                     items: function () {
-                      
+                      $scope.selected = data ;
                       return $scope.selected ;
                       
                     }

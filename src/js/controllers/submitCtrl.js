@@ -11,15 +11,15 @@ app.controller('ModalInstanceBeatCtrl', ['$scope', '$modalInstance', 'items', fu
     };
 
 
-  }]);
+}]);
 
-app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOptions', 'editableThemes', 'Submit',
-  function($scope, $filter, $http, $modal, editableOptions, editableThemes, Submit){
+app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal','$log', 'editableOptions', 'editableThemes', 'Submit', 'Validation',
+  function($scope, $filter, $http, $modal, $log, editableOptions, editableThemes, Submit, Validation){
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
- $scope.selected ;
+    $scope.selected ;
     $scope.open = function (submit) {
 
           var modalInstance = $modal.open({
@@ -41,7 +41,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Submit.delete({id: $scope.select.id}, null, function(){
+                  return Submit.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.submits= Submit.query();
                       var modalInstance = $modal.open({
@@ -50,7 +50,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -58,7 +58,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                         $scope.submits= Submit.query();
                         var modalInstance = $modal.open({
@@ -67,7 +67,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -83,7 +83,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
     }
    
 
-/***************************************************************************************************************/      
+ /***************************************************************************************************************/      
     $scope.spinner= true;
     $scope.submits =[];
    
@@ -110,7 +110,7 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Submit.update({id: id}, data, function(){
+     return Submit.update({id: id}, data, function(data){
        
         $scope.submits= Submit.query();
                       var modalInstance = $modal.open({
@@ -119,21 +119,71 @@ app.controller('submitCtrl', ['$scope', '$filter', '$http','$modal', 'editableOp
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceBeatCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
+                                $scope.selected = data ;
+                                return $scope.selected ;
                                 
+                              }
+                            }
+                      
+                        });
+     });
+
+    };
+
+    
+
+       // validation Submit
+    $scope.valider = function (id) {
+
+      console.log(id);
+     
+     /*  var data = {
+
+          "beatMaker": true,
+          "producer": true,
+          "stylist": true,
+          "designer": true,
+          "singer": true
+        } */
+
+     return Validation.save({id: id}, null, function(data){
+       
+        $scope.submits= Submit.query();
+                      var modalInstance = $modal.open({
+                      templateUrl: 'successContent.html',
+                       controller: 'ModalInstanceBeatCtrl',
+                       size: 'sm',
+                       resolve: {
+                            items: function () {
+                              $scope.selected = data ;
+                              return $scope.selected ;
+                              
+                            }
+                          }
+
+                      });
+     }, function(data){
+        var modalInstance = $modal.open({
+                        templateUrl: 'rejectContent.html',
+                         controller: 'ModalInstanceBeatCtrl',
+                         size: 'sm',
+                         resolve: {
+                              items: function () {
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }

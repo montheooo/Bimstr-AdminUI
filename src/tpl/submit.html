@@ -16,26 +16,29 @@
   <h4>Editer une Pulication</h4>
   <table ng-show="vue" ng-init="initSubmit()"  class="table table-bordered table-hover  bg-white-only">
     <tr style="font-weight: bold">
-      <td style="width:35%">Pays</td>
+ <!--     <td style="width:35%">Pays</td>  -->
       <td style="width:35%">Nom</td>
       <td style="width:35%">Photo</td>
-      <td style="width:35%">song</td>
-      <td style="width:35%">cover</td>
-      <td style="width:35%">video</td>
+      <td style="width:35%">Song</td>
+      <td style="width:35%">Titre Song</td>
+      <td style="width:35%">Pochette</td>
       <td style="width:35%">Facebook</td>
+      <td style="width:35%">Video</td>
       <td style="width:35%">Email</td>
       <td style="width:35%">Telephone</td>
-      <td style="width:35%">Date</td>
+      <td style="width:35%">Date Sortie</td>
+      <td style="width:35%">Date Upload</td>
+      <td style="width:35%">Rating</td>
 
       <td style="width:25%">Edit</td>
     </tr>
     <tr  ng-repeat="submit in submits | filter: su.artistName | orderBy: submit.dateUpload  track by submit.id">
-      <td class="v-middle">
-        <!-- editable username (text with validation) -->
+  <!--    <td class="v-middle">
+        editable username (text with validation) 
         <span  e-form="rowform"  e-required>
           {{ submit.nationality || 'empty' }}
         </span>
-      </td>
+      </td> -->
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="submit.artistName"  e-name="artistName" e-form="rowform" onbeforesave="checkName($data, submit.id)" e-required>
@@ -44,44 +47,56 @@
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span  e-form="rowform"  e-required>
-          {{ submit.artistPictureUrl || 'empty' }}
+        <span editable-text="submit.artistPictureUrl"  e-name="artistPictureUrl" e-form="rowform"  e-required>
+        <a ng-href="{{submit.artistPictureUrl}}" target="_blank">{{ submit.artistPictureUrl || 'empty' }}</a>  
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span  e-form="rowform"  e-required>
-          {{ submit.artistSongUrl}}
+        <span editable-text="submit.artistSongUrl"  e-name="artistSongUrl" e-form="rowform"  e-required>
+          <a ng-href="{{submit.artistSongUrl}}" target="_blank">{{ submit.artistSongUrl || 'empty' }}</a>
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span  e-form="rowform"  e-required>
-          {{ submit.songCoverUrl}}
+        <span editable-text="submit.title"  e-name="title" e-form="rowform"  e-required>
+          {{ submit.title}}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="submit.songCoverUrl"  e-name="songCoverUrl" e-form="rowform"  e-required>
+          <a ng-href="{{submit.songCoverUrl}}" target="_blank">{{  submit.songCoverUrl || 'empty' }}</a>
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="submit.contactFb"  e-name="contactFb" e-form="rowform" onbeforesave="checkName($data, submit.id)" e-required>
-          {{ submit.contactFb}}
+          <a ng-href="{{submit.contactFb}}" target="_blank">{{  submit.contactFb || 'empty' }}</a>
         </span>
       </td>
      <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span  e-form="rowform"  e-required>
-          {{ submit.urlVideoYoutube}}
+        <span editable-text="submit.urlVideoYoutube"  e-name="urlVideoYoutube" e-form="rowform"  e-required>
+          <a ng-href="{{submit.urlVideoYoutube}}" target="_blank">{{  submit.urlVideoYoutube || 'empty' }}</a>
         </span>
       </td>
        <td class="v-middle">
         <!-- editable username (text with validation) -->
         <span editable-text="submit.email"  e-name="email" e-form="rowform"  e-required>
-          {{ submit.email}}
+          <a href="mailto:{{ submit.email}}">{{ submit.email}}</a>
         </span>
       </td>
       <td class="v-middle">
         <!-- editable username (text with validation) -->
-        <span editable-text="submit.phone"  e-name="phone" e-form="rowform"  e-required>
+        <span  e-form="rowform"  e-required>
           {{ submit.phone}}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span  e-form="rowform" e-required>
+          {{ submit.releasedDate}}
         </span>
       </td>
      
@@ -91,7 +106,12 @@
           {{ submit.dateUpload}}
         </span>
       </td>
-      
+     <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="submit.rating"  e-name="rating" e-form="rowform" e-required>
+          {{ submit.rating}}
+        </span>
+      </td> 
 
       <td style="white-space: nowrap">
         <!-- form -->
@@ -106,7 +126,7 @@
         <div class="buttons" ng-show="!rowform.$visible">
           <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
           <button class="btn btn-sm btn-danger" ng-click="open(submit)">del</button>
-          <button class="btn btn-sm btn-success" ng-click="valider(submit)">OK</button>
+          <a class="btn btn-sm btn-success" ng-click="valider(submit.id)">OK</a>
         </div>
       </td>
     </tr>

@@ -41,7 +41,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
             modalInstance.result.then(function (selectedItem) {
                   $scope.select = selectedItem;
             
-                  return Beat.delete({id: $scope.select.id}, null, function(){
+                  return Beat.delete({id: $scope.select.id}, null, function(data){
                    
                       $scope.beats= Beat.query();
                       var modalInstance = $modal.open({
@@ -50,7 +50,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
@@ -58,7 +58,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
 
                       });
 
-                      }, function(){
+                      }, function(data){
                       
                         $scope.beats= Beat.query();
                         var modalInstance = $modal.open({
@@ -67,7 +67,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                              $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -133,7 +133,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
      
       console.log(data);
       angular.extend(data, {id: id});
-     return Beat.update({id: id}, data, function(){
+     return Beat.update({id: id}, data, function(data){
        
         $scope.beats= Beat.query();
                       var modalInstance = $modal.open({
@@ -142,21 +142,21 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-     }, function(){
+     }, function(data){
         var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceBeatCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
@@ -173,7 +173,7 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
       $scope.beats.push($scope.tit);
       angular.extend($scope.tit, {id:$scope.beats.length+1});
       console.log($scope.tit);
-    return  Beat.save($scope.tit, function(){
+    return  Beat.save($scope.tit, function(data){
       
       $scope.tit=null;
        $scope.beats= Beat.query();
@@ -183,21 +183,21 @@ app.controller('beatCtrl', ['$scope', '$filter', '$http','$modal', 'editableOpti
                        size: 'sm',
                        resolve: {
                             items: function () {
-                              
+                              $scope.selected = data ;
                               return $scope.selected ;
                               
                             }
                           }
 
                       });
-    }, function(){
+    }, function(data){
       var modalInstance = $modal.open({
                         templateUrl: 'rejectContent.html',
                          controller: 'ModalInstanceBeatCtrl',
                          size: 'sm',
                          resolve: {
                               items: function () {
-                                
+                                $scope.selected = data ;
                                 return $scope.selected ;
                                 
                               }
