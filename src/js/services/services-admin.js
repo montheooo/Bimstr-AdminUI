@@ -94,7 +94,6 @@ app.factory('Banner', function($resource) {
 
 app.factory('User', function($resource) {
   return $resource('http://178.62.12.238:8080/bimstr/rest/user/:id', { id: '@_id'}, {
-  
     update: {
       method: 'PUT'
     }
