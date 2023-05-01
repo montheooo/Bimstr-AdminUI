@@ -1,9 +1,25 @@
-app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes', 
-  function($scope, $filter, $http, editableOptions, editableThemes){
+
+app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions', 'editableThemes','artistFactory',
+  function($scope, $filter, $http, editableOptions, editableThemes, artistFactory){
+
+
+
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 
+
+$scope.artists = artistFactory.query();
+
+$scope.artists= Artist.query();
+console.log($scope.artists);
+
+$scope.initArtist = function(){
+
+  $scope.artists= Artist.query();
+
+}
+ 
     $scope.html5 = {
       email: 'email@example.com',
       tel: '123-45-67',
@@ -27,10 +43,10 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
       remember: false
     }; 
 
-    $scope.statuses = [
-      {value: 1, text: 'status1'},
-      {value: 2, text: 'status2'},
-      {value: 3, text: 'status3'}
+    $scope.actives = [
+      {value: 1, text: 'true'},
+      {value: 2, text: 'false'}
+
     ];
 
     $scope.agenda = [
@@ -39,8 +55,8 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
     ];
 
     $scope.showStatus = function() {
-      var selected = $filter('filter')($scope.statuses, {value: $scope.user.status});
-      return ($scope.user.status && selected.length) ? selected[0].text : 'Not set';
+      var selected = $filter('filter')($scope.actives, {value: $scope.artist.active});
+      return ($scope.artist.active && selected.length) ? selected[0].text : 'Not set';
     };
 
     $scope.showAgenda = function() {
@@ -49,11 +65,16 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
     };
 
     // editable table
+    $scope.users = userFactory.getuser.query();
+    console.log($scope.users);
     $scope.users = [
       {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
       {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
       {id: 3, name: 'awesome user3', status: 2, group: null}
     ];
+    // editable table
+   
+
 
     $scope.groups = [];
     $scope.loadGroups = function() {
@@ -71,30 +92,50 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
       }
     };
 
-    $scope.showStatus = function(user) {
+    $scope.showStatus = function(artist) {
       var selected = [];
-      if(user && user.status) {
-        selected = $filter('filter')($scope.statuses, {value: user.status});
+      if(artist && artist.active) {
+        selected = $filter('filter')($scope.actives, {value: artist.active});
       }
       return selected.length ? selected[0].text : 'Not set';
     };
 
     $scope.checkName = function(data, id) {
-      if (id === 2 && data !== 'awesome') {
+      if (id === 101 && data !== 'awesome') {
         return "Username 2 should be `awesome`";
       }
     };
+      //
+    $scope.saveArtist = function(data, id) {
+      //$scope.user not updated yet
+      console.log(data);
+      angular.extend(data, {id: id});
+     return Artist.update({id: id}, data);
 
-    $scope.saveUser = function(data, id) {
+    };
+
+      // save user
+      $scope.saveUser = function(data, id) {
       //$scope.user not updated yet
       console.log(data);
       angular.extend(data, {id: id});
       // return $http.post('api/saveUser', data);
     };
 
+
     // remove user
     $scope.removeUser = function(index) {
       $scope.users.splice(index, 1);
+    };
+     // remove Artist
+    $scope.removeArtist = function(index) {
+//      $scope.artists.splice(index, 1);
+    return Artist.delete({id: index}, null, function(){
+
+      $scope.artists= Artist.query();
+
+    });
+       
     };
 
     // add user
@@ -107,5 +148,30 @@ app.controller('XeditableCtrl', ['$scope', '$filter', '$http', 'editableOptions'
       };
       $scope.users.push($scope.inserted);
     };
+
+     // add Artist
+    $scope.addArtist = function() {
+
+    return  Artist.save({
+
+  //      id: 99,
+        name:'monthe',
+        email: 'monthe@denis.com',
+        age:'10',
+        bio:'denis',
+        picture:'http://denis.denis.com',        
+        active: 'true',       
+        beatMaker: 'true',         
+        producer: 'true',         
+        stylist: 'true',         
+        designer:'true',
+        singer:'true'
+
+    });
+       
+
+    };
+
+   
 
 }]);

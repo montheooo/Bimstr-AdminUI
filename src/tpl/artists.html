@@ -1,0 +1,208 @@
+<script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des artistes </h1>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un Artiste
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addArtist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="art.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" ng-model="art.email">
+        </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">ordering</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Ordering" ng-model="art.ordering">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Age</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Age" ng-model="art.age">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Bio</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Biographie" ng-model="art.bio">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Picture</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Picture" ng-model="art.picture">
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.active"><i></i>IsActive
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.beatMaker"><i></i>IsBeatMaker
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.producer"><i></i>IsProducer
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.stylist"><i></i>IsStylist
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.designer"><i></i>IsDesigner
+          </label>
+        </div>
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="art.singer"><i></i>IsSinger
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Rechercher un Artiste
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addArtist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="ar.name">   
+        </div> 
+      </form>
+    </div>  
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading font-bold">                  
+      Editer un artiste
+  </div>
+  <table  ng-init="initArtist()"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Name</td>
+      <td style="width:35%">Email</td>
+      <td style="width:35%">Ordering</td>
+      <td style="width:35%">Age</td>
+      <td style="width:35%">Bio</td>
+      <td style="width:35%">Picture</td>
+      <td style="width:20%">IsActive</td>
+      <td style="width:20%">IsBeatMaker</td>
+      <td style="width:20%">IsProducer</td>
+      <td style="width:20%">IsStylist</td>
+      <td style="width:20%">IsDesigner</td>
+      <td style="width:20%">IsSinger</td>
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="artist in artists | filter: ar.name | orderBy: artist.name  track by artist.id">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.name || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.email"  e-name="email" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.email || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.ordering"  e-name="ordering" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.ordering || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.age"  e-name="age" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.age || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.bio"  e-name="bio" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.bio || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="artist.picture"  e-name="picture" e-form="rowform" onbeforesave="checkName($data, artist.id)" e-required>
+          {{ artist.picture || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.active }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.beatMaker" e-name="beatMaker" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.beatMaker }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.producer" e-name="producer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.producer }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.stylist" e-name="stylist" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.stylist }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.designer" e-name="designer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.designer }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="artist.singer" e-name="singer" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ artist.singer }}
+        </span>
+      </td>
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveArtist($data, artist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == artist">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(artist)">del</button>
+        </div>  
+      </td>
+    </tr>
+  </table>
+  </div>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+  
+
+   

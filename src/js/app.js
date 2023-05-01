@@ -19,4 +19,5 @@ angular.module('app', [
     'oc.lazyLoad',
     'cgNotify',
     'pascalprecht.translate'
+    
 ]);

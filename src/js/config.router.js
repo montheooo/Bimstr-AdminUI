@@ -5,14 +5,31 @@
  */
  angular.module('app')
  .run(
-  [          '$rootScope', '$state', '$stateParams',
-  function ($rootScope,   $state,   $stateParams) {
+  [          '$rootScope', '$state', '$stateParams', '$http',
+  function ($rootScope,   $state,   $stateParams , $http) {
     $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;        
+
+    $rootScope.$stateParams = $stateParams; 
+
   }])
+
  .config(
-  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider',
-  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider) {
+  [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', '$authProvider', '$ocLazyLoadProvider','$locationProvider',
+  function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, $authProvider, $ocLazyLoadProvider, $locationProvider) {
+/*    
+     //check browser support
+        if(window.history && window.history.pushState){
+        $locationProvider.html5Mode(true); //will cause an error $location in HTML5 mode requires a  tag to be present! Unless you set baseUrl tag after head tag like so: <head> <base href="/">
+
+         // to know more about setting base URL visit: https://docs.angularjs.org/error/$location/nobase
+
+         // if you don't wish to set base URL then use this
+         $locationProvider.html5Mode({
+                 enabled: true,
+                 requireBase: false
+          }); 
+        }
+*/
     var layout = "tpl/app.html";
     if(window.location.href.indexOf("material") > 0){
       layout = "tpl/blocks/material.layout.html";
@@ -22,6 +39,8 @@
       $urlRouterProvider
       .otherwise('/app/dashboard-v1');
     }
+
+    
 
     $stateProvider
     .state('login', {
@@ -40,7 +59,12 @@
       templateUrl: 'tpl/page_signup.html',
       controller: 'SignupCtrl',
       resolve: {
-        skipIfLoggedIn: skipIfLoggedIn
+        skipIfLoggedIn: skipIfLoggedIn,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load([
+              'js/services/services-admin.js',
+              'js/controllers/signup.js']);
+        }]
       }
     })
     .state('logout', {
@@ -60,7 +84,8 @@
       resolve: {
         loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
             // you can lazy load files for an existing module
-             return $ocLazyLoad.load(['js/controllers/alert.js', 
+             return $ocLazyLoad.load(['xeditable','js/controllers/xeditable.js','js/controllers/alert.js',
+              'smart-table','js/controllers/table.js','js/controllers/adminUserController.js',
               'js/controllers/chart.js',
               'ui.grid',
               'js/controllers/uigrid.js',
@@ -69,42 +94,133 @@
         }]
       }
     })
-    .state('manage', {
-      abstract: true,
-      url: '/manage',
-      templateUrl: 'tpl/layout.html'
+
+    .state('app.artists', {
+      url: '/artists',
+      templateUrl: 'tpl/artists.html',
+      controller: 'artistCtrl',
+      resolve :load(['xeditable', 'js/controllers/alert.js',
+            'js/controllers/bootstrap.js',
+            'js/services/services-admin.js',
+            'js/controllers/artistCtrl.js'
+            ])
+
     })
 
-    .state('manage.users', {
-      url: '/users',
-      templateUrl: 'tpl/users.html',
-      resolve : {
-        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-          return $ocLazyLoad.load(['xeditable', 'js/controllers/alert.js',
-            'smart-table','js/controllers/table.js',
-            'js/controllers/adminUserController.js',
-            'js/controllers/uigrid.js',
+    .state('app.banners', {
+      url: '/banners',
+      templateUrl: 'tpl/banners.html',
+      controller: 'bannerCtrl',
+      resolve :load(['xeditable', 'js/controllers/alert.js',
             'js/services/services-admin.js',
-            'js/controllers/albumController.js'
+            'js/controllers/bannerCtrl.js'
             ])
+
+    })
+
+     .state('app.albums', {
+      url: '/albums',
+      templateUrl: 'tpl/albums.html',
+      controller: 'albumCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/albumCtrl.js'
+            ])
+
+    })
+
+      .state('app.songs', {
+      url: '/songs',
+      templateUrl: 'tpl/songs.html',
+      controller: 'songCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/songCtrl.js',
+            'js/controllers/bootstrap.js'
+            ])
+
+    })
+
+       .state('app.playlists', {
+      url: '/playlists',
+      templateUrl: 'tpl/playlists.html',
+      controller: 'playlistCtrl',
+      resolve :{
+        loginRequired: loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load(['xeditable','ui.select', 'js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/playlistCtrl.js'
+            ]);
         }]
       }
     })
-    
-    // .state('manage.usersList', {
-    //   url: '/usersList',
-    //   templateUrl: 'tpl/adminUsers.html',
-    //   resolve : {
-    //     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-    //       return $ocLazyLoad.load(['js/controllers/alert.js',
-    //         'js/controllers/adminUserController.js',
-    //         'js/controllers/uigrid.js',
-    //         'js/services/services-admin.js',
-    //         'js/controllers/albumController.js'
-    //         ])
-    //     }]
-    //   }
-    // })
+
+     .state('app.articles', {
+      url: '/articles',
+      templateUrl: 'tpl/articles.html',
+      controller: 'articleCtrl',
+      resolve :load(['xeditable','js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/articleCtrl.js',
+            'js/controllers/bootstrap.js'
+            ])
+
+    })
+
+
+     .state('app.videos', {
+      url: '/videos',
+      templateUrl: 'tpl/videos.html',
+      controller: 'videoCtrl',
+      resolve :load(['xeditable','ui.select', 'js/controllers/alert.js',
+            'js/services/services-admin.js',
+            'js/controllers/videoCtrl.js'
+
+            ])
+
+    })
+
+
+     .state('app.users', {
+      url: '/users',
+      templateUrl: 'tpl/users.html',
+      controller: 'userCtrl',
+      resolve : {
+        loginRequired: loginRequired,
+        loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+             return $ocLazyLoad.load(['xeditable','ui.select',
+              'js/services/services-admin.js',
+              'js/controllers/userCtrl.js']);
+        }]
+      }
+    })
+
+       .state('app.beats', {
+      url: '/beats',
+      templateUrl: 'tpl/beats.html',
+      controller: 'beatCtrl',
+      resolve :load(['xeditable','ui.select',
+            'js/services/services-admin.js',
+            'js/controllers/beatCtrl.js'
+            
+            ])
+
+    })
+
+    .state('app.submit', {
+      url: '/submit',
+      templateUrl: 'tpl/submit.html',
+      controller: 'submitCtrl',
+      resolve :load(['xeditable','ui.select',
+            'js/services/services-admin.js',
+            'js/controllers/submitCtrl.js'
+            
+            ])
+
+    })
+
+
     .state('app.dashboard-v2', {
       url: '/dashboard-v2',
       templateUrl: 'tpl/app_dashboard_v2.html',
@@ -134,7 +250,7 @@
     .state('app.ui.widgets', {
       url: '/widgets',
       templateUrl: 'tpl/ui_widgets.html'
-    })          
+    })
     .state('app.ui.bootstrap', {
       url: '/bootstrap',
       templateUrl: 'tpl/ui_bootstrap.html'
@@ -440,12 +556,12 @@
                 templateUrl: 'tpl/music.html',
                 controller: 'MusicCtrl',
                 resolve: load([
-                  'com.2fdevs.videogular', 
-                  'com.2fdevs.videogular.plugins.controls', 
+                  'com.2fdevs.videogular',
+                  'com.2fdevs.videogular.plugins.controls',
                   'com.2fdevs.videogular.plugins.overlayplay',
                   'com.2fdevs.videogular.plugins.poster',
                   'com.2fdevs.videogular.plugins.buffering',
-                  'js/app/music/ctrl.js', 
+                  'js/app/music/ctrl.js',
                   'js/app/music/theme.css'
                   ])
               })
@@ -514,14 +630,14 @@
 
               $authProvider.facebook({
                 clientId: '901473839934047',
-                //responseType: 'token',
+                responseType: 'code',
                 name: 'facebook',
                 tokenName: 'token',
-                url: 'http://188.166.164.5:8080/bihh/rest/user/login/facebook',
+               url: 'http://178.62.12.238:8080/bimstr/rest/user/fblogin',
                 authorizationEndpoint: 'https://www.facebook.com/dialog/oauth',
-                //redirectUri: 'http://localhost:8080/src/app/#/dashboard-v1',                
+                redirectUri: 'http://178.62.12.238:8088/src/login',
                 requiredUrlParams: ['display', 'scope'],
-                scope: ['email'],
+                scope: ['email', 'public_profile'],
                 scopeDelimiter: ',',
                 display: 'popup',
                 type: '2.0',
@@ -562,7 +678,7 @@
               function skipIfLoggedIn($q, $auth) {
                 var deferred = $q.defer();
                 if ($auth.isAuthenticated()) {
-                  $state.go('app.dashboard-v1');
+                  $state.go('app.dashboard');
                   deferred.reject();
                 } else {
                   deferred.resolve();

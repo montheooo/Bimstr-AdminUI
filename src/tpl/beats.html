@@ -1,0 +1,169 @@
+ <script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des Beats </h1>
+</div>
+   <div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter un Beat
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addBeat()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="tit.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2"> beat link url</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="beat url" ng-model="tit.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">cover image</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="cover image" ng-model="tit.coverImage">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Single Rating</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Single Rating" ng-model="tit.singleRating">
+        </div>
+
+        <div class="form-group">
+          <ui-select class="form-group" ng-model="tit.artistId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner un artiste">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.email | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="form-group">
+          <ui-select  ng-model="tit.albumId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un album...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in album | filter: $select.search">
+              <div ng-bind-html="item.albumName | highlight: $select.search"></div>
+              <small ng-bind-html="item.label | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="tit.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Rechercher un beat
+    </div>
+    <div class="panel-body">
+      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addBeat()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">title</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="title" ng-model="ti.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">beat Id</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Beat Id" ng-model="ti.id">
+        </div>
+      </form>
+    </div>
+</div>
+<div class="wrapper-md">
+  <h4>Editer un beat</h4>
+  <table ng-show="vue" ng-init="initBeat()"  class="table table-bordered table-hover  bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">title</td>
+      <td style="width:35%">Link</td>
+      <td style="width:35%">CoverImage</td>
+      <td style="width:35%">SingleRating</td>
+      <td style="width:35%">ArtistName</td>
+      <td style="width:35%">Album Id</td>
+
+      <td style="width:30%">IsDownload</td>
+
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="beat in beats | filter: ti.name |filter: ti.id | orderBy: beat.name  track by beat.id">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="beat.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, beat.id)" e-required>
+          {{ beat.name || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="beat.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, beat.id)" e-required>
+          {{ beat.link || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="beat.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, beat.id)" e-required>
+          {{ beat.coverImage || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="beat.singleRating"  e-name="singleRating" e-form="rowform" onbeforesave="checkName($data, beat.id)" e-required>
+          {{ beat.singleRating}}
+        </span>
+      </td>
+
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-select="beat.artistId"  e-name="artistId" e-form="rowform" e-required onshow="loadGroupsArtist()" e-ng-options="g.id as g.name for g in groupsArtist">
+          {{ beat.artistName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-select="beat.albumId"  e-name="albumId" e-form="rowform" e-required onshow="loadGroupsAlbum()" e-ng-options="g.id as g.albumName for g in groupsAlbum">
+          {{ beat.albumId || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="beat.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ beat.downloadable }}
+        </span>
+      </td>
+
+
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveBeat($data, beat.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == beat">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(beat)">del</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+   <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+
+
+
+</div>

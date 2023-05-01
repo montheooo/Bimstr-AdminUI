@@ -1,119 +1,378 @@
-  <div class="bg-light lter b-b wrapper-md">
-    <h1 class="m-n font-thin h3">Administrate users </h1>
-  </div>
+<script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des utilisateurs </h1>
+</div>
+<div  class="panel panel-default">
+<div ng-show="vue">
+    <div class="panel-heading font-bold">                  
+      Rechercher un utilisateur
+    </div>
+    <div class="panel-body">
+      <form  class="form-inline" role="form"  ng-submit="addPlaylist()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="pl.firstName">   
+        </div> 
+      </form>
+          <h5>                  
+          Select a Role
+          </h5>
 
-  <div class="wrapper-md">
-    <div ng-controller="UsersListCtrl">
+      <select ng-model="pl.role">
+        <option value="administrator">admin</option>
+        <option value="authenticated">user</option>
+      </select>
+    </div>  
+</div>
+<div ng-show="vue" class="panel panel-default"> 
+    <div class="panel-heading font-bold">                  
+      Editer une utilisateur
+    </div>
+  <table  ng-init="initUser()"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      
+      <td style="width:35%">First Name</td>
+      <td style="width:35%">Last Name</td>
+      <td style="width:20%">matricule</td>      
+      <td style="width:35%">Email</td>            
+      <td style="width:35%">Role</td>            
+      <td style="width:20%">Is Verified</td>
+        
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="user in users | filter: pl.firstName |filter: pl.role | orderBy: user.name  track by user.id">
+      
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.firstName"  e-name="firstName" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ user.firstName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.lastName"  e-name="lastName" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ user.lastName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.matricule"  e-name="matricule" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ user.matricule || 'empty' }}
+        </span>
+      </td>
 
-      <tabset class="tab-container">
-        <tab ng-repeat="tab in userStatuses" >
-          <tab-heading ng-click="getUsers(tab)">
-            <i class="fa fa-ban"></i> {{tab}} Users
-          </tab-heading>
-          <table class="table table-bordered table-hover table-condensed bg-white-only">
-            <tr style="font-weight: bold">
-              <!-- <td style="width:15%">UserId</td> -->
-              <td style="width:15%">First Name</td>
-              <td style="width:15%">Last Name</td>
-              <td style="width:10%">Username</td>
-              <td style="width:20%">Email</td>
-              <td style="width:12%">isAdmin</td>
-              <td style="width:15%">Edit</td>
-            </tr>
-            <tr ng-repeat="user in displayed">
-              <td class="v-middle">
-                <!-- editable username (text with validation) -->
-                <span editable-text="user.name" e-name="name" e-form="adminRowform" onbeforesave="checkName($data, user.id)" e-required>
-                  {{ user.name || 'empty' }}
-                </span>
-              </td>
-              <td class="v-middle">
-                <!-- editable username (text with validation) -->
-                <span editable-text="user.lastname" e-name="lastname" e-form="adminRowform" onbeforesave="checkName($data, user.id)" e-required>
-                  {{ user.lastname || 'empty' }}
-                </span>
-              </td>
-              <td class="v-middle">
-                <!-- editable username (text with validation) -->
-                <span editable-text="user.username" e-name="username" e-form="adminRowform" onbeforesave="checkName($data, user.id)" e-required>
-                  {{ user.username || 'empty' }}
-                </span>
-              </td>
-              <td class="v-middle">
-                <!-- editable username (text with validation) -->
-                <span editable-text="user.email" e-name="email" e-form="adminRowform" onbeforesave="checkName($data, user.id)" e-required>
-                  {{ user.email || 'empty' }}
-                </span>
-              </td>
-              <td class="v-middle">
-                <!-- editable status (select-local) -->
-                <span editable-select="user.status" e-name="status" e-form="adminRowform" e-ng-options="s for s in userStatuses">
-                  {{ showStatus(user) }}
-                </span>
-              </td>
-              <td style="white-space: nowrap">
-                <!-- form -->
-                <form editable-form name="adminRowform" onbeforesave="saveUser($data, user.userId)" ng-show="adminRowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-                  <button type="submit" ng-disabled="adminRowform.$waiting" class="btn btn-sm btn-info">
-                    save
-                  </button>
-                  <button type="button" ng-disabled="adminRowform.$waiting" ng-click="adminRowform.$cancel()" class="btn btn-sm btn-default">
-                    cancel
-                  </button>
-                </form>
-                <div class="buttons" ng-show="!adminRowform.$visible">
-                  <button class="btn btn-sm btn-info" ng-click="adminRowform.$show()">edit</button>
-                  <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">del</button>
-                </div>  
-              </td>
-            </tr>
-          </table>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.emailAddress"  e-name="emailAddress" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ user.emailAddress || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.role"  e-name="role" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ user.role || 'empty' }}
+        </span>
+      </td>
+     
+      
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="user.verified" e-name="verified" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ user.verified }}
+        </span>
+      
 
-          <button class="btn btn-default m-b-lg" ng-click="addUser(tab)">Add user</button>
-        </tab>
+      </td>
+      
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="savePlaylist($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          
+         <a class="btn btn-sm btn-info" ng-click="moreUser($index, user.id)">social</a>
+        </div>  
+        
+      </td>
+    </tr>
+  </table>
 
-        <tab disabled="true">
-          <tab-heading>
-            <i class="fa icon-user "></i> All users
-          </tab-heading>
+</div>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+<!--***************************************************************************************-->
+<div ng-show="vue2">
+    <h4>Social Profile</h4>
 
-          <table class="table"  st-pipe="callServer" st-table="rowCollection">
-            <thead>
-            <tr>
-              <th style="width:15%" st-sort="id">id</th>
-              <th style="width:15%" st-sort="name">name</th>
-              <th style="width:15%" st-sort="age">age</th>
-              <th style="width:15%" st-sort="saved">saved people</th>
-            </tr>
-            <tr>
-              <th><input st-search="id"/></th>
-              <th><input st-search="name"/></th>
-              <th><input st-search="age"/></th>
-              <th><input st-search="saved"/></th>
-            </tr>
-            </thead>
-            <tbody ng-show="!isLoading">
-            <tr ng-repeat="row in rowCollection">
-              <td>{{row.id}}</td>
-              <td>{{row.first_name}}</td>
-              <td>{{row.last_name}}</td>
-              <td>{{row.saved}}</td>
-            </tr>
-            </tbody>
-            <tbody ng-show="isLoading">
-            <tr>
-              <td colspan="4" class="text-center">Loading ... </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-              <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
-              </td>
-            </tr>
-            </tfoot>
-          </table>  
+  <table ng-init="social_profile"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Provider</td>
+      <td style="width:35%">Display Name</td>
+      <td style="width:35%">Provider Id</td>
+      <td style="width:35%">Profile Url</td>
+      <td style="width:35%">Image Url</td>
+      
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="play in social_profile | filter: p.provider  ">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.provider"  e-name="provider" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
+          {{ play.provider || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.displayName"  e-name="displayName" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.displayName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.providerUserId"  e-name="providerUserId" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.providerUserId || 'empty' }}
+        </span>
+      </td>
+     <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.profileUrl"  e-name="profileUrl" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.profileUrl || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.imageUrl"  e-name="imageUrl" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.imageUrl || 'empty' }}
+        </span>
+      </td>
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="savePlaylist_song($data, play.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == play">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+         
+          <button class="btn btn-sm btn-info" ng-click="morePlaylist()">Show playlist</button>
+          
+        </div>  
+      </td>
+    </tr>
+  </table>
 
-        </tab>
-      </tabset>
+  <a class="btn btn-sm btn-default" ng-click="showUser()">revenir aux Utilisateurs</a>
+<!--************************************************************************************-->
+</div>
+
+  
+<!--******************************************************************-->
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un Utilisateur
+    </div>
+  <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addUser()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="pla.name">
+        </div>
+        
+        
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">First Name</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="First Name" ng-model="pla.firstName">
+        </div>
+        
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Last Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Last Name" ng-model="pla.lastName">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Username</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Username" ng-model="pla.user">
+        </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Password</label>
+          <input type="password" class="form-control" id="exampleInputEmail2" placeholder="Password" ng-model="pla.password">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Email Address</label>
+          <input type="email" class="form-control" id="exampleInputPassword2" placeholder="Email Address" ng-model="pla.emailAddress">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">role</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="role" ng-model="pla.role">
+        </div>
+                
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="pla.downloadable"><i></i>IsVerified
+          </label>
+        </div>
+       
+        
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
     </div>
   </div>
+
+  <!--******************************************************************-->
+  <div ng-show="vue3" class="panel panel-default"> 
+    <div class="panel-heading font-bold">                  
+      Playlist
+    </div>
+    <a class="btn btn-sm btn-default" ng-click="showUser()">revenir aux Utilisateurs</a>
+  <table  ng-init="user_playlist"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Name</td>
+      <td style="width:35%">Picture</td>
+      <td style="width:35%">Create On</td>
+      <td style="width:20%">Create By</td>      
+      <td style="width:35%">Description</td>            
+      <td style="width:20%">IsDownload</td>
+        
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="playlist in user_playlist | orderBy: playlist.name">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.name || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.playlistAvatar"  e-name="playlistAvatar" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.playlistAvatar || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.createdOn"  e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.createdOn || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.createdById"  e-name="createdById" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.createdById || 'empty' }}
+        </span>
+      </td>
+
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="playlist.description"  e-name="description" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ playlist.description || 'empty' }}
+        </span>
+      </td>
+     
+      
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="playlist.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ playlist.downloadable }}
+        </span>
+      
+
+      </td>
+      
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="savePlaylist($data, playlist.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == playlist">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+         
+         <a class="btn btn-sm btn-info" ng-click="moreSong($index)">song</a>
+        </div>  
+        
+      </td>
+    </tr>
+  </table>    
+</div>
+  <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+  </div>
+<!--***************************************************************************************-->
+<div ng-show="vue4">
+    <h4>songs</h4>
+  <a class="btn btn-sm btn-default" ng-click="showUser()">revenir aux Users</a>
+
+  <table ng-init="user_song"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Name</td>
+      <td style="width:35%">Link</td>
+      <td style="width:35%">Cover Image</td>
+            
+      <td style="width:20%">IsDownload</td>
+        
+      
+    </tr>
+    <tr  ng-repeat="son in user_song | filter: p.name  ">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="son.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ son.name || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="son.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, son.id)" e-required>
+          {{ son.link || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="son.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, son.id)" e-required>
+          {{ son.coverImage || 'empty' }}
+        </span>
+      </td>  
+      
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="son.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ son.downloadable }}
+        </span>
+      </td>
+      
+      
+      
+    </tr>
+  </table>
+
+</div>
+</div>

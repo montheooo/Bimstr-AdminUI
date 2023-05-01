@@ -1,0 +1,260 @@
+<script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des albums </h1>
+</div>
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un Album
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addAlbum()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="alb.albumName">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Link</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Link" ng-model="alb.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Alb Rating</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="album Rating" ng-model="alb.albRating">
+        </div>
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">label</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="label" ng-model="alb.label">
+        </div>
+        
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">description</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="description" ng-model="alb.description">
+        </div>
+        <div class="form-group">
+          <ui-select  ng-model="alb.artistId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un artiste...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.email | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+         
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="alb.active"><i></i>IsActive
+          </label>
+        </div>
+       
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="alb.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+<div ng-show="vue" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Rechercher un Album
+    </div>
+    <div class="panel-body">
+      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addAlbum()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Name" ng-model="al.name">   
+        </div> 
+      </form>
+    </div>  
+</div>
+<div ng-show="vue" class="wrapper-md">
+  <h4>Editer un Album</h4>
+  <table  ng-init="initAlbum()"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Album Id</td>
+
+      <td style="width:35%">Name</td>
+      <td style="width:35%">coverImage</td>
+      <td style="width:35%">AlbRating</td>     
+      <td style="width:35%">Label</td>
+      <td style="width:20%">Artist</td>
+      <td style="width:20%">Descrip</td>
+      <td style="width:20%">IsActive</td>
+      <td style="width:20%">IsDownload</td>
+      
+      <td style="width:25%">Edit</td>
+
+    </tr>
+    
+    <tr  ng-repeat="album in albums | filter: al.name | orderBy: album.name  track by album.id">
+    <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.albumName"  e-name="albumName" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.id || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.albumName"  e-name="albumName" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.albumName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.link || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.albRating"  e-name="albRating" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.albRating || 'empty' }}
+        </span>
+      </td>
+
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.label"  e-name="label" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.label || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="album.artistId" e-name="artistId" onshow="loadGroupsAlbum()" e-form="rowform" e-ng-options="g.id as g.name for g in groupsAlbum">
+          {{ album.artistName }}
+        </span>
+      </td>
+
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="album.description"  e-name="description" e-form="rowform" onbeforesave="checkName($data, album.id)" e-required>
+          {{ album.description || 'empty' }}
+        </span>
+      </td>
+     
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="album.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ album.active }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="album.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ album.downloadable }}
+        </span>
+      </td>
+      
+      
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveAlbum($data, album.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == album">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(album)">del</button>
+          <a  class="btn btn-sm btn-default" ng-click="moreAlbum_song($index, album.id)">song</a>
+        </div>  
+      </td>
+    </tr>
+  </table>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!--***************************************************************************************-->
+<div ng-show="vue2">
+  <a class="btn btn-sm btn-default" ng-click="showAlbum()">revenir aux Albums</a>
+    <h4> Songs de l'Album</h4>
+
+  <table ng-show="vue2" ng-init="albums_songs"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Song Id</td>
+      <td style="width:35%">Name</td>
+      <td style="width:35%">Cover Image</td>
+      <td style="width:35%">Create On</td>            
+      <td style="width:20%">IsDownload</td>
+        
+     
+    </tr>
+    <tr  ng-repeat="play in albums_songs | filter: p.name  ">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.id"  e-name="id" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ play.id || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, playlist.id)" e-required>
+          {{ play.name || 'empty' }}
+        </span>
+      </td>
+      
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.coverImage"  e-name="coverImage" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.coverImage || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="play.createdOn"  e-name="createdOn" e-form="rowform" onbeforesave="checkName($data, play.id)" e-required>
+          {{ play.createdOn || 'empty' }}
+        </span>
+      </td>  
+      
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="play.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ play.downloadable }}
+        </span>
+      </td>
+      
+    </tr>
+  </table>
+  <a class="btn btn-sm btn-default" ng-click="showAlbum()">revenir aux Albums</a>
+</div>
+<!--
+<div ng-show="vue2" class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un song à l'Album
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addPlaylist2song()" >
+         <ui-select  ng-model="so.songId" theme="bootstrap">
+            <ui-select-match placeholder="Selectionner ou chercher un Song...">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in songs | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.createdOn | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>        
+            <button type="submit" class="btn btn-primary ">Enregistrer</button> 
+      </form>
+    </div>
+</div>
+-->
+
+  
+<!--******************************************************************-->  
+
+

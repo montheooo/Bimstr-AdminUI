@@ -1,0 +1,179 @@
+ <script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des Videos </h1>
+</div>
+ <div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter une Video
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addVideo()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Title</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Title" ng-model="tit.name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Link</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Link" ng-model="tit.link">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Single Rating</label>
+          <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Single Rating" ng-model="tit.singleRating">
+        </div>
+
+
+          <ui-select class="form-group" ng-model="tit.artistId" theme="bootstrap">
+            <ui-select-match placeholder="artiste">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in artist | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              <small ng-bind-html="item.email | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+
+
+           <ui-select class="form-group" ng-model="tit.albumId" theme="bootstrap">
+            <ui-select-match placeholder="album">{{$select.selected.id}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in album | filter: $select.search">
+              <div ng-bind-html="item.albumName | highlight: $select.search"></div>
+              <small ng-bind-html="item.label | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+
+
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Style</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Style" ng-model="tit.style">
+        </div>
+
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="tit.active"><i></i>IsActive
+          </label>
+        </div>
+
+        <div class="checkbox m-l m-r-xs">
+          <label class="i-checks">
+            <input type="checkbox" ng-model="tit.downloadable"><i></i>IsDownload
+          </label>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Rechercher une video
+    </div>
+    <div class="panel-body">
+      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addSong()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">title</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="title" ng-model="ti.name">
+        </div>
+      </form>
+    </div>
+</div>
+<div class="wrapper-md">
+  <h4>Editer une video</h4>
+  <table ng-show="vue" ng-init="initVideo()"  class="table table-bordered table-hover  bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">ID</td>
+      <td style="width:35%">title</td>
+      <td style="width:35%">Link</td>
+      <td style="width:35%">SingleRating</td>
+      <td style="width:35%">ArtistName</td>
+      <td style="width:35%">Album Id</td>
+      <td style="width:30%">IsActive</td>
+      <td style="width:30%">IsDownload</td>
+
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr  ng-repeat="video in videos | filter: ti.name | orderBy: video.name  track by video.id">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span   e-name="id" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.id || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="video.name"  e-name="name" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.name || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="video.link"  e-name="link" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.link || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="video.singleRating"  e-name="singleRating" e-form="rowform" onbeforesave="checkName($data, video.id)" e-required>
+          {{ video.singleRating || 'empty' }}
+        </span>
+      </td>
+
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-select="video.ArtistId"  e-name="artistId" e-form="rowform" onshow="loadGroupsArtist()" e-ng-options="g.id as g.name for g in groupsArtist">
+          {{ video.artistName || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-select="video.albumId"  e-name="albumId" e-form="rowform" onshow="loadGroupsAlbum()" e-ng-options="g.id as g.albumName for g in groupsAlbum">
+          {{ video.albumId || 'empty' }}
+        </span>
+      </td>
+
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="video.active" e-name="active" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ video.active }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="video.downloadable" e-name="downloadable" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          {{ video.downloadable }}
+        </span>
+      </td>
+
+
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveVideo($data, video.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == video">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(video)">del</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+
+
+  
+</div>

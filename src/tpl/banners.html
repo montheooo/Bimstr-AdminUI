@@ -1,0 +1,126 @@
+<script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Gestion des Bannieres </h1>
+</div>
+ <div class="panel panel-default">
+    <div class="panel-heading font-bold">
+      Ajouter une banniere
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addBanner()" >
+        <div class="form-group">
+          <label class="sr-only" >Banner Type</label>
+          <select ng-model="bann.bannerElementType" >
+            <option value="Audio">Audio</option>
+            <option value="video">Video</option>
+            <option value="Article">Article</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" >Banner Comment</label>
+          <textarea ng-model="bann.bannerComment" class="form-control"  placeholder="Commentaire de la banniere" ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Banner Media</label>
+          <input type="text" class="form-control"  placeholder="Url image/gif banniere" ng-model="bann.bannerMediaSrc">
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Target Element Id (video or audio or article id)</label>
+          <input type="text" class="form-control"  placeholder="Target Element Id" ng-model="bann.bannerElementId">
+        </div>
+        <div class="form-group">
+          <label class="sr-only">BannerElementPage</label>
+          <input type="text" class="form-control"  placeholder="Banner Element Page" ng-model="bann.bannerElementPage">
+        </div>
+         <div class="form-group">
+          <label class="sr-only">ordering</label>
+          <input type="number" class="form-control"  placeholder="ordering" ng-model="bann.ordering">
+        </div>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+<div class="wrapper-md">
+  <h4>Editer une Banniere</h4>
+  <table  ng-init="initBanner()" class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Id Elemenebt destination</td>
+      <td style="width:35%">BannerType</td>
+      <td style="width:35%">BannerComment</td>
+      <td style="width:35%">BannerMediaSrc</td>
+      <td style="width:35%">BannerElementPage</td>
+      <td style="width:35%">ordering</td>
+
+      <td style="width:25%">Edit</td>
+    </tr>
+    <tr ng-repeat="Banner in Banners">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.bannerElementId"  e-name="bannerElementId" e-form="rowform"  e-required>
+          {{ Banner.bannerElementId || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-select="Banner.bannerElementType" e-name="bannerElementType" onshow="loadGroups()" e-form="rowform" e-ng-options="b.id as b.text for b in groupsBanner">
+          {{ Banner.bannerElementType }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable group (select-remote) -->
+        <span editable-text="Banner.bannerComment" e-name="bannerComment" onshow="loadGroups()" e-form="rowform" >
+          {{ Banner.bannerComment }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.bannerMediaSrc"  e-name="bannerMediaSrc" e-form="rowform"  e-required>
+          {{ Banner.bannerMediaSrc || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.bannerElementPage "  e-name="bannerElementPage " e-form="rowform"  e-required>
+          {{ Banner.bannerElementPage || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="Banner.ordering "  e-name="ordering " e-form="rowform"  e-required>
+          {{ Banner.ordering || 'empty' }}
+        </span>
+      </td>
+
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveBanner($data, Banner.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == Banner">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(Banner)">del</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+     <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+
+  
+</div>

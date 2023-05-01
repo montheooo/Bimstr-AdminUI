@@ -1,0 +1,213 @@
+ <script type="text/ng-template" id="deleteContent.html">
+    <div ng-include="'tpl/modal/modal_delete.html'"></div>
+</script>
+<script type="text/ng-template" id="successContent.html">
+    <div ng-include="'tpl/modal/modal_success.html'"></div>
+</script>
+<script type="text/ng-template" id="rejectContent.html">
+    <div ng-include="'tpl/modal/modal_reject.html'"></div>
+</script>
+<div class="bg-light lter b-b wrapper-md" >
+  <h1 class="m-n font-thin h3">Gestion des articles </h1>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Ajouter un Article
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" role="form"  ng-submit="addArticle()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Keywords</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Keywords" ng-model="art.keywords">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Resume</label>
+          <textarea type="text" class="form-control" id="exampleInputEmail2" placeholder="Resume" ng-model="art.resume"></textarea> 
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Paragraphe 1</label>
+          <textarea type="text" class="form-control" id="exampleInputEmail2" placeholder="Paragraphe 1" ng-model="art.paragraphe1"></textarea> 
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">Paragraphe 2</label>
+          <textarea type="text" class="form-control" id="exampleInputPassword2" placeholder="Paragraphe 2" ng-model="art.paragraphe2"></textarea> 
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">title</label>
+          <textarea type="text" class="form-control" id="exampleInputPassword2" placeholder="title" ng-model="art.title"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">subtitle</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="subtitle" ng-model="art.subtitle">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">coverimage</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="coverimage" ng-model="art.coverimage">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">rank</label>
+          <input type="number" class="form-control" id="exampleInputPassword2" placeholder="rank" ng-model="art.rank">
+        </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">externalLink</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="externalLink" ng-model="art.externalLink">
+        </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">pressName</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="pressName" ng-model="art.pressName">
+        </div>
+         <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">pressLogo</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="pressLogo" ng-model="art.pressLogo">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">imageLinks</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="imageLinks" ng-model="art.imageLinks">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputPassword2">relatedArticles</label>
+          <input type="text" class="form-control" id="exampleInputPassword2" placeholder="relatedArticles" ng-model="art.relatedArticles">
+        </div>
+       
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        
+      </form>
+    </div>
+  </div>
+<div class="panel panel-default">
+    <div class="panel-heading font-bold">                  
+      Rechercher un Article
+    </div>
+    <div class="panel-body">
+      <form ng-show="vue" class="form-inline" role="form"  ng-submit="addArticle()" >
+        <div class="form-group">
+          <label class="sr-only" for="exampleInputEmail2">Keywords</label>
+          <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Keywords" ng-model="ar.title">   
+        </div> 
+      </form>
+    </div>  
+</div>
+<div class="wrapper-md">
+  <h4>Editer un Article</h4>
+  <table ng-show="vue" ng-init="initArticle()"  class="table table-bordered table-hover table-condensed bg-white-only">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Keywords</td>
+      <td style="width:35%">Resumé</td>
+      <td style="width:35%">Paragraphe1</td>
+      <td style="width:35%">Paragraphe2</td>
+      <td style="width:35%">Title</td>
+      <td style="width:35%">subTitle</td>
+      <td style="width:20%">Cover Image</td>
+      <td style="width:20%">Rank</td>
+      <td style="width:20%">External Link</td>
+      <td style="width:20%">PressName</td>
+      <td style="width:20%">PressLogo</td>
+      <td style="width:20%">ImageLinks</td>      
+      <td style="width:20%">relatedArticles</td>      
+           
+      <td style="width:20%">Edit</td>
+    </tr>
+    <tr  ng-repeat="article in articles | filter: ar.title | orderBy: article.title  track by article.id">
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.keywords"  e-name="keywords" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.keywords || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.resume"  e-name="resume" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.resume || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.paragraphe1"  e-name="paragraphe1" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.paragraphe1 || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.paragraphe2"  e-name="paragraphe2" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.paragraphe2 || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.title"  e-name="title" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.title || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.title"  e-name="title" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.subtitle || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.coverimage"  e-name="coverimage" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.coverimage || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.rank"  e-name="rank" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.rank || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.rank"  e-name="rank" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.externalLink || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.rank"  e-name="rank" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.pressName || 'empty' }}
+        </span>
+      </td>
+       <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.rank"  e-name="rank" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.pressLogo || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.imageLinks"  e-name="imageLinks" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.imagelinks || 'empty' }}
+        </span>
+      </td>
+      <td class="v-middle">
+        <!-- editable username (text with validation) -->
+        <span editable-text="article.relatedArticles"  e-name="relatedArticles" e-form="rowform" onbeforesave="checkName($data, article.id)" e-required>
+          {{ article.relatedArticles || 'empty' }}
+        </span>
+      </td>
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveArticle($data, article.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == article">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-sm btn-danger" ng-click="open(article)">del</button>
+        </div>  
+      </td>
+    </tr>
+  </table>
+    <div class="text-center" ng-show="spinner">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+  
+
+   
+</div>

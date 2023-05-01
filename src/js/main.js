@@ -35,12 +35,19 @@ angular.module('app')
           asideFolded: false,
           asideDock: false,
           container: false
-        }
+        },
+      user:{
+        avatar :'img/a0.jpg',
+        name: '',
+        lname:'',
+        userId:''
       }
+
+    }
 
       $scope.authError = null;
       $scope.alerts = [];
-      $scope.user = null;
+      
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
@@ -48,6 +55,14 @@ angular.module('app')
       } else {
         $localStorage.settings = $scope.app.settings;
       }
+    // save user profile to local storage
+      if ( $localStorage.User) {
+      $scope.app.user = $localStorage.User;
+      
+      } 
+console.log($scope.app.user);
+console.log($localStorage.User);
+
       $scope.$watch('app.settings', function(){
         if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ){
           // aside dock and fixed must set the header fixed.
