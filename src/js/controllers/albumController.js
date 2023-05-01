@@ -11,7 +11,7 @@ app.controller('AlbumController', function($scope, $state, $window, $location, $
 
 });
 
-
+// Supprimer
 
 app.controller('MovieViewController', function($scope, $stateParams, Movie) {
   $scope.movie = Movie.get({ id: $stateParams.id }); //Get a single movie.Issues a GET to /api/movies/:id
